@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.mapper.BhacTagMapper">
+    <resultMap id="BhacTagMap" type="Dao.entity.BhacTag">
+        <id property="id" column="id"/>
+        <collection property="posts" column="id" ofType="Dao.entity.BhacPost"
+                    select="Dao.mapper.BhacTagMapper.selectPostByTid"/>
+        <collection property="roles" column="id" ofType="Dao.entity.BhacRole"
+                    select="Dao.mapper.BhacTagMapper.selectRolesByTid"/>
+        <collection property="activitiesBelong" column="id" ofType="Dao.entity.BhacActivity"
+                    select="Dao.mapper.BhacTagMapper.selectBelongByTid"/>
+    </resultMap>
+</mapper>

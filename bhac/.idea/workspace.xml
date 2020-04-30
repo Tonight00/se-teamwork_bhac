@@ -68,7 +68,11 @@
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="675">
+              <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -315,7 +319,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588241602597" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588244200972" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -459,14 +463,11 @@
       <workItem from="1588153743980" duration="8454000" />
       <workItem from="1588224177058" duration="3659000" />
       <workItem from="1588228644052" duration="1296000" />
-      <workItem from="1588229950143" duration="11589000" />
+      <workItem from="1588229950143" duration="12335000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="test_testRoleSelect - 2020.04.30 at 17h 36m 52s.xml">
-      <configuration name="test.testRoleSelect" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="test_testRoleSelect - 2020.04.30 at 17h 52m 36s.xml">
       <configuration name="test.testRoleSelect" configurationId="JUnit" />
     </history-entry>
@@ -494,12 +495,16 @@
     <history-entry file="test_testPostSelect - 2020.04.30 at 18h 10m 07s.xml">
       <configuration name="test.testPostSelect" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="test_testPostSelect - 2020.04.30 at 18h 13m 15s.xml">
+      <configuration name="test.testPostSelect" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28462000" />
+    <option name="totallyTimeSpent" value="29208000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1872" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.77195466" visible="true" weight="0.2660044" />
       <window_info id="Structure" order="1" sideWeight="0.22804533" side_tool="true" weight="0.2637969" />
@@ -511,7 +516,7 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3894081" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.13291797" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.122533746" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -841,7 +846,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
