@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面|北航大学生活动</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+
+<form class="layui-form" action="login" ><!--提交给这个controller-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">账户</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" required  lay-verify="required" placeholder="请输入系统管理员账户" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="pass" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="login">登录</button>
+        </div>
+    </div>
+</form>
+
+<script src="../layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['form','layer','layedit', 'laydate'],function () {
+        var form = layui.form;
+        form.on('submit(login)',function(data){
+            alert(JSON.stringify(data.field));
+            return false;
+        })
+    });
+</script>
+
+</body>
+</html>
