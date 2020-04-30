@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BUAAac_app</string>
+    <drawable name="clr_normal1">#30B8EC</drawable>
+    <drawable name="clr_pressed1">#176485</drawable>
+    <drawable name="clr_normal2">#b7585556</drawable>
+    <drawable name="clr_pressed2">#B72C2C2C</drawable>
+    <drawable name="clr_normal3">#E91E1E</drawable>
+    <drawable name="clr_pressed3">#B7A32A2A</drawable>
+</resources>
