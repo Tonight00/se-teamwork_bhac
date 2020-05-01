@@ -60,21 +60,12 @@ public class BhacUser extends Model<BhacUser> {
     @TableField(exist = false)
     private List<BhacRole> rolesAct;
     
-    public List<BhacRole> getRolesAct ()
-    {
-        return rolesAct;
-    }
-    
-    public void setRolesAct (List<BhacRole> rolesAct)
-    {
-        this.rolesAct = rolesAct;
-    }
-    
     @TableField(exist = false)
     private List<BhacActivity> activitiesRelease;
     
     @TableField(exist = false)
     private List<BhacActivity> activitiesManage;
+    
     
     public List<BhacActivity> getActivitiesProcessing ()
     {
@@ -207,6 +198,16 @@ public class BhacUser extends Model<BhacUser> {
     @Override
     protected Serializable pkVal() {
         return this.id;
+    }
+    
+    public List<BhacRole> getRolesAct ()
+    {
+        return rolesAct;
+    }
+    
+    public void setRolesAct (List<BhacRole> rolesAct)
+    {
+        this.rolesAct = rolesAct;
     }
     
     public BhacUser (String username, String email, String phoneNum, String password, Integer gender)

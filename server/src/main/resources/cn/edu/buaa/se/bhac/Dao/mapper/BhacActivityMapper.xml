@@ -3,15 +3,19 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper">
     <resultMap id="BhacActivityMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity">
         <id property="id" column="id"/>
-        <collection property="usersProcessing" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+        <association property="releaser" column="uid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectReleaserByUid"/>
+        <association property="categoryTag" column="category" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
+                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectCategoryTagByUid"/>
+        <collection property="usersProcessing" column="id" ofType="BhacUser"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectProcessingByAid"/>
-        <collection property="usersSucceed" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+        <collection property="usersSucceed" column="id" ofType="BhacUser"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectSucceedByAid"/>
-        <collection property="usersManage" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+        <collection property="usersManage" column="id" ofType="BhacUser"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectManageByAid"/>
-        <collection property="tagsBelong" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
+        <collection property="tagsBelong" column="id" ofType="BhacTag"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectBelongByAid"/>
-        <collection property="posts" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacPost"
+        <collection property="posts" column="id" ofType="BhacPost"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectPostByAid"/>
     </resultMap>
 </mapper>

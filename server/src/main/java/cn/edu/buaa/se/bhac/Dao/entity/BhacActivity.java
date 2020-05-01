@@ -25,11 +25,18 @@ public class BhacActivity extends Model<BhacActivity> {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
+    
     private Integer category;
 
     private Integer uid;
-
+    
+  
+    @Override
+    public String toString ()
+    {
+        return "BhacActivity{" + "id=" + id + ", category=" + category + ", uid=" + uid + ", releaser=" + releaser + ", title='" + title + '\'' + ", ddl=" + ddl + ", begin=" + begin + ", end=" + end + ", brief='" + brief + '\'' + ", isOpen=" + isOpen + ", limitPeopleNum=" + limitPeopleNum + ", state=" + state + ", extra='" + extra + '\'' + ", usersProcessing=" + usersProcessing + ", usersSucceed=" + usersSucceed + ", usersManage=" + usersManage + ", tagsBelong=" + tagsBelong + ", posts=" + posts + '}';
+    }
+    
     private String title;
 
     private LocalDateTime ddl;
@@ -39,7 +46,7 @@ public class BhacActivity extends Model<BhacActivity> {
     private LocalDateTime end;
 
     private String brief;
-
+    
     @TableField("isOpen")
     private Integer isOpen;
 
@@ -49,8 +56,9 @@ public class BhacActivity extends Model<BhacActivity> {
     private Integer state;
 
     private String extra;
-
     
+    @TableField(exist = false)
+    private BhacUser releaser;
     
     @TableField(exist = false)
     private List<BhacUser> usersProcessing;
@@ -58,7 +66,9 @@ public class BhacActivity extends Model<BhacActivity> {
     @TableField(exist = false)
     private List<BhacUser> usersSucceed;
     
-  
+    @TableField(exist = false)
+    private BhacTag categoryTag;
+    
     
     @TableField(exist = false)
     private List<BhacUser> usersManage;
@@ -214,16 +224,22 @@ public class BhacActivity extends Model<BhacActivity> {
     public void setExtra(String extra) {
         this.extra = extra;
     }
-
+    
+    public BhacUser getReleaser () { return releaser; }
+    
+    public void setReleaser (BhacUser releaser) { this.releaser = releaser; }
+    
+    
+    public BhacTag getCategoryTag () { return categoryTag; }
+    
+    public void setCategoryTag (BhacTag categoryTag)
+    {
+        this.categoryTag = categoryTag;
+    }
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
     
     
-    @Override
-    public String toString ()
-    {
-        return "BhacActivity{" + "id=" + id + ", category=" + category + ", uid=" + uid + ", title='" + title + '\'' + ", ddl=" + ddl + ", begin=" + begin + ", end=" + end + ", brief='" + brief + '\'' + ", isOpen=" + isOpen + ", limitPeopleNum=" + limitPeopleNum + ", state=" + state + ", extra='" + extra + '\'' + ", usersProcessing=" + usersProcessing + ", usersSucceed=" + usersSucceed + ", usersManage=" + usersManage + ", tagsBelong=" + tagsBelong + ", posts=" + posts + '}';
-    }
 }

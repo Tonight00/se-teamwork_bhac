@@ -3,7 +3,13 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper">
     <resultMap id="BhacPostMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacPost">
         <id property="id" column="id"/>
-        <collection property="comments" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacComment"
+        <association property="tag" column="tid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
+                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.selectTagByTid"/>
+        <association property="activity" column="aid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity"
+                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.selectActivityByAid"/>
+        <association property="poster" column="postedBy" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.selectPosterByPostedBy"/>
+        <collection property="comments" column="id" ofType="BhacComment"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.selectCommentByPid"/>
     </resultMap>
 </mapper>

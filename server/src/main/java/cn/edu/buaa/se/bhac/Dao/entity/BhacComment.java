@@ -3,6 +3,7 @@ package cn.edu.buaa.se.bhac.Dao.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import org.junit.Test;
 
 import java.io.Serializable;
 import java.sql.Blob;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
  * @author wangqichang
  * @since 2020-04-30
  */
-@TableName("bhac_comment")
+@TableName(value = "bhac_comment",resultMap = "BhacCommentMap")
 public class BhacComment extends Model<BhacComment> {
 
     private static final long serialVersionUID=1L;
@@ -37,6 +38,32 @@ public class BhacComment extends Model<BhacComment> {
     private LocalDateTime date;
     
     private Integer pid;
+    
+    @TableField(exist = false)
+    private BhacPost post;
+    
+    @TableField(exist = false)
+    private BhacUser poster;
+    
+    public BhacUser getPoster ()
+    {
+        return poster;
+    }
+    
+    public void setPoster (BhacUser poster)
+    {
+        this.poster = poster;
+    }
+    
+    public BhacPost getPost ()
+    {
+        return post;
+    }
+    
+    public void setPost (BhacPost post)
+    {
+        this.post = post;
+    }
     
     public Integer getPid ()
     {

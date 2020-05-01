@@ -5,6 +5,7 @@ import cn.edu.buaa.se.bhac.Dao.mapper.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,20 +26,22 @@ public class test
     private BhacRoleMapper bhacRoleMapper;
     @Autowired
     private BhacPostMapper bhacPostMapper;
+    @Autowired
+    private BhacCommentMapper bhacCommentMapper;
     
     public <T>void print(List<T> st ) {
         if(st==null){
             System.out.println("-------------------");
             return;
         }
-       for(T e: st)
-           System.out.println(e);
-       System.out.println("-------------------");
+        for(T e: st)
+            System.out.println(e);
+        System.out.println("-------------------");
     }
     @Test
     public void testUserSelect() {
         
-          //  检查多表关系
+        //  检查多表关系
         BhacUser u = bhacUserMapper.selectById(1);
         List<BhacActivity> process = u.getActivitiesProcessing();
         print(process);
@@ -114,11 +117,14 @@ public class test
         print(u2);
         List<BhacUser> u3 = a.getUsersManage();
         print(u3);
-        System.out.println(""+a.getUid()); // releaser
         List<BhacTag> tags = a.getTagsBelong();
         print(tags);
         List<BhacPost> posts = a.getPosts();
         print(posts);
+        
+        
+        System.out.println(a.getCategoryTag());
+        System.out.println(a.getReleaser());
     }
     
     @Test
@@ -126,6 +132,9 @@ public class test
         BhacRole r = bhacRoleMapper.selectById(4);
         List<BhacUser> u = r.getUsersAct();
         print(u);
+        
+        BhacTag t = r.getTag();
+        System.out.println(t);
     }
     @Test
     public void testTagSelect() {
@@ -143,8 +152,18 @@ public class test
     public void testPostSelect() {
         BhacPost p = bhacPostMapper.selectById(1);
         List<BhacComment> c = p.getComments();
-        print(c);
-        System.out.println(p);
+        print(c);;
         
+        System.out.println(p.getActivity());
+        System.out.println(p.getTag());
+        System.out.println(p.getPoster());
+        
+    }
+    @Test
+    public void testCommentSelect() {
+       BhacComment c =  bhacCommentMapper.selectById(1);
+       
+        System.out.println(c.getPost());
+        System.out.println(c.getPoster());
     }
 }

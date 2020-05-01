@@ -28,7 +28,6 @@ public interface BhacActivityMapper extends BaseMapper<BhacActivity> {
     @Select("select * from bhac_user where id in (select uid from bhac_joinUserActivity where aid = #{id} and state = 1)")
     public List<BhacUser> selectSucceedByAid (Integer id);
     
-    
     @Select("select * from bhac_user where id in (select uid from bhac_manageUserActivity where aid = #{id})")
     public List<BhacUser> selectManageByAid (Integer id);
     
@@ -37,4 +36,12 @@ public interface BhacActivityMapper extends BaseMapper<BhacActivity> {
     
     @Select("select * from bhac_post where aid = #{id}")
     public List<BhacPost> selectPostByAid (Integer id);
+    
+    @Select("select * from bhac_User where id = #{id}")
+    public BhacUser selectReleaserByUid (Integer id);
+    
+    @Select("select * from bhac_tag where id = #{id}")
+    public BhacTag selectCategoryTagByUid(Integer id);
+    
+    
 }

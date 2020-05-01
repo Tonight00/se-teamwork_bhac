@@ -3,11 +3,11 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper">
     <resultMap id="BhacTagMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacTag">
         <id property="id" column="id"/>
-        <collection property="posts" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacPost"
+        <collection property="posts" column="id" ofType="BhacPost"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.selectPostByTid"/>
-        <collection property="roles" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacRole"
+        <collection property="roles" column="id" ofType="BhacRole"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.selectRolesByTid"/>
-        <collection property="activitiesBelong" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity"
+        <collection property="activitiesBelong" column="id" ofType="BhacActivity"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.selectBelongByTid"/>
     </resultMap>
 </mapper>

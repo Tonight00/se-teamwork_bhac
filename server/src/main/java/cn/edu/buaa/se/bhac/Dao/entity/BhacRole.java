@@ -32,6 +32,10 @@ public class BhacRole extends Model<BhacRole> {
     @TableField(exist = false)
     private List<BhacUser> usersAct;
     
+    @TableField(exist = false)
+    private BhacTag tag;
+    
+    
     public List<BhacUser> getUsersAct ()
     {
         return usersAct;
@@ -65,7 +69,11 @@ public class BhacRole extends Model<BhacRole> {
     public void setState(Integer state) {
         this.state = state;
     }
-
+    
+    public BhacTag getTag () { return tag; }
+    
+    public void setTag (BhacTag tag) { this.tag = tag; }
+    
     @Override
     protected Serializable pkVal() {
         return this.id;

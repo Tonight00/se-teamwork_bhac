@@ -36,26 +36,45 @@ public class BhacPost extends Model<BhacPost> {
 
     @TableField("lastEdited")
     private LocalDateTime lastEdited;
-
-    
-    @TableField(exist = false)
-    private List<BhacComment> comments;
-    
-    public List<BhacComment> getComments ()
-    {
-        return comments;
-    }
-    
-    public void setComments (List<BhacComment> comments)
-    {
-        this.comments = comments;
-    }
     
     private Integer type;
 
     private Integer aid;
     
     private Integer tid;
+    
+    @TableField(exist = false)
+    private List<BhacComment> comments;
+    
+    @TableField(exist = false)
+    private BhacActivity activity;
+    
+    @TableField(exist = false)
+    private BhacTag tag;
+    
+    @TableField(exist = false)
+    private BhacUser poster;
+
+    
+    public BhacActivity getActivity ()
+    {
+        return activity;
+    }
+    
+    public void setActivity (BhacActivity activity)
+    {
+        this.activity = activity;
+    }
+    
+    public BhacTag getTag ()
+    {
+        return tag;
+    }
+    
+    public void setTag (BhacTag tag)
+    {
+        this.tag = tag;
+    }
     
     public Integer getAid ()
     {
@@ -124,7 +143,21 @@ public class BhacPost extends Model<BhacPost> {
     public void setType(Integer type) {
         this.type = type;
     }
-
+    
+    public List<BhacComment> getComments ()
+    {
+        return comments;
+    }
+    
+    public void setComments (List<BhacComment> comments)
+    {
+        this.comments = comments;
+    }
+    
+    public BhacUser getPoster () { return poster; }
+    
+    public void setPoster (BhacUser poster) { this.poster = poster; }
+    
     @Override
     protected Serializable pkVal() {
         return this.id;
