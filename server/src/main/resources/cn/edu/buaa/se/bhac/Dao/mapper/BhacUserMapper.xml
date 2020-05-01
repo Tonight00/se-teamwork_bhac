@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper">
+    <resultMap id="BhacUserMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacUser">
+        <id property="id" column="id"/>
+        <collection property="activitiesRelease" column="id" ofType="BhacActivity"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectReleaseByUid"/>
+        <collection property="activitiesProcessing" column="id" ofType="BhacActivity"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectProcessingByUid"/>
+        <collection property="activitiesSucceed" column="id" ofType="BhacActivity"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectSucceedByUid"/>
+        <collection property="activitiesManage" column="id" ofType="BhacActivity"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectManageByUid"/>
+        <collection property="rolesAct" column="id" ofType="BhacRole"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectRoleByUid"/>
+
+    </resultMap>
+</mapper>

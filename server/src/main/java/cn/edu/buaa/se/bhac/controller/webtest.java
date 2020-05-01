@@ -2,7 +2,6 @@ package cn.edu.buaa.se.bhac.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Map;
@@ -19,7 +18,9 @@ public class webtest {
     public String test2() { return "login"; }
 
     @PostMapping("validate")
-    public String test2() { return "login"; }
+    public String validate() {
+        return "login";
+    }
 
     @GetMapping("login2")
     public String test3() {
