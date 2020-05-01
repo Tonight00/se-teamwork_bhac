@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" href="webjars/layui/2.5.6/css/layui.css">
+</head>
+<body style="background-image: url('img/2.png');  background-size: cover; z-index: -1">
+<div class="layui-container" style="top: 250px">
+    <div class="layui-row">
+        <div class="layui-col-md4 layui-col-md-offset8" style="background-color: rgba(255,255,255,0.4)">
+            <form class="layui-form layui-form-pane" th:action="@{/validate}" method="POST">
+                <div class="layui-row">
+                    <div class="layui-col-md12">
+                        <h1 class="layui-field-title" style="text-align: center">北航大学生活动发布与社交平台管理系统</h1>
+                    </div>
+                </div>
+                <div th:if="${message}" class="layui-row">
+                    <div class="layui-col-md12">
+                        <div class="layui-field-title" th:text="${message}" style="color: red;text-align: center"></div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md10 layui-col-md-offset1">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="username" required lay-verify="required"
+                                       placeholder="请输入用户名"
+                                       autocomplete="off" class="layui-input" style="width: auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md10 layui-col-md-offset1">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="password" required lay-verify="required"
+                                       placeholder="请输入密码"
+                                       autocomplete="off" class="layui-input" style="width: auto;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="loginForm">登录</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="webjars/layui/2.5.6/layui.js"></script>
+<script>
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form', 'element'], function () {
+        var layer = layui.layer
+            , form = layui.form
+            , element = layui.element;
+
+        //layer.msg('Hello World');
+    });
+</script>
+</body>
+</html>

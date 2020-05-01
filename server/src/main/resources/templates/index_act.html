@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>活动后台管理|北航大学生活动</title>
+    <link rel="stylesheet" href="webjars/layui/2.5.6/css/layui.css">
+</head>
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">北航大学生活动</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">活动管理员1</a>
+            </li>
+            <li class="layui-nav-item"><a href="">登出</a></li>
+        </ul>
+    </div>
+
+
+    <div class="layui-body">
+        <div style="padding: 15px;">
+            内容主体区域
+            <button type="button" onclick="openLayer()" class="layui-btn layui-btn-normal">弹窗测试</button>
+        </div>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" >
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">活动管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">子标签1</a></dd>
+                        <dd><a href="">子标签2</a></dd>
+                        <dd><a href="">子标签3</a></dd>
+                        <dd><a href="">子标签4</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        © ARS-AM-2
+    </div>
+</div>
+
+<script src="webjars/layui/2.5.6/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['element','layer'],function () {
+        var element = layui.element
+            ,layer = layui.layer;
+    });
+
+    function openLayer() {
+        layer.open({
+            type:1,
+            title:"弹窗",
+            area:['50%','50%'],
+            content: '弹窗测试'
+        });
+    }
+
+</script>
+</body>
+</html>
