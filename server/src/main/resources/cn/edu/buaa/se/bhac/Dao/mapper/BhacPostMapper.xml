@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper">
+    <resultMap id="BhacPostMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacPost">
+        <id property="id" column="id"/>
+        <collection property="comments" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacComment"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.selectCommentByPid"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacRoleMapper">
+    <resultMap id="BhacRoleMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacRole">
+        <id property="id" column="id"/>
+        <collection property="usersAct" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacRoleMapper.selectActByRid"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper">
+    <resultMap id="BhacActivityMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity">
+        <id property="id" column="id"/>
+        <collection property="usersProcessing" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectProcessingByAid"/>
+        <collection property="usersSucceed" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectSucceedByAid"/>
+        <collection property="usersManage" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectManageByAid"/>
+        <collection property="tagsBelong" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectBelongByAid"/>
+        <collection property="posts" column="id" ofType="cn.edu.buaa.se.bhac.Dao.entity.BhacPost"
+                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectPostByAid"/>
+    </resultMap>
+</mapper>
