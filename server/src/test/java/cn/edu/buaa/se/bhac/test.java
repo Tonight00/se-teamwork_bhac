@@ -166,4 +166,12 @@ public class test
         System.out.println(c.getPost());
         System.out.println(c.getPoster());
     }
+
+    @Test
+    public void testSelectOne() {
+        QueryWrapper<BhacUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", "???");
+        BhacUser one = bhacUserMapper.selectOne(wrapper);
+        System.out.println(one);
+    }
 }

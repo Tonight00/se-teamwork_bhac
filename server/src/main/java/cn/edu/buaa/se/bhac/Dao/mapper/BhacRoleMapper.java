@@ -4,7 +4,9 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
  * @author wangqichang
  * @since 2020-04-30
  */
+@Mapper
+@Repository
 public interface BhacRoleMapper extends BaseMapper<BhacRole> {
 
     

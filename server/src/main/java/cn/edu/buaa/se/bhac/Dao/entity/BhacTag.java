@@ -106,10 +106,17 @@ public class BhacTag extends Model<BhacTag> {
     protected Serializable pkVal() {
         return this.id;
     }
-    
+
     @Override
-    public String toString ()
-    {
-        return "BhacTag{" + "id=" + id + ", name='" + name + '\'' + ", state=" + state + ", parentId=" + parentId + ", posts=" + posts + ", roles=" + roles + ", activitiesBelong=" + activitiesBelong + '}';
+    public String toString() {
+        return "BhacTag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", state=" + state +
+                ", parentId=" + parentId +
+                ", posts=" + posts +
+                ", roles=" + roles +
+                ", activitiesBelong=" + activitiesBelong +
+                '}';
     }
 }

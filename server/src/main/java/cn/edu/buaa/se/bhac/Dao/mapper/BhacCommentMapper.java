@@ -4,7 +4,9 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacComment;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacPost;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -14,6 +16,8 @@ import org.apache.ibatis.annotations.Select;
  * @author wangqichang
  * @since 2020-04-30
  */
+@Mapper
+@Repository
 public interface BhacCommentMapper extends BaseMapper<BhacComment> {
     
     

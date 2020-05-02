@@ -12,7 +12,11 @@
         <collection property="activitiesManage" column="id" ofType="BhacActivity"
                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectManageByUid"/>
         <collection property="rolesAct" column="id" ofType="BhacRole"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.selectRoleByUid"/>
-
+                    select="selectRoleByUid"/>
     </resultMap>
+
+    <select id="selectRoleByUid" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacRoleMapper.BhacRoleMap">
+        select * from bhac_role where id in(select rid from bhac_actUserRole where uid = #{id} )
+    </select>
+
 </mapper>

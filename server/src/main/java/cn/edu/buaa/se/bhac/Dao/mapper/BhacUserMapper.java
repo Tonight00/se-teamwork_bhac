@@ -4,7 +4,8 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ import java.util.List;
  * @author wangqichang
  * @since 2020-04-30
  */
+@Mapper
+@Repository
 public interface BhacUserMapper extends BaseMapper<BhacUser> {
     
     @Select("select * from bhac_activity where uid = #{id}")

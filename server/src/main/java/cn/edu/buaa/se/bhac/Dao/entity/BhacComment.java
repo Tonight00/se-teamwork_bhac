@@ -127,10 +127,19 @@ public class BhacComment extends Model<BhacComment> {
     protected Serializable pkVal() {
         return null;
     }
-    
+
     @Override
-    public String toString ()
-    {
-        return "BhacComment{" + "id=" + id + ", seqNum=" + seqNum + ", postedBy=" + postedBy + ", parentId=" + parentId + ", content=" + content + ", date=" + date + ", pid=" + pid + '}';
+    public String toString() {
+        return "BhacComment{" +
+                "id=" + id +
+                ", seqNum=" + seqNum +
+                ", postedBy=" + postedBy +
+                ", parentId=" + parentId +
+                ", content=" + content +
+                ", date=" + date +
+                ", pid=" + pid +
+                ", post=" + post +
+                ", poster=" + poster +
+                '}';
     }
 }

@@ -60,9 +60,9 @@ public class BhacBelongactivitytag extends Model<BhacBelongactivitytag> {
     @Override
     public String toString() {
         return "BhacBelongactivitytag{" +
-        "id=" + id +
-        ", aid=" + aid +
-        ", tid=" + tid +
-        "}";
+                "id=" + id +
+                ", aid=" + aid +
+                ", tid=" + tid +
+                '}';
     }
 }

@@ -60,9 +60,9 @@ public class BhacActuserrole extends Model<BhacActuserrole> {
     @Override
     public String toString() {
         return "BhacActuserrole{" +
-        "id=" + id +
-        ", uid=" + uid +
-        ", rid=" + rid +
-        "}";
+                "id=" + id +
+                ", uid=" + uid +
+                ", rid=" + rid +
+                '}';
     }
 }
