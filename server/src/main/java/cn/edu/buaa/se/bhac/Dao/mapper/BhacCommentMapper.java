@@ -21,9 +21,9 @@ import org.springframework.stereotype.Repository;
 public interface BhacCommentMapper extends BaseMapper<BhacComment> {
     
     
-    @Select("select * from bhac_post where id = #{id}")
+   // @Select("select * from bhac_post where id = #{id}")
     public BhacPost selectPostByPid(Integer id);
     
-    @Select("select * from bhac_user where id = #{id}")
+    //@Select("select * from bhac_user where id = #{id}")
     public BhacUser selectPosterByPostedBy(Integer id);
 }

@@ -23,10 +23,10 @@ import java.util.List;
 @Repository
 public interface BhacTagMapper extends BaseMapper<BhacTag> {
  
-    @Select("select * from bhac_post where tid = #{id}")
+    //@Select("select * from bhac_post where tid = #{id}")
     public List<BhacPost> selectPostByTid (Integer id);
-    @Select("select * from bhac_role where tid = #{id}")
+    //@Select("select * from bhac_role where tid = #{id}")
     public List<BhacRole> selectRolesByTid (Integer id);
-    @Select("select * from bhac_activity where id in (select aid from bhac_belongActivityTag where tid = #{id})")
+    //@Select("select * from bhac_activity where id in (select aid from bhac_belongActivityTag where tid = #{id})")
     public List<BhacActivity> selectBelongByTid (Integer id);
 }

@@ -21,17 +21,17 @@ import java.util.List;
 @Mapper
 @Repository
 public interface BhacPostMapper extends BaseMapper<BhacPost> {
-    
-    @Select(value="select * from bhac_comment where pid = #{id}")
+
+    //@Select("select * from bhac_comment where pid = #{id}")
     public List<BhacComment> selectCommentByPid (Integer id);
     
-    @Select("select * from bhac_tag where id = #{id}")
+    //@Select("select * from bhac_tag where id = #{id}")
     public BhacTag selectTagByTid(Integer id);
     
-    @Select("select * from bhac_activity where id =#{id}")
+    //@Select("select * from bhac_activity where id =#{id}")
     public BhacActivity selectActivityByAid(Integer id);
     
-    @Select("select * from bhac_user where id = #{id}")
+    //@Select("select * from bhac_user where id = #{id}")
     public BhacUser selectPosterByPostedBy(Integer id);
     
 }
