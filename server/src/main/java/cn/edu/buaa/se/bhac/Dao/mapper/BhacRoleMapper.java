@@ -19,9 +19,9 @@ import java.util.List;
 public interface BhacRoleMapper extends BaseMapper<BhacRole> {
 
     
-    @Select("select * from bhac_user where id in (select uid from bhac_actUserRole where rid=#{id})")
+    //@Select("select * from bhac_user where id in (select uid from bhac_actUserRole where rid=#{id})")
     public List<BhacUser> selectActByRid (Integer id);
     
-    @Select("select * from bhac_tag where id = #{id}")
+    //@Select("select * from bhac_tag where id = #{id}")
     public BhacTag selectTagByTid(Integer id);
 }
