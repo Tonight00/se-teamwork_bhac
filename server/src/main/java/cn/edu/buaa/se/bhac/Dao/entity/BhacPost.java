@@ -162,10 +162,22 @@ public class BhacPost extends Model<BhacPost> {
     protected Serializable pkVal() {
         return this.id;
     }
-    
+
     @Override
-    public String toString ()
-    {
-        return "BhacPost{" + "id=" + id + ", title='" + title + '\'' + ", postedBy=" + postedBy + ", numOfComment=" + numOfComment + ", lastEdited=" + lastEdited + ", comments=" + comments + ", type=" + type + ", aid=" + aid + ", tid=" + tid + '}';
+    public String toString() {
+        return "BhacPost{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", postedBy=" + postedBy +
+                ", numOfComment=" + numOfComment +
+                ", lastEdited=" + lastEdited +
+                ", type=" + type +
+                ", aid=" + aid +
+                ", tid=" + tid +
+                ", comments=" + comments +
+                ", activity=" + activity +
+                ", tag=" + tag +
+                ", poster=" + poster +
+                '}';
     }
 }

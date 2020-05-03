@@ -70,10 +70,10 @@ public class BhacJoinuseractivity extends Model<BhacJoinuseractivity> {
     @Override
     public String toString() {
         return "BhacJoinuseractivity{" +
-        "id=" + id +
-        ", uid=" + uid +
-        ", aid=" + aid +
-        ", state=" + state +
-        "}";
+                "id=" + id +
+                ", uid=" + uid +
+                ", aid=" + aid +
+                ", state=" + state +
+                '}';
     }
 }

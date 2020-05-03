@@ -2,7 +2,10 @@ package cn.edu.buaa.se.bhac;
 
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.*;
+import cn.edu.buaa.se.bhac.Utils.DaoUtils;
+import cn.edu.buaa.se.bhac.code.UserCode;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.omg.CORBA.PUBLIC_MEMBER;
@@ -53,7 +56,9 @@ public class test
         print(manage);
         List<BhacRole> act = u.getRolesAct();
         print(act);
-        
+    
+        BhacActivity r = release.get(0);
+        System.out.println(r);
         /*
          查询所有
         System.out.println(bhacUserMapper.selectByMap(null));
@@ -125,6 +130,9 @@ public class test
         
         System.out.println(a.getCategoryTag());
         System.out.println(a.getReleaser());
+        System.out.println("-----------------------");
+        System.out.println(a.getReleaser().getActivitiesManage());
+        
     }
     
     @Test
@@ -135,6 +143,7 @@ public class test
         
         BhacTag t = r.getTag();
         System.out.println(t);
+        System.out.println(t.getRoles());
     }
     @Test
     public void testTagSelect() {
@@ -145,6 +154,7 @@ public class test
         List<BhacRole> r = t.getRoles();
         print(r);
         List<BhacPost> p = t.getPosts();
+        System.out.println("--------------");
         print(p);
     }
     
@@ -153,17 +163,25 @@ public class test
         BhacPost p = bhacPostMapper.selectById(1);
         List<BhacComment> c = p.getComments();
         print(c);;
-        
-        System.out.println(p.getActivity());
-        System.out.println(p.getTag());
-        System.out.println(p.getPoster());
+        System.out.println("----------");
+        System.out.println(p.getActivity().getTagsBelong());
+        System.out.println(p.getTag().getActivitiesBelong());
+        //System.out.println(p.getPoster());
         
     }
     @Test
     public void testCommentSelect() {
        BhacComment c =  bhacCommentMapper.selectById(1);
        
-        System.out.println(c.getPost());
-        System.out.println(c.getPoster());
+        System.out.println(c.getPost().getTag());
+        System.out.println(c.getPoster().getActivitiesRelease());
+    }
+
+    @Test
+    public void testSelectOne() {
+        QueryWrapper<BhacUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", "???");
+        BhacUser one = bhacUserMapper.selectOne(wrapper);
+        System.out.println(one);
     }
 }

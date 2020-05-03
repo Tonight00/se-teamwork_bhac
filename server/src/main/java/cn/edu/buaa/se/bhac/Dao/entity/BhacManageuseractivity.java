@@ -60,9 +60,9 @@ public class BhacManageuseractivity extends Model<BhacManageuseractivity> {
     @Override
     public String toString() {
         return "BhacManageuseractivity{" +
-        "id=" + id +
-        ", uid=" + uid +
-        ", aid=" + aid +
-        "}";
+                "id=" + id +
+                ", uid=" + uid +
+                ", aid=" + aid +
+                '}';
     }
 }

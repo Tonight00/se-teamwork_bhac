@@ -4,10 +4,29 @@
     <resultMap id="BhacTagMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacTag">
         <id property="id" column="id"/>
         <collection property="posts" column="id" ofType="BhacPost"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.selectPostByTid"/>
+                    select="Post"/>
         <collection property="roles" column="id" ofType="BhacRole"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.selectRolesByTid"/>
+                    select="Role"/>
         <collection property="activitiesBelong" column="id" ofType="BhacActivity"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.selectBelongByTid"/>
+                    select="Activity"/>
+        <collection property="activities" column="id" ofType="BhacActivity"
+                    select="Activity2"/>
     </resultMap>
+
+    <select id="Post" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.BhacTagMap">
+        select * from bhac_post where tid = #{id}
+    </select>
+
+    <select id="Role" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacRoleMapper.BhacRoleMap">
+        select * from bhac_role where tid = #{id}
+    </select>
+
+    <select id="Activity" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.BhacActivityMap">
+        select * from bhac_activity where id in (select aid from bhac_belongActivityTag where tid = #{id})
+    </select>
+
+    <select id="Activity2" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.BhacActivityMap">
+        select * from bhac_activity where category = #{id}
+    </select>
+
 </mapper>

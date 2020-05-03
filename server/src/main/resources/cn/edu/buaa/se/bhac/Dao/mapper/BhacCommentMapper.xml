@@ -4,9 +4,18 @@
     <resultMap id="BhacCommentMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacComment">
         <id property="id" column="id"/>
         <association property="post" column="pid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacPost"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacCommentMapper.selectPostByPid"/>
+                    select="Post"/>
         <association property="poster" column="postedBy" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
-                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacCommentMapper.selectPosterByPostedBy"/>
+                     select="User"/>
     </resultMap>
+
+    <select id="Post" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.BhacPostMap">
+        select * from bhac_post where id = #{id}
+    </select>
+
+    <select id="User" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.BhacUserMap">
+       select * from bhac_user where id = #{id}
+    </select>
+
 </mapper>
 

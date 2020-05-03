@@ -3,19 +3,51 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper">
     <resultMap id="BhacActivityMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity">
         <id property="id" column="id"/>
-        <association property="releaser" column="uid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
-                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectReleaserByUid"/>
-        <association property="categoryTag" column="category" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
-                     select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectCategoryTagByUid"/>
+        <association property="releaser" column="uid" javaType="BhacUser"
+                     select="User4"/>
+        <association property="categoryTag" column="category" javaType="BhacTag"
+                     select="Tag"/>
         <collection property="usersProcessing" column="id" ofType="BhacUser"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectProcessingByAid"/>
+                    select="User1"/>
         <collection property="usersSucceed" column="id" ofType="BhacUser"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectSucceedByAid"/>
+                    select="User2"/>
         <collection property="usersManage" column="id" ofType="BhacUser"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectManageByAid"/>
+                    select="User3"/>
         <collection property="tagsBelong" column="id" ofType="BhacTag"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectBelongByAid"/>
+                    select="Tag2"/>
         <collection property="posts" column="id" ofType="BhacPost"
-                    select="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.selectPostByAid"/>
+                    select="Post"/>
     </resultMap>
+
+
+    <select id="User1" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.BhacUserMap">
+        select * from bhac_user where id in (select uid from bhac_joinUserActivity where aid = #{id} and state = 0)
+    </select>
+
+    <select id="User2" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.BhacUserMap">
+        select * from bhac_user where id in (select uid from bhac_joinUserActivity where aid = #{id} and state = 1)
+    </select>
+
+    <select id="User3" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.BhacUserMap">
+        select * from bhac_user where id in (select uid from bhac_manageUserActivity where aid = #{id})
+    </select>
+
+    <select id="Tag" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.BhacTagMap">
+        select * from bhac_tag where id = #{id}
+    </select>
+
+    <select id="Post" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper.BhacPostMap">
+        select * from bhac_tag where id = #{id}
+    </select>
+
+    <select id="Tag2" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.BhacTagMap">
+        select * from bhac_tag where id in (select tid from bhac_belongActivityTag where aid = #{id})
+    </select>
+
+    <select id="User4" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper.BhacUserMap">
+        select * from bhac_User where id = #{id}
+    </select>
+
+
 </mapper>
+
