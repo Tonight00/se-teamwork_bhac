@@ -1,6 +1,8 @@
 package cn.edu.buaa.se.bhac.Utils;
 
 import cn.edu.buaa.se.bhac.code.BaseCode;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.baomidou.mybatisplus.annotation.TableField;
 import org.springframework.ui.Model;
@@ -13,6 +15,13 @@ public class ControllerUtils {
     public static void putCodeAndMessage(BaseCode code, Model model) {
         model.addAttribute("code", code.toString());
         model.addAttribute("message", code.getMessage());
+    }
+
+    public static JSONObject JsonCodeAndMessage(BaseCode code) {
+        JSONObject json = new JSONObject();
+        json.put("code", code.toString());
+        json.put("message", code.getMessage());
+        return json;
     }
 
     // 不打印那些TableField注解exist为false的域
