@@ -93,6 +93,7 @@ public class BhacUserController {
     /**
      * @param input 用户输入的标签属性
      * @return 添加该标签，返回code和message
+     * @implNote 添加标签的同时要添加对应的role(State=0)，建议这里使用事务
      */
     @PostMapping("sysadmin/tags")
     public String addTag(BhacTag input) {
@@ -102,6 +103,7 @@ public class BhacUserController {
     /**
      * @param id 要删除的标签的id
      * @return 删除该标签，返回code和message
+     * @implNote 软删除，把标签的state置为-1即可，不需要真正从数据库中删除
      */
     @DeleteMapping("sysadmin/tag{id}")
     public String delTag(@PathParam("id") Integer id) {
