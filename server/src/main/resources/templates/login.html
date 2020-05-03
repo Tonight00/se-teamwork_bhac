@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>登录页面|北航大学生活动</title>
-    <link rel="stylesheet" href="webjars/layui/2.5.6/css/layui.css">
+    <link rel="stylesheet" href="/webjars/layui/2.5.6/css/layui.css">
 </head>
 <body style="background-image: url('img/2.png');  background-size: cover; z-index: -1">
 <div class="layui-container" style="top: 250px">
     <div class="layui-row">
         <div class="layui-col-md4 layui-col-md-offset4" style="background-color: rgba(255,255,255,0.4)">
-            <form class="layui-form layui-form-pane" th:action="@{login}" method="post"  >
+            <form class="layui-form layui-form-pane" th:action="@{/u/login}" method="post"  >
                 <div class="layui-row">
                     <div class="layui-col-md12">
                         <h1 class="layui-field-title" style="text-align: center">北航大学生活动发布与社交平台管理系统</h1>
                     </div>
                 </div>
-                <div th:if="${message}" class="layui-row">
+                <div th:if="${message}"  class="layui-layer-content">
                     <div class="layui-col-md12">
-                        <div class="layui-field-title" th:text="${message}" style="color: red;text-align: center"></div>
+                        <div class="layui-field-title" th:text="${message}" style="color: #ff0000;text-align: center"></div>
                     </div>
                 </div>
                 <div class="layui-row">
@@ -46,7 +46,7 @@
                     <div class="layui-col-md4 layui-col-md-offset1">
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="login">登录</button>
+                                <button class="layui-btn" lay-submit lay-filter="loginSubmit">登录</button>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<script src="webjars/layui/2.5.6/layui.js"></script>
+<script src="/webjars/layui/2.5.6/layui.js"></script>
 <script type="text/javascript">
     layui.use(['form','layer', 'element'],function () {
         var form = layui.form

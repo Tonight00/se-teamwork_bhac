@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>系统后台管理|北航大学生活动</title>
@@ -12,17 +12,23 @@
         <div class="layui-logo">北航大学生活动</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">系统管理员1</a>
+                <a href="javascript:;" th:text="${id}"></a>
             </li>
-            <li class="layui-nav-item"><a href="">登出</a></li>
+            <li class="layui-nav-item"><a th:href="@{logout}" >登出</a></li>
         </ul>
     </div>
 
 
     <div class="layui-body">
         <div style="padding: 15px;">
-            内容主体区域
-            <button type="button" onclick="openLayer()" class="layui-btn layui-btn-normal">弹窗测试</button>
+            <div class="demoTable">
+                搜索用户名：
+                <div class="layui-inline">
+                    <input class="layui-input" name="username" id="demoSearch" autocomplete="off">
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <table class="layui-hide" id="userInfo" lay-filter="userTable"></table>
         </div>
     </div>
 
@@ -30,12 +36,15 @@
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" >
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">账号管理</a>
+                    <a th:href="@{index_sys}">账号管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="">子标签1</a></dd>
                         <dd><a href="">子标签2</a></dd>
-                        <dd><a href="">子标签3</a></dd>
-                        <dd><a href="">子标签4</a></dd>
+                    </dl>
+                    <a th:href="@{index_tag}">标签管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">子标签1</a></dd>
+                        <dd><a href="">子标签2</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -46,22 +55,95 @@
         © ARS-AM-2
     </div>
 </div>
-
+<script type="text/html" id="tagCheck">
+    <a class="layui-btn layui-btn-xs" lay-event="tag">Tag</a>
+</script>
 <script src="webjars/layui/2.5.6/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['element','layer'],function () {
-        var element = layui.element
-            ,layer = layui.layer;
-    });
+    layui.use(['laypage', 'layer', 'table', 'element'],function () {
+        var layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,element = layui.element //元素操作
 
-    function openLayer() {
-        layer.open({
-            type:1,
-            title:"弹窗",
-            area:['50%','50%'],
-            content: '弹窗测试'
+        //监听Tab切换
+        element.on('tab(userInfo)', function(data){
+            layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+                tips: 1
+            });
         });
-    }
+
+        //执行一个 table 实例
+        table.render({
+            elem: '#userInfo'
+            ,height: 420
+            //,url: '/sysadmin/users' //数据接口
+            ,title: '用户表'
+            ,page: true //开启分页
+            ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,totalRow: true //开启合计行
+            ,id: 'userInfo'
+            ,cols:
+                [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                        ,{field: 'username', title: '用户名', width:100,sort: true}
+                        ,{fixed: 'right', width: 165, align:'center', toolbar: '#tagCheck'}
+                    ]
+                ]
+            ,data:[{
+                "id": "1"
+                ,"username": "afdf"
+            }, {
+                "id": "2"
+                ,"username": "fsadaf"
+            },]
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoSearch = $('#demoSearch');
+                //执行重载
+                table.reload('testSearch', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            id: demoSearch.val()
+                        }
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听行工具事件
+        table.on('tool(userTable)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            var id = data.id;
+            if(layEvent === 'tag'){
+                //向服务端发送批准指令
+                $.ajax({
+                    url:'sysadmin/tags',
+                    type:'GET',
+                    data:data,
+                    dataType:'string',
+                    success:function (data) {
+                       window.location.href = data;
+                    },
+                    error:function (data) {
+                        layer.msg(data)
+                    }
+                })
+            }
+        });
+    });
 
 </script>
 </body>

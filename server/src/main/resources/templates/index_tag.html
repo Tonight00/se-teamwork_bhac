@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tag管理|北航大学生活动</title>
+    <link rel="stylesheet" href="webjars/layui/2.5.6/css/layui.css">
+</head>
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">北航大学生活动</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;" th:text="${id}"></a>
+            </li>
+            <li class="layui-nav-item"><a th:href="@{logout}" >登出</a></li>
+        </ul>
+    </div>
+
+
+    <div class="layui-body">
+        <div style="padding: 15px;">
+            <div class="demoTable">
+                搜索Tag：
+                <div class="layui-inline">
+                    <input class="layui-input" name="username" id="demoSearch" autocomplete="off">
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+                <a th:href="@{index_sys}" class="layui-btn">返回</a>
+            </div>
+            <table class="layui-hide" id="tagInfo" lay-filter="tagTable"></table>
+        </div>
+    </div>
+
+    <script type="text/html" id="toolbarHead">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="addTag">添加Tag</button>
+            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteTag">删除Tag</button>
+        </div>
+    </script>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" >
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a th:href="@{index_sys}">账号管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">子标签1</a></dd>
+                        <dd><a href="">子标签2</a></dd>
+                    </dl>
+                    <a th:href="@{index_tag}">标签管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">子标签1</a></dd>
+                        <dd><a href="">子标签2</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        © ARS-AM-2
+    </div>
+</div>
+<script type="text/html" id="tagCheck">
+    <a class="layui-btn layui-btn-xs" lay-event="all">ALL</a>
+    <a class="layui-btn layui-btn-xs" lay-event="cancel">CANCEL</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">DELETE</a>
+</script>
+<script src="webjars/layui/2.5.6/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['laypage', 'layer', 'table', 'element'],function () {
+        var layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,element = layui.element //元素操作
+
+        //监听Tab切换
+        element.on('tab(tagInfo)', function(data){
+            layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+                tips: 1
+            });
+        });
+
+        //执行一个 table 实例
+        table.render({
+            elem: '#tagInfo'
+            ,height: 420
+            //,url: 'sysadmin/tags' //数据接口
+            ,title: 'Tag表'
+            ,page: true //开启分页
+            ,toolbar: '#toolbarHead'
+            ,defaultToolbar: ['filter']
+            ,totalRow: true //开启合计行
+            ,id: 'tagInfo'
+            ,cols:
+                [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                        ,{field: 'tagName', title: 'Tag名', width:100,sort: true}
+                        ,{field: 'state', title: '权限', width:100,sort: true}
+                        ,{fixed: 'right', width: 220, align:'center', toolbar: '#tagCheck'}
+                    ]
+                ]
+            ,data:[{
+                "id": "1"
+                ,"tagName": "afdf"
+                ,"state": "ALL"
+            }, {
+                "id": "2"
+                ,"tagName": "fsadaf"
+                ,"state": "ALL"
+            },]
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoSearch = $('#demoSearch');
+                //执行重载
+                table.reload('testSearch', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            id: demoSearch.val()
+                        }
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(tagInfo)',function (obj) {
+            var layEvent = obj.event;
+            if(layEvent === 'addTag'){
+                $.ajax({
+                    url:'sysadmin/tags',
+                    type:'POST',
+                    data:data,
+                    dataType:'json',
+                    success:function (data) {
+                        //修改table里的状态
+                        layer.msg('成功添加Tag');
+                    },
+                    error:function (data) {
+                        layer.msg(data)
+                    }
+                })
+            }else if(layEvent === 'deleteTag'){
+                $.ajax({
+                    url:'sysadmin/tags/{id}',
+                    type:'DELETE',
+                    data:data,
+                    dataType:'json',
+                    success:function (data) {
+                        //修改table里的状态
+                        layer.msg('成功删除Tag');
+                    },
+                    error:function (data) {
+                        layer.msg(data)
+                    }
+                })
+            }
+        })
+
+        //监听行工具事件
+        table.on('tool(userTable)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            var id = data.get('id');
+            if(layEvent === 'all'){
+                //向服务端发送批准指令
+                $.ajax({
+                    url:'sysadmin/user/auth',
+                    type:'PUT',
+                    data:data,
+                    dataType:'json',
+                    success:function (data) {
+                        //修改table里的状态
+                        document.getElementById('activity').getElementById(id).state = "ALL";
+                        layer.msg('成功给予权限');
+                    },
+                    error:function (data) {
+                        layer.msg(data)
+                    }
+                })
+            }
+            if(layEvent === 'cancel'){
+                //向服务端发送批准指令
+                $.ajax({
+                    url:'sysadmin/user/deauth',
+                    type:'PUT',
+                    data:data,
+                    dataType:'json',
+                    success:function (data) {
+                        //修改table里的状态
+                        document.getElementById('activity').getElementById(id).state = "CANCEL";
+                        layer.msg('成功取消权限');
+                    },
+                    error:function (data) {
+                        layer.msg(data)
+                    }
+                })
+            }
+            if(layEvent === 'delete'){
+                //向服务端发送批准指令
+                $.ajax({
+                    url:'sysadmin/tags/{id}',
+                    type:'DELETE',
+                    data:data,
+                    dataType:'json',
+                    success:function (data) {
+                        //修改table里的状态
+                        //删除本行
+                        layer.msg('成功删除Tag');
+                    },
+                    error:function (data) {
+                        layer.msg(data)
+                    }
+                })
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
