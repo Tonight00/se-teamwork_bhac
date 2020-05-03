@@ -4,6 +4,9 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
+import cn.edu.buaa.se.bhac.Utils.JWTUtils;
+import cn.edu.buaa.se.bhac.code.UserCode;
+import cn.edu.buaa.se.bhac.config.JWTConfig;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.PropertyFilter;
@@ -25,7 +28,7 @@ import java.util.List;
 @RestController
 public class BhacUserController {
     @Autowired
-    BhacUserService userService;
+    private BhacUserService userService;
 
 
     @GetMapping("/admin/activities/authed")
@@ -48,9 +51,8 @@ public class BhacUserController {
 
     /**
      * @param username 输入的用户名
-     * @return 根据username模糊查询(%x%)查出对应的用户，以Json格式返回
+     * @return 根据username模糊查询(% x %)查出对应的用户，以Json格式返回
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
-     *
      */
     @GetMapping("/sysadmin/users")
     public String getUsersByUsername(@Param("username") String username) {
@@ -59,9 +61,8 @@ public class BhacUserController {
 
     /**
      * @param name 输入的标签名
-     * @return 根据name模糊查询(%x%)查出对应的标签，以Json格式返回
+     * @return 根据name模糊查询(% x %)查出对应的标签，以Json格式返回
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
-     *
      */
     @GetMapping("/sysadmin/tags")
     public String getTagsByName(@Param("name") String name) {
@@ -69,8 +70,8 @@ public class BhacUserController {
     }
 
     /**
-     * @param uid 用户id
-     * @param tid 标签id
+     * @param uid   用户id
+     * @param tid   标签id
      * @param state 赋予的权限(目前都是0)
      * @return 赋予用户uid 标签tid的角色state，返回code和message
      */
@@ -80,8 +81,8 @@ public class BhacUserController {
     }
 
     /**
-     * @param uid 用户id
-     * @param tid 标签id
+     * @param uid   用户id
+     * @param tid   标签id
      * @param state 赋予的权限(目前都是0)
      * @return 撤销用户uid 标签tid的角色state，返回code和message
      */
@@ -93,7 +94,7 @@ public class BhacUserController {
     /**
      * @param input 用户输入的标签属性
      * @return 添加该标签，返回code和message
-     * @implNote 添加标签的同时要添加对应的role(State=0)，建议这里使用事务
+     * @implNote 添加标签的同时要添加对应的role(State = 0)，建议这里使用事务
      */
     @PostMapping("sysadmin/tags")
     public String addTag(BhacTag input) {
@@ -108,6 +109,26 @@ public class BhacUserController {
     @DeleteMapping("sysadmin/tag{id}")
     public String delTag(@PathParam("id") Integer id) {
         return null;
+    }
+
+    @PostMapping("/users/login")
+    public String login(BhacUser user) {
+        UserCode code = userService.login(user);
+        JSONObject json = ControllerUtils.JsonCodeAndMessage(code);
+        if (code == UserCode.SUCC_USER_LOGIN) {
+            json.put("token", JWTUtils.createToken(user));
+        }
+        return json.toJSONString();
+    }
+
+    @PostMapping("/users")
+    public String register(BhacUser input) {
+        UserCode code = userService.register(input);
+        JSONObject json = ControllerUtils.JsonCodeAndMessage(code);
+//        if (code == UserCode.SUCC_USER_REG) {
+//            return "";
+//        }
+        return "";
     }
 
 }

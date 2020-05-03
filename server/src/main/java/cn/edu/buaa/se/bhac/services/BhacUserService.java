@@ -93,4 +93,59 @@ public class BhacUserService {
         return activities;
     }
 
+    public UserCode login(BhacUser credential) {
+        QueryWrapper<BhacUser> wrapper = new QueryWrapper<>();
+        BhacUser user = null;
+        UserCode code = UserCode.SUCC_USER_LOGIN;
+        if (credential.getUsername() != null) {
+            wrapper.eq("username", credential.getUsername());
+            user = userMapper.selectOne(wrapper);
+            if (user == null) {
+                code = UserCode.ERR_USER_NO_UNAME;
+                return code;
+            }
+        } else if (credential.getPhoneNum() != null) {
+            wrapper.eq("phoneNum", credential.getPhoneNum());
+            user = userMapper.selectOne(wrapper);
+            if (user == null) {
+                code = UserCode.ERR_USER_NO_PN;
+                return code;
+            }
+        } else if (credential.getEmail() != null) {
+            wrapper.eq("email", credential.getEmail());
+            user = userMapper.selectOne(wrapper);
+            if (user == null) {
+                code = UserCode.ERR_USER_NO_MAIL;
+                return code;
+            }
+        }
+        if (!user.getPassword().equals(credential.getPassword())) {
+            code = UserCode.ERR_USER_VERI_FAILED;
+        }
+        else {
+            credential.setId(user.getId());
+        }
+        return code;
+    }
+
+    public UserCode register(BhacUser input) {
+        if (!userMapper.selectList(new QueryWrapper<BhacUser>()
+                .eq("username", input.getUsername())).isEmpty()) {
+            return UserCode.ERR_USER_DUP_UNAME;
+        }
+        if (input.getPhoneNum() != null) {
+            if (!userMapper.selectList(new QueryWrapper<BhacUser>()
+                    .eq("phoneNum", input.getPhoneNum())).isEmpty()) {
+                return UserCode.ERR_USER_DUP_PN;
+            }
+        }
+        if (input.getEmail() != null) {
+            if (!userMapper.selectList(new QueryWrapper<BhacUser>()
+                    .eq("email", input.getEmail())).isEmpty()) {
+                return UserCode.ERR_USER_DUP_MAIL;
+            }
+        }
+        userMapper.insert(input);
+        return UserCode.SUCC_USER_REG;
+    }
 }
