@@ -1,4 +1,47 @@
 package cn.edu.buaa.se.bhac.services;
 
+import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper;
+import cn.edu.buaa.se.bhac.Utils.DaoUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.imageio.plugins.common.I18N;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
 public class BhacTagService {
+    
+    @Autowired
+    private BhacTagMapper tagMapper;
+    
+    /**
+     *
+     * @param name 标签名字
+     * @return 根据标签名字name，进行模糊查询(%name%)，返回标签集合
+     */
+    public List<BhacTag> getTagsByTagname(String name, Integer pageNum, Integer limit) {
+        QueryWrapper q = new QueryWrapper();
+        q.like("name",name);
+        
+        Page<BhacTag> page =  new Page<>(pageNum,limit,false);
+        return DaoUtils.PageSearch(tagMapper,page,q);
+    }
+    
+    /**
+     *
+     * @param id 标签id
+     * @return 删除标签id，软删除（state = -1)
+     */
+    public Boolean delTag(Integer id) {
+        UpdateWrapper update = new UpdateWrapper();
+        update.eq("id",id);
+        BhacTag tag = new BhacTag();
+        tag.setState(-1);
+        return tagMapper.update(tag,update) == 1;
+    }
 }
