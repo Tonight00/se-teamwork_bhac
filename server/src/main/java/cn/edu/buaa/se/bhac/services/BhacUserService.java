@@ -84,12 +84,10 @@ public class BhacUserService {
      */
     public List<BhacActivity> getAuthedActivities(BhacUser admin) {
         List<BhacActivity> activities = new ArrayList<>();
-        System.out.println(admin);
         for (BhacRole role : admin.getRolesAct()) {
-            System.out.println(role);
             BhacTag tag = role.getTag();
             if (role.getState() == 0 && role.getTag().getState() == 0) {
-                activities.addAll(role.getTag().getActivitiesBelong());
+                activities.addAll(role.getTag().getActivities());
             }
         }
         return activities;

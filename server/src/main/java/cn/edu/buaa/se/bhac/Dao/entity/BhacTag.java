@@ -11,16 +11,16 @@ import java.util.List;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wangqichang
  * @since 2020-04-30
  */
-@TableName(value = "bhac_tag",resultMap = "BhacTagMap")
+@TableName(value = "bhac_tag", resultMap = "BhacTagMap")
 public class BhacTag extends Model<BhacTag> {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -30,46 +30,49 @@ public class BhacTag extends Model<BhacTag> {
     private Integer state;
 
     private Integer parentId;
-    
+
     @TableField(exist = false)
     private List<BhacPost> posts;
-    
-    @TableField(exist =  false)
+
+    @TableField(exist = false)
     private List<BhacRole> roles;
-    
+
+    /**
+     * 属于本tag但category不是本tag的活动，
+     */
     @TableField(exist = false)
     private List<BhacActivity> activitiesBelong;
-    
-    public List<BhacPost> getPosts ()
-    {
+
+    /**
+     * category是本tag的活动
+     */
+    @TableField(exist = false)
+    private List<BhacActivity> activities;
+
+    public List<BhacPost> getPosts() {
         return posts;
     }
-    
-    public void setPosts (List<BhacPost> posts)
-    {
+
+    public void setPosts(List<BhacPost> posts) {
         this.posts = posts;
     }
-    
-    public List<BhacRole> getRoles ()
-    {
+
+    public List<BhacRole> getRoles() {
         return roles;
     }
-    
-    public void setRoles (List<BhacRole> roles)
-    {
+
+    public void setRoles(List<BhacRole> roles) {
         this.roles = roles;
     }
-    
-    public List<BhacActivity> getActivitiesBelong ()
-    {
+
+    public List<BhacActivity> getActivitiesBelong() {
         return activitiesBelong;
     }
-    
-    public void setActivitiesBelong (List<BhacActivity> activitiesBelong)
-    {
+
+    public void setActivitiesBelong(List<BhacActivity> activitiesBelong) {
         this.activitiesBelong = activitiesBelong;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -102,6 +105,14 @@ public class BhacTag extends Model<BhacTag> {
         this.parentId = parentId;
     }
 
+    public List<BhacActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<BhacActivity> activities) {
+        this.activities = activities;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -117,6 +128,7 @@ public class BhacTag extends Model<BhacTag> {
                 ", posts=" + posts +
                 ", roles=" + roles +
                 ", activitiesBelong=" + activitiesBelong +
+                ", activities=" + activities +
                 '}';
     }
 }

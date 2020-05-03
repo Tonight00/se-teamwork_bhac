@@ -4,7 +4,7 @@ package cn.edu.buaa.se.bhac.config;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
-import org.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;

@@ -9,6 +9,8 @@
                     select="Role"/>
         <collection property="activitiesBelong" column="id" ofType="BhacActivity"
                     select="Activity"/>
+        <collection property="activities" column="id" ofType="BhacActivity"
+                    select="Activity2"/>
     </resultMap>
 
     <select id="Post" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper.BhacTagMap">
@@ -23,5 +25,8 @@
         select * from bhac_activity where id in (select aid from bhac_belongActivityTag where tid = #{id})
     </select>
 
+    <select id="Activity2" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.BhacActivityMap">
+        select * from bhac_activity where category = #{id}
+    </select>
 
 </mapper>
