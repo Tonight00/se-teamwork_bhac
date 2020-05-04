@@ -26,8 +26,9 @@ public class BhacActivityController {
     public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
         List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
-        if(authedActivities == null) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_ACTIVITY));
+        if(authedActivities == null || authedActivities.size() == 0) {
+            return null;
+           // return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_ACTIVITY));
         }
 
         return JSONObject.toJSONString(authedActivities,
@@ -43,8 +44,9 @@ public class BhacActivityController {
     public String permitActivity(@Param("activityId") Integer id) {
         BhacActivity activity = activityService.getActivity(id);
         if (activity == null) {
-            return JSONObject.toJSONString(ControllerUtils
-                    .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
+            return null;
+           // return JSONObject.toJSONString(ControllerUtils
+             //       .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
         }
         if (activity.getState() != 1) {
             if (!activityService.permitActivity(activity.getId(), 1))

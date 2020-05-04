@@ -70,7 +70,8 @@ public class BhacTagController {
         List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
         System.out.println(tags);
         if(tags == null || tags.size() == 0) {
-            return  JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_NO_NAME));
+            return null;
+            // return  JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_NO_NAME));
         }
         return JSONObject.toJSONString(tags,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class));

@@ -3,6 +3,7 @@ package cn.edu.buaa.se.bhac;
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.*;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
+import cn.edu.buaa.se.bhac.Utils.JWTUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -183,5 +184,11 @@ public class test
         wrapper.eq("username", "???");
         BhacUser one = bhacUserMapper.selectOne(wrapper);
         System.out.println(one);
+    }
+    @Test
+    public void testJWT() {
+        BhacUser u = new BhacUser();
+        u.setId(1);
+        System.out.println(JWTUtils.createToken(u));
     }
 }
