@@ -3,6 +3,7 @@ package cn.edu.buaa.se.bhac.services;
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActuserroleMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
@@ -29,7 +30,6 @@ public class BhacUserService {
     private BhacActivityMapper activityMapper;
     @Autowired
     private BhacActuserroleMapper actuserroleMapper;
-
     /**
      * @param account 需要验证的账号
      * @return 如果是活动管理员则返回true，否则为false
@@ -86,15 +86,21 @@ public class BhacUserService {
      * @return 该用户拥有所有权限的所有活动
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public List<BhacActivity> getAuthedActivities(BhacUser admin) {
-        List<BhacActivity> activities = new ArrayList<>();
-        for (BhacRole role : admin.getRolesAct()) {
-            BhacTag tag = role.getTag();
+    public List<BhacActivity> getAuthedActivities(BhacUser admin,Integer pageNum, Integer limit) {
+        List<BhacRole> roles = admin.getRolesAct();
+        List<Integer> category = new ArrayList<>();
+        for (BhacRole role : roles) {
             if (role.getState() == 0 && role.getTag().getState() == 0) {
-                activities.addAll(role.getTag().getActivities());
+                System.out.println(role);
+                category.add(role.getTag().getId());
             }
         }
-        return activities;
+        
+        QueryWrapper q = new QueryWrapper();
+        System.out.println(category);
+        q.in("category",category);
+        Page<BhacActivity> page = new Page<>(pageNum,limit);
+        return  DaoUtils.PageSearch(activityMapper,page,q);
     }
     
     /**

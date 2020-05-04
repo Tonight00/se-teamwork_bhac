@@ -51,9 +51,14 @@ public class BhacUserController {
    
     // todo : 这里的分页查询暂时没办法物理分页，想到的思路是逻辑分页。因为这里的实现是间接查的。
     @GetMapping("/admin/activities/authed")
-    public String getAuthedActivities(HttpSession session) {
+    public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        List<BhacActivity> authedActivities = userService.getAuthedActivities(admin);
+        System.out.println(admin);
+        List<BhacActivity> authedActivities = userService.getAuthedActivities(admin,pageNum,limit);
+        if(authedActivities == null) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_ACTIVITY));
+        }
+        
         return JSONObject.toJSONString(authedActivities,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
     }
@@ -65,10 +70,7 @@ public class BhacUserController {
      */
     @PutMapping("/admin/activities/permit")
     public String permitActivity(@Param("activityId") Integer id) {
-    
-        System.out.println(id);
         BhacActivity  activity = userService.getActivity(id);
-        System.out.println(activity);
         if(activity == null) {
             return JSONObject.toJSONString(ControllerUtils
                     .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
@@ -107,9 +109,7 @@ public class BhacUserController {
      */
     @GetMapping("/sysadmin/tags")
     public String getTagsByName(@Param("name") String name,@Param("page") Integer pageNum , @Param("limit")Integer limit) {
-        System.out.println("-----------"+name);
         List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
-        System.out.println(tags);
         if(tags == null || tags.size() == 0) {
             return  JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_NO_NAME));
         }
@@ -126,7 +126,7 @@ public class BhacUserController {
      */
     @PutMapping("sysadmin/users/auth")
     public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
-        BhacRole role = roleService.getRoleByTid(tid);
+        BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
               return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
@@ -146,7 +146,7 @@ public class BhacUserController {
      */
     @PutMapping("sysadmin/users/deauth")
     public String deauthorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
-        BhacRole role = roleService.getRoleByTid(tid);
+        BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
