@@ -82,79 +82,39 @@ public class BhacUserService {
 
 
     /**
-     * @param admin 用户
-     * @return 该用户拥有所有权限的所有活动
-     * @implNote 只返回拥有所有权限的活动（state = 0）
-     */
-    public List<BhacActivity> getAuthedActivities(BhacUser admin) {
-        List<BhacActivity> activities = new ArrayList<>();
-        for (BhacRole role : admin.getRolesAct()) {
-            BhacTag tag = role.getTag();
-            if (role.getState() == 0 && role.getTag().getState() == 0) {
-                activities.addAll(role.getTag().getActivities());
-            }
-        }
-        return activities;
-    }
-    
-    /**
-     * @param id 活动id
-     * @return 该id 对应的活动
-     */
-    public BhacActivity getActivity(Integer id) {
-        return activityMapper.selectById(id);
-    }
-    
-    /**
-     *
-     * @param id 被审核活动id
-     * @param state 活动状态
-     * @return 是否成功更改活动状态,通过判断更新条数是否为1条,来判断是否成功更改活动状态
-     */
-    public Boolean permitActivity(Integer id,Integer state) {
-        BhacActivity activity = new BhacActivity();
-        activity.setId(id);
-        activity.setState(state);
-        return activityMapper.updateById(activity) == 1;
-    }
-    
-    /**
-     *
      * @param name 用户名
-     * @return 通过模糊查询(%name%)来返回满足条件的用户
+     * @return 通过模糊查询(% name %)来返回满足条件的用户
      */
-    public List<BhacUser> getUsersByUsername(String name, Integer pageNum , Integer limit) {
+    public List<BhacUser> getUsersByUsername(String name, Integer pageNum, Integer limit) {
         QueryWrapper q = new QueryWrapper();
-        q.like("username",name);
-    
-        Page<BhacUser> page = new Page<>(pageNum,limit,false);
-        return DaoUtils.PageSearch(userMapper,page,q);
+        q.like("username", name);
+
+        Page<BhacUser> page = new Page<>(pageNum, limit, false);
+        return DaoUtils.PageSearch(userMapper, page, q);
     }
-    
+
     /**
-     *
      * @param rid 角色id
      * @param uid 用户id
-     * @return 将角色rid加入到用户uid的角色集合中,通过判断更新条数是否为1,来判断是否正常修改
+     * @return 将角色rid加入到用户uid的角色集合中, 通过判断更新条数是否为1, 来判断是否正常修改
      */
-    
+
     public Boolean addRole2User(Integer rid, Integer uid) {
-        BhacActuserrole actuserrole  = new BhacActuserrole();
+        BhacActuserrole actuserrole = new BhacActuserrole();
         actuserrole.setRid(rid);
         actuserrole.setUid(uid);
         return actuserroleMapper.insert(actuserrole) == 1;
     }
-    
+
     /**
-     *
      * @param rid 角色id
      * @param uid 用户id
-     * @return 将角色rid从用户id的角色集中移除,通过判断更新条数是否为1,来判断是否正常修改
+     * @return 将角色rid从用户id的角色集中移除, 通过判断更新条数是否为1, 来判断是否正常修改
      */
     public Boolean deleteRoleOfUser(Integer rid, Integer uid) {
         QueryWrapper q = new QueryWrapper();
-        q.eq("uid",uid);
-        q.eq("rid",rid);
+        q.eq("uid", uid);
+        q.eq("rid", rid);
         return actuserroleMapper.delete(q) == 1;
     }
 
@@ -186,31 +146,64 @@ public class BhacUserService {
         }
         if (!user.getPassword().equals(credential.getPassword())) {
             code = UserCode.ERR_USER_VERI_FAILED;
-        }
-        else {
+        } else {
             credential.setId(user.getId());
         }
         return code;
     }
 
     public UserCode register(BhacUser input) {
-        if (!userMapper.selectList(new QueryWrapper<BhacUser>()
-                .eq("username", input.getUsername())).isEmpty()) {
-            return UserCode.ERR_USER_DUP_UNAME;
-        }
-        if (input.getPhoneNum() != null) {
-            if (!userMapper.selectList(new QueryWrapper<BhacUser>()
-                    .eq("phoneNum", input.getPhoneNum())).isEmpty()) {
-                return UserCode.ERR_USER_DUP_PN;
-            }
-        }
-        if (input.getEmail() != null) {
-            if (!userMapper.selectList(new QueryWrapper<BhacUser>()
-                    .eq("email", input.getEmail())).isEmpty()) {
-                return UserCode.ERR_USER_DUP_MAIL;
-            }
+        UserCode code = checkDuplicate(input);
+        if (code != null) {
+            return code;
         }
         userMapper.insert(input);
         return UserCode.SUCC_USER_REG;
+    }
+
+    public BhacUser getUserById(Integer uid) {
+        return userMapper.selectById(uid);
+    }
+
+    public UserCode editBasic(BhacUser modified) {
+        UserCode code = checkDuplicate(modified);
+        if (code != null) {
+            return code;
+        }
+        userMapper.updateById(modified);
+        return UserCode.SUCC_USER_EDIT;
+    }
+
+    private UserCode checkDuplicate(BhacUser input) {
+        UserCode code = null;
+        if (!userMapper.selectList(new QueryWrapper<BhacUser>()
+                .eq("username", input.getUsername())).isEmpty()) {
+            code = UserCode.ERR_USER_DUP_UNAME;
+        }
+        if (input.getPhoneNum() != null && !input.getPhoneNum().isEmpty()) {
+            if (!userMapper.selectList(new QueryWrapper<BhacUser>()
+                    .eq("phoneNum", input.getPhoneNum())).isEmpty()) {
+                code = UserCode.ERR_USER_DUP_PN;
+            }
+        }
+        if (input.getEmail() != null && !input.getEmail().isEmpty()) {
+            if (!userMapper.selectList(new QueryWrapper<BhacUser>()
+                    .eq("email", input.getEmail())).isEmpty()) {
+                code = UserCode.ERR_USER_DUP_MAIL;
+            }
+        }
+        return code;
+    }
+
+    public UserCode editPWD(String oldPassword, String newPassword, Integer uid) {
+        BhacUser user = userMapper.selectById(uid);
+        if (!user.getPassword().equals(oldPassword)) {
+            return UserCode.ERR_USER_VERI_FAILED;
+        }
+        BhacUser modified = new BhacUser();
+        modified.setId(uid);
+        modified.setPassword(newPassword);
+        userMapper.updateById(modified);
+        return UserCode.SUCC_USER_EDIT;
     }
 }
