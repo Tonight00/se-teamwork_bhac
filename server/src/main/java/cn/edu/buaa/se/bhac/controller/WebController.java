@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 
+import static cn.edu.buaa.se.bhac.services.BhacUserService.checkAdmin;
+import static cn.edu.buaa.se.bhac.services.BhacUserService.checkSysAdmin;
+
 @Controller
 public class WebController {
 
@@ -25,7 +28,13 @@ public class WebController {
         if (!code.isSuccessful()) {
             return "redirect:/login";
         }
-        return "helloworld";
+        BhacUser admin = (BhacUser)session.getAttribute("admin");
+        if(checkAdmin(admin)){
+            model.addAttribute("isSysadmin","false");
+        }else if(checkSysAdmin(admin)){
+            model.addAttribute("isSysadmin","true");
+        }
+        return "index_act";
     }
 
     @GetMapping("/u/logout")
