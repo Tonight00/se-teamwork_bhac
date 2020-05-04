@@ -4,6 +4,7 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.ActivityCode;
+import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
 import com.alibaba.fastjson.JSONObject;
@@ -22,9 +23,13 @@ public class BhacActivityController {
     private BhacActivityService activityService;
 
     @GetMapping("/admin/activities/authed")
-    public String getAuthedActivities(HttpSession session) {
+    public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin);
+        List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
+        if(authedActivities == null) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_ACTIVITY));
+        }
+
         return JSONObject.toJSONString(authedActivities,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
     }

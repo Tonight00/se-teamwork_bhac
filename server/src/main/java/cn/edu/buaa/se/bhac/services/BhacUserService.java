@@ -3,6 +3,7 @@ package cn.edu.buaa.se.bhac.services;
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActuserroleMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
@@ -29,7 +30,6 @@ public class BhacUserService {
     private BhacActivityMapper activityMapper;
     @Autowired
     private BhacActuserroleMapper actuserroleMapper;
-
     /**
      * @param account 需要验证的账号
      * @return 如果是活动管理员则返回true，否则为false

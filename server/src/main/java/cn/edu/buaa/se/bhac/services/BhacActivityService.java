@@ -5,7 +5,10 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
+import cn.edu.buaa.se.bhac.Utils.DaoUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +26,20 @@ public class BhacActivityService {
      * @return 该用户拥有所有权限的所有活动
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public List<BhacActivity> getAuthedActivities(BhacUser admin) {
-        List<BhacActivity> activities = new ArrayList<>();
-        for (BhacRole role : admin.getRolesAct()) {
-            BhacTag tag = role.getTag();
+    public List<BhacActivity> getAuthedActivities(BhacUser admin,Integer pageNum, Integer limit) {
+        List<BhacRole> roles = admin.getRolesAct();
+        List<Integer> category = new ArrayList<>();
+        for (BhacRole role : roles) {
             if (role.getState() == 0 && role.getTag().getState() == 0) {
-                activities.addAll(role.getTag().getActivities());
+                category.add(role.getTag().getId());
             }
         }
-        return activities;
+
+        QueryWrapper q = new QueryWrapper();
+
+        q.in("category",category);
+        Page<BhacActivity> page = new Page<>(pageNum,limit);
+        return  DaoUtils.PageSearch(activityMapper,page,q);
     }
 
     /**

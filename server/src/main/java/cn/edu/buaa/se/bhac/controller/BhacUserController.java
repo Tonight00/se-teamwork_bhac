@@ -59,7 +59,6 @@ public class BhacUserController {
      */
     @GetMapping("/sysadmin/users")
     public String getUsersByUsername(@Param("username") String username, @Param("page") Integer pageNum, @Param("limit") Integer limit) {
-
         List<BhacUser> users = userService.getUsersByUsername(username, pageNum, limit);
         if (users == null || users.size() == 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_UNAME));
@@ -75,11 +74,12 @@ public class BhacUserController {
      */
     @PutMapping("sysadmin/users/auth")
     public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
-        BhacRole role = roleService.getRoleByTid(tid);
-        if (role == null) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
-        } else {
-            if (!userService.addRole2User(role.getId(), uid)) {
+        BhacRole role = roleService.getRoleByTid(tid,state);
+        if(role == null ) {
+              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
+        }
+        else {
+            if(!userService.addRole2User(role.getId(),uid)) {
                 return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_INNER_ERROR));
             }
         }
@@ -94,8 +94,8 @@ public class BhacUserController {
      */
     @PutMapping("sysadmin/users/deauth")
     public String deauthorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
-        BhacRole role = roleService.getRoleByTid(tid);
-        if (role == null) {
+        BhacRole role = roleService.getRoleByTid(tid,state);
+        if(role == null ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
         if (!userService.deleteRoleOfUser(role.getId(), uid)) {
