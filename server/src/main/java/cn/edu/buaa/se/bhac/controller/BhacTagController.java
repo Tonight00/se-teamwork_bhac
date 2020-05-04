@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -66,11 +67,10 @@ public class BhacTagController {
      */
     @GetMapping("/sysadmin/tags")
     public String getTagsByName(@Param("name") String name, @Param("page") Integer pageNum , @Param("limit")Integer limit) {
-        System.out.println("-----------"+name);
         List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
         System.out.println(tags);
-        if(tags == null || tags.size() == 0) {
-            return null;
+        if(tags == null ) {
+            tags = new ArrayList<>();
             // return  JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_NO_NAME));
         }
         return JSONObject.toJSONString(tags,

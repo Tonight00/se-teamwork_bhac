@@ -159,7 +159,7 @@ public class MyWebConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenInter)
                 .addPathPatterns(appAPIs)
                 .excludePathPatterns(loginRelated);
-
+    
     }
 
 }

@@ -60,9 +60,7 @@ public class BhacUserController {
     @GetMapping("/sysadmin/users")
     public String getUsersByUsername(@Param("username") String username, @Param("page") Integer pageNum, @Param("limit") Integer limit) {
         List<BhacUser> users = userService.getUsersByUsername(username, pageNum, limit);
-        if (users == null || users.size() == 0) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_UNAME));
-        }
+        if (users == null ) users = new ArrayList<>();
         return JSONObject.toJSONString(users, ControllerUtils.filterFactory(BhacUser.class));
     }
 
@@ -76,8 +74,7 @@ public class BhacUserController {
     public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
-              return null;
-             // return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
+              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
         else {
             if(!userService.addRole2User(role.getId(),uid)) {
@@ -97,8 +94,7 @@ public class BhacUserController {
     public String deauthorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
-            return null;
-            // return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
+             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
         if (!userService.deleteRoleOfUser(role.getId(), uid)) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_INNER_ERROR));

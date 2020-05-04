@@ -38,7 +38,9 @@ public class BhacActivityService {
                 category.add(role.getTag().getId());
             }
         }
-        
+        if(category.isEmpty()) {
+            return null;
+        }
         QueryWrapper q = new QueryWrapper();
 
         q.in("category",category);
