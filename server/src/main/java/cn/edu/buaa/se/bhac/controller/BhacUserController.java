@@ -29,10 +29,6 @@ import java.rmi.activation.Activatable;
 import java.util.ArrayList;
 import java.util.List;
 
-// todo: 1. 完成下面有javadoc的接口
-// todo: 注意事项1: 要添加code请参考BaseCode、UserCode的实现和命名规则
-// todo: 注意事项2: 因为属性的延迟加载只会生效一次，数据库变动后已经加载出来的值就是过期的，实现的时候请注意这点
-
 
 @RestController
 public class BhacUserController {
@@ -49,11 +45,9 @@ public class BhacUserController {
     BhacRoleMapper bhacRoleMapper;
     
    
-    // todo : 这里的分页查询暂时没办法物理分页，想到的思路是逻辑分页。因为这里的实现是间接查的。
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        System.out.println(admin);
         List<BhacActivity> authedActivities = userService.getAuthedActivities(admin,pageNum,limit);
         if(authedActivities == null) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_ACTIVITY));

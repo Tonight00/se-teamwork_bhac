@@ -91,13 +91,12 @@ public class BhacUserService {
         List<Integer> category = new ArrayList<>();
         for (BhacRole role : roles) {
             if (role.getState() == 0 && role.getTag().getState() == 0) {
-                System.out.println(role);
                 category.add(role.getTag().getId());
             }
         }
         
         QueryWrapper q = new QueryWrapper();
-        System.out.println(category);
+      
         q.in("category",category);
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         return  DaoUtils.PageSearch(activityMapper,page,q);
