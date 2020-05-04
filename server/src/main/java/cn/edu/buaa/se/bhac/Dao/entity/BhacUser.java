@@ -11,16 +11,16 @@ import java.util.List;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wangqichang
  * @since 2020-04-30
  */
-@TableName(value = "bhac_user",resultMap = "BhacUserMap")
+@TableName(value = "bhac_user", resultMap = "BhacUserMap")
 public class BhacUser extends Model<BhacUser> {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -31,8 +31,8 @@ public class BhacUser extends Model<BhacUser> {
 
     @TableField("phoneNum")
     private String phoneNum;
-    
-    
+
+
     private String password;
 
     private Integer state;
@@ -50,63 +50,55 @@ public class BhacUser extends Model<BhacUser> {
     private String avatarUrl;
 
     private Integer gender;
-    
+
     @TableField(exist = false)
     private List<BhacActivity> activitiesProcessing;
-    
+
     @TableField(exist = false)
     private List<BhacActivity> activitiesSucceed;
-    
+
     @TableField(exist = false)
     private List<BhacRole> rolesAct;
-    
+
     @TableField(exist = false)
     private List<BhacActivity> activitiesRelease;
-    
+
     @TableField(exist = false)
     private List<BhacActivity> activitiesManage;
-    
-    
-    public List<BhacActivity> getActivitiesProcessing ()
-    {
+
+
+    public List<BhacActivity> getActivitiesProcessing() {
         return activitiesProcessing;
     }
-    
-    public void setActivitiesProcessing (List<BhacActivity> activitiesProcessing)
-    {
+
+    public void setActivitiesProcessing(List<BhacActivity> activitiesProcessing) {
         this.activitiesProcessing = activitiesProcessing;
     }
-    
-    public List<BhacActivity> getActivitiesSucceed ()
-    {
+
+    public List<BhacActivity> getActivitiesSucceed() {
         return activitiesSucceed;
     }
-    
-    public void setActivitiesSucceed (List<BhacActivity> activitiesSucceed)
-    {
+
+    public void setActivitiesSucceed(List<BhacActivity> activitiesSucceed) {
         this.activitiesSucceed = activitiesSucceed;
     }
-    
-    public List<BhacActivity> getActivitiesRelease ()
-    {
+
+    public List<BhacActivity> getActivitiesRelease() {
         return activitiesRelease;
     }
-    
-    public void setActivitiesRelease (List<BhacActivity> activitiesRelease)
-    {
+
+    public void setActivitiesRelease(List<BhacActivity> activitiesRelease) {
         this.activitiesRelease = activitiesRelease;
     }
-    
-    public List<BhacActivity> getActivitiesManage ()
-    {
+
+    public List<BhacActivity> getActivitiesManage() {
         return activitiesManage;
     }
-    
-    public void setActivitiesManage (List<BhacActivity> activitiesManage)
-    {
+
+    public void setActivitiesManage(List<BhacActivity> activitiesManage) {
         this.activitiesManage = activitiesManage;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -199,31 +191,28 @@ public class BhacUser extends Model<BhacUser> {
     protected Serializable pkVal() {
         return this.id;
     }
-    
-    public List<BhacRole> getRolesAct ()
-    {
+
+    public List<BhacRole> getRolesAct() {
         return rolesAct;
     }
-    
-    public void setRolesAct (List<BhacRole> rolesAct)
-    {
+
+    public void setRolesAct(List<BhacRole> rolesAct) {
         this.rolesAct = rolesAct;
     }
-    
-    public BhacUser (String username, String email, String phoneNum, String password, Integer gender)
-    {
+
+    public BhacUser(String username, String email, String phoneNum, String password, Integer gender) {
         this.username = username;
         this.email = email;
         this.phoneNum = phoneNum;
         this.password = password;
         this.gender = gender;
     }
-    
-    public BhacUser(){ }
-    
+
+    public BhacUser() {
+    }
+
     @Override
-    public String toString ()
-    {
+    public String toString() {
         return "BhacUser{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", phoneNum='" + phoneNum + '\'' + ", password='" + password + '\'' + ", state=" + state + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", studentId='" + studentId + '\'' + ", avatarUrl='" + avatarUrl + '\'' + ", gender=" + gender + ", activitiesProcessing=" + activitiesProcessing + ", activitiesSucceed=" + activitiesSucceed + ", rolesAct=" + rolesAct + ", activitiesRelease=" + activitiesRelease + ", activitiesManage=" + activitiesManage + '}';
     }
 }

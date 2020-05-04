@@ -2,6 +2,8 @@ package cn.edu.buaa.se.bhac.Dao.mapper;
 
 import cn.edu.buaa.se.bhac.Dao.entity.BhacManageuseractivity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +13,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author wangqichang
  * @since 2020-04-30
  */
+@Mapper
+@Repository
 public interface BhacManageuseractivityMapper extends BaseMapper<BhacManageuseractivity> {
 
 }

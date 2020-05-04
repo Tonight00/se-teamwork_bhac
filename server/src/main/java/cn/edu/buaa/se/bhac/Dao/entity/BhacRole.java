@@ -78,10 +78,15 @@ public class BhacRole extends Model<BhacRole> {
     protected Serializable pkVal() {
         return this.id;
     }
-    
+
     @Override
-    public String toString ()
-    {
-        return "BhacRole{" + "id=" + id + ", tid=" + tid + ", state=" + state + ", usersAct=" + usersAct + '}';
+    public String toString() {
+        return "BhacRole{" +
+                "id=" + id +
+                ", tid=" + tid +
+                ", state=" + state +
+                ", usersAct=" + usersAct +
+                ", tag=" + tag +
+                '}';
     }
 }
