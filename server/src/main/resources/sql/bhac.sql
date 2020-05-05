@@ -180,8 +180,8 @@ DROP TABLE IF EXISTS `bhac_user`;
 CREATE TABLE `bhac_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `phoneNum` varchar(20) NOT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `phoneNum` varchar(20) DEFAULT NULL,
   `password` varchar(25) NOT NULL,
   `state` int(11) DEFAULT '0',
   `firstName` varchar(20) DEFAULT NULL,
