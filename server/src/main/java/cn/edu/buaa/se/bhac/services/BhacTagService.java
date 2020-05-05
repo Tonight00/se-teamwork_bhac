@@ -37,11 +37,22 @@ public class BhacTagService {
      * @param id 标签id
      * @return 删除标签id，软删除（state = -1)
      */
-    public Boolean delTag(Integer id) {
-        UpdateWrapper update = new UpdateWrapper();
-        update.eq("id",id);
+    public int delTag(Integer id) {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("id",id);
+        q.eq("state",-1);
+        if(tagMapper.selectCount(q)> 0 )  {
+            return -1;
+        }
         BhacTag tag = new BhacTag();
         tag.setState(-1);
-        return tagMapper.update(tag,update) == 1;
+        tag.setId(id);
+        tagMapper.updateById(tag);
+        return 1;
+    }
+    
+    
+    public List<BhacTag> showTags() {
+        return tagMapper.selectByMap(null);
     }
 }

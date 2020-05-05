@@ -74,12 +74,10 @@ public class BhacUserController {
     public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
-              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
+             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
-        else {
-            if(!userService.addRole2User(role.getId(),uid)) {
-                return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_INNER_ERROR));
-            }
+        if(userService.addRole2User(role.getId(),uid)==-1) {
+             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_OWNED));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_AUTHORIZED));
     }
@@ -96,8 +94,8 @@ public class BhacUserController {
         if(role == null ) {
              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
-        if (!userService.deleteRoleOfUser(role.getId(), uid)) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_INNER_ERROR));
+        if (userService.deleteRoleOfUser(role.getId(), uid)==-1) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_DELETED));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_DEAUTHORIZED));
     }

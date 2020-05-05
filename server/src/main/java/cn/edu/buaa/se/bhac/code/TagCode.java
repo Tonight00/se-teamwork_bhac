@@ -5,21 +5,17 @@ import java.util.Map;
 
 public enum  TagCode implements BaseCode
 {
-    ERR_TAG_NO_NAME,
-    ERR_TAG_NO_ROLE,
-    ERR_TAG_INNER_ERROR,
+    ERR_TAG_DELETED,
+    ERR_TAG_EXISTED,
     SUCC_TAG_ADDED,
-    SUCC_TAG_DELETED,
-    SUCC_TAG_NAME_EXISTED;
+    SUCC_TAG_DELETED;
     
     private static Map<BaseCode, String> message = new HashMap<BaseCode, String>() {
         {
-            put(TagCode.ERR_TAG_NO_NAME,"标签不存在");
-            put(TagCode.SUCC_TAG_NAME_EXISTED,"标签名查询成功");
-            put(TagCode.ERR_TAG_NO_ROLE,"标签没有对应角色");
             put(TagCode.SUCC_TAG_ADDED,"标签添加成功");
             put(TagCode.SUCC_TAG_DELETED,"标签删除成功");
-            put(TagCode.ERR_TAG_INNER_ERROR,"服务器内部错误");
+            put(TagCode.ERR_TAG_DELETED,"标签已经被删除");
+            put(TagCode.ERR_TAG_EXISTED,"标签已经存在");
         }
     };
     

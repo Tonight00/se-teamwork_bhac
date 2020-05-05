@@ -99,11 +99,18 @@ public class BhacUserService {
      * @return 将角色rid加入到用户uid的角色集合中, 通过判断更新条数是否为1, 来判断是否正常修改
      */
 
-    public Boolean addRole2User(Integer rid, Integer uid) {
+    public int addRole2User(Integer rid, Integer uid) {
         BhacActuserrole actuserrole = new BhacActuserrole();
         actuserrole.setRid(rid);
         actuserrole.setUid(uid);
-        return actuserroleMapper.insert(actuserrole) == 1;
+        QueryWrapper q = new QueryWrapper();
+        q.eq("rid",rid);
+        q.eq("uid",uid);
+        if(actuserroleMapper.selectCount(q) > 0) {
+            return -1 ; // 已经存在
+        }
+        actuserroleMapper.insert(actuserrole);
+        return 1;
     }
 
     /**
@@ -111,11 +118,15 @@ public class BhacUserService {
      * @param uid 用户id
      * @return 将角色rid从用户id的角色集中移除, 通过判断更新条数是否为1, 来判断是否正常修改
      */
-    public Boolean deleteRoleOfUser(Integer rid, Integer uid) {
+    public int deleteRoleOfUser(Integer rid, Integer uid) {
         QueryWrapper q = new QueryWrapper();
         q.eq("uid", uid);
         q.eq("rid", rid);
-        return actuserroleMapper.delete(q) == 1;
+        if(actuserroleMapper.selectCount(q) == 0) {
+            return  -1;
+        }
+        actuserroleMapper.delete(q);
+        return 1;
     }
 
     public UserCode login(BhacUser credential) {

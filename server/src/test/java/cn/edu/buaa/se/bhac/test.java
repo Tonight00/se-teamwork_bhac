@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -189,6 +190,8 @@ public class test
     public void testJWT() {
         BhacUser u = new BhacUser();
         u.setId(1);
-        System.out.println(JWTUtils.createToken(u));
+        u.setGender(0);
+        System.out.println(bhacUserMapper.updateById(u));
     }
+    
 }
