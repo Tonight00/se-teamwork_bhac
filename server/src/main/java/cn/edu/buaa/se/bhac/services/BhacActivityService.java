@@ -23,8 +23,9 @@ public class BhacActivityService {
     BhacJoinuseractivityMapper joinuseractivityMapper;
 
     /**
+     * 该用户拥有所有权限的所有活动
      * @param admin 用户
-     * @return 该用户拥有所有权限的所有活动
+     * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
     public List<BhacActivity> getAuthedActivities(BhacUser admin, @Param("page") Integer pageNum, Integer limit) {
@@ -49,18 +50,19 @@ public class BhacActivityService {
     }
 
     /**
+     *  查询id 对应的活动
      * @param id 活动id
-     * @return 该id 对应的活动
+     * @return BhacActivity对象
      */
     public BhacActivity getActivity(Integer id) {
         return activityMapper.selectById(id);
     }
 
     /**
-     *
+     * 更改活动审核状态state
      * @param id 被审核活动id
      * @param state 活动状态
-     * @return 是否成功更改活动状态,通过判断更新条数是否为1条,来判断是否成功更改活动状态
+     * @return true
      */
     public Boolean permitActivity(Integer id,Integer state) {
         BhacActivity activity = new BhacActivity();
@@ -71,10 +73,10 @@ public class BhacActivityService {
     }
     
     /**
-     *
+     * 返回表中字段title是(%title%),并且category = tid 的活动列表
      * @param title
      * @param tid
-     * @return 返回表中字段title是(%title%),并且category = tid 的活动列表
+     * @return  BhacActivity对象集合
      */
     public List<BhacActivity> getActivities (String title ,Integer tid,Integer pageNum,Integer limit) {
         
@@ -87,6 +89,12 @@ public class BhacActivityService {
       
     }
     
+    /**
+     * 让用户uid加入活动aid,并判断是否重复退出(-1)
+     * @param aid
+     * @param uid
+     * @return 1 或者 -1
+     */
     public  Integer enroll(Integer aid, Integer uid) {
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);
@@ -101,6 +109,12 @@ public class BhacActivityService {
         return 1;
     }
     
+    /**
+     * 让用户uid退出活动aid,并判断是否重复退出(-1)
+     * @param aid
+     * @param uid
+     * @return 1 或者 -1
+     */
     public Integer unenroll(Integer aid,Integer uid) {
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);

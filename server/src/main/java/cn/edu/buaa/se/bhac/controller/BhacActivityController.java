@@ -27,8 +27,14 @@ import java.util.List;
 public class BhacActivityController {
     @Autowired
     private BhacActivityService activityService;
-   
-
+    
+    /**
+     * 返回该用户可以管理的活动集
+     * @param session
+     * @param pageNum
+     * @param limit
+     * @return BhacActivities集合
+     */
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
@@ -39,6 +45,7 @@ public class BhacActivityController {
     }
 
     /**
+     * 更改活动审核状态state
      * @param id 批准的活动的aid
      * @return 返回code和message
      * @implNote 返回时请使用ControllerUtils.JsonCodeAndMessage方法
@@ -57,11 +64,11 @@ public class BhacActivityController {
     }
     
     /**
-     *
-     * @param title
-     * @param tid
+     * 返回(%title%)且category = tid 的活动列表
+     * @param title 活动标题
+     * @param tid 活动分类
      * @return  List<BhacActivities>
-     * @implNote  返回(%title%)且category = tid 的活动列表
+     * @implNote  BhacActivity对象集合
      */
     @GetMapping("untoken/activities")
     public String getActivities(@Param("title")String title, @Param("tid") Integer tid,
@@ -72,11 +79,10 @@ public class BhacActivityController {
     }
     
     /**
-     *
-     * @param id
-     * @return BhacActivity
+     * 返回id对应的BhacActivity
+     * @param id 活动id
+     * @return BhacActivity对象
      */
-    
     @GetMapping("untoken/activities/{id}")
     public String getActivity(@PathVariable("id") Integer id) {
         BhacActivity activity = activityService.getActivity(id);
@@ -86,7 +92,13 @@ public class BhacActivityController {
         return JSONObject.toJSONString(activity,
                 ControllerUtils.filterFactory(BhacActivity.class));
     }
-
+    
+    /**
+     * 用户id加入活动aid
+     * @param aid 活动id
+     * @param request Http 请求
+     * @return 返回code 和 message
+    */
     
     @PutMapping("/activities/enroll")
     public String enroll(Integer aid, HttpServletRequest request) {
@@ -101,6 +113,13 @@ public class BhacActivityController {
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_ENROLL));
     }
     
+    
+    /**
+     * 用户id退出活动aid
+     * @param aid 活动id
+     * @param request Http请求
+     * @return 返回code和message
+     */
     @PutMapping("/activities/unenroll")
     public String unenroll (Integer aid,HttpServletRequest request) {
         Claims claims  =  (Claims) request.getAttribute("claims");

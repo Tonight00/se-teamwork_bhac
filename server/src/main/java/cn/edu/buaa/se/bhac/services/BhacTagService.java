@@ -20,9 +20,9 @@ public class BhacTagService {
     private BhacTagMapper tagMapper;
     
     /**
-     *
+     * 根据标签名字name，进行模糊查询(%name%)，返回标签集合
      * @param name 标签名字
-     * @return 根据标签名字name，进行模糊查询(%name%)，返回标签集合
+     * @return BhacTag对象集合
      */
     public List<BhacTag> getTagsByTagname(String name, Integer pageNum, Integer limit) {
         QueryWrapper q = new QueryWrapper();
@@ -33,9 +33,9 @@ public class BhacTagService {
     }
     
     /**
-     *
+     * 删除标签id，软删除（state = -1),并判断是否重复删除(-1)
      * @param id 标签id
-     * @return 删除标签id，软删除（state = -1)
+     * @return  1 或者 -1
      */
     public int delTag(Integer id) {
         QueryWrapper q = new QueryWrapper();
@@ -51,7 +51,12 @@ public class BhacTagService {
         return 1;
     }
     
-    
+    /**
+     * 返回所有tags的第pageNum页的tags
+     * @param pageNum 第几页
+     * @param limit 页容量
+     * @return  BhacTag对象集合
+     */
     public List<BhacTag> showTags(Integer pageNum,Integer limit) {
         Page<BhacTag> page = new Page<>(pageNum,limit);
         return DaoUtils.PageSearch(tagMapper,page,null);
