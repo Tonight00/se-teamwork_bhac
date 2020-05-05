@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,7 @@ public class BhacActivityController {
     public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
         List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
-        if(authedActivities == null || authedActivities.size() == 0) {
-            return null;
-        }
+        if(authedActivities == null) authedActivities = new ArrayList<>();
         return JSONObject.toJSONString(authedActivities,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
     }
@@ -42,7 +41,7 @@ public class BhacActivityController {
         BhacActivity activity = activityService.getActivity(id);
         if (activity == null) {
             return JSONObject.toJSONString(ControllerUtils
-                    .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
+                  .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
         }
         if (activity.getState() != 1) {
             if (!activityService.permitActivity(activity.getId(), 1))

@@ -7,6 +7,7 @@ import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,19 @@ public class BhacActivityService {
      * @return 该用户拥有所有权限的所有活动
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public List<BhacActivity> getAuthedActivities(BhacUser admin,Integer pageNum, Integer limit) {
+    public List<BhacActivity> getAuthedActivities(BhacUser admin, @Param("page") Integer pageNum, Integer limit) {
         List<BhacRole> roles = admin.getRolesAct();
+        if(roles == null) {
+            return null;
+        }
         List<Integer> category = new ArrayList<>();
         for (BhacRole role : roles) {
             if (role.getState() == 0 && role.getTag().getState() == 0) {
                 category.add(role.getTag().getId());
             }
+        }
+        if(category.isEmpty()) {
+            return null;
         }
         QueryWrapper q = new QueryWrapper();
         q.in("category",category);
