@@ -52,7 +52,8 @@ public class BhacTagService {
     }
     
     
-    public List<BhacTag> showTags() {
-        return tagMapper.selectByMap(null);
+    public List<BhacTag> showTags(Integer pageNum,Integer limit) {
+        Page<BhacTag> page = new Page<>(pageNum,limit);
+        return DaoUtils.PageSearch(tagMapper,page,null);
     }
 }

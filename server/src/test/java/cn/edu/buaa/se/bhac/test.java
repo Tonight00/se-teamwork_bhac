@@ -188,10 +188,7 @@ public class test
     }
     @Test
     public void testJWT() {
-        BhacUser u = new BhacUser();
-        u.setId(1);
-        u.setGender(0);
-        System.out.println(bhacUserMapper.updateById(u));
+        System.out.println(bhacUserMapper.selectList(null));
     }
     
 }
