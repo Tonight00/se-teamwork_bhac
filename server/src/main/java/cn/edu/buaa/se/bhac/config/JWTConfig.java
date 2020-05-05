@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class JWTConfig {
 
     public final static String secretKey = "bhac@)@!)#(@!_SKAL@_@SLA";
-    public final static Long expirationTime = 300000L;
-    public final static String header = "Authorization";
+    public final static Long expirationTime = 7 * 24 * 60 * 60 * 1000L;
 
 }
