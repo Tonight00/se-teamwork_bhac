@@ -4,9 +4,7 @@ import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.ActivityCode;
-import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
-import cn.edu.buaa.se.bhac.services.BhacUserService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +24,9 @@ public class BhacActivityController {
     public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
         List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
-        if(authedActivities == null) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_ACTIVITY));
+        if(authedActivities == null || authedActivities.size() == 0) {
+            return null;
         }
-
         return JSONObject.toJSONString(authedActivities,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
     }
@@ -41,6 +38,7 @@ public class BhacActivityController {
      */
     @PutMapping("/admin/activities/permit")
     public String permitActivity(@Param("activityId") Integer id) {
+        System.out.println(id);
         BhacActivity activity = activityService.getActivity(id);
         if (activity == null) {
             return JSONObject.toJSONString(ControllerUtils

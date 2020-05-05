@@ -2,12 +2,10 @@ package cn.edu.buaa.se.bhac.services;
 
 import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
-import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,9 +32,7 @@ public class BhacActivityService {
                 category.add(role.getTag().getId());
             }
         }
-
         QueryWrapper q = new QueryWrapper();
-
         q.in("category",category);
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         return  DaoUtils.PageSearch(activityMapper,page,q);

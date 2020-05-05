@@ -25,16 +25,26 @@ public class WebController {
     public String validate(BhacUser user, Model model, HttpSession session) {
         UserCode code = userService.adminLogin(user, session);
         ControllerUtils.putCodeAndMessage(code, model);
+//        if (!code.isSuccessful()) {
+//            return "redirect:/login";
+//        }
+//        return "helloworld";
+        //wk 我做了修改的部分全在这
         if (!code.isSuccessful()) {
-            return "redirect:/login";
+            return "login";
         }
         BhacUser admin = (BhacUser)session.getAttribute("admin");
-        if(checkAdmin(admin)){
-            model.addAttribute("isSysadmin","false");
-        }else if(checkSysAdmin(admin)){
-            model.addAttribute("isSysadmin","true");
+        if(checkSysAdmin(admin)){
+            model.addAttribute("id",admin.getUsername());
+            //model.addAttribute("isSysadmin",true);
+            session.setAttribute("isSysadmin",true);
+        }else if(checkAdmin(admin)){
+            model.addAttribute("id",admin.getUsername());
+            //model.addAttribute("isSysadmin",false);
+            session.setAttribute("isSysadmin",false);
         }
         return "index_act";
+        //wk
     }
 
     @GetMapping("/u/logout")

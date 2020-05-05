@@ -29,7 +29,9 @@ public class MyWebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/sysadmin/page").setViewName("index_sys");
+        registry.addViewController("/sysadmin/index_sys").setViewName("index_sys");
+        registry.addViewController("/sysadmin/index_act").setViewName("index_act");
+        registry.addViewController("/sysadmin/index_tag").setViewName("index_tag");
     }
 
     @Override

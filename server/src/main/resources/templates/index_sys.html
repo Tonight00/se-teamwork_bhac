@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>系统后台管理|北航大学生活动</title>
-    <link rel="stylesheet" href="webjars/layui/2.5.6/css/layui.css">
+    <link rel="stylesheet" href="/webjars/layui/2.5.6/css/layui.css">
 </head>
 <body class="layui-layout-body">
 
@@ -12,9 +12,9 @@
         <div class="layui-logo">北航大学生活动</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;" th:text="${id}"></a>
+                <a href="javascript:;" th:text="${session.admin.username}"></a>
             </li>
-            <li class="layui-nav-item"><a th:href="@{logout}" >登出</a></li>
+            <li class="layui-nav-item"><a th:href="@{/u/logout}" >登出</a></li>
         </ul>
     </div>
 
@@ -26,7 +26,7 @@
                 <div class="layui-inline">
                     <input class="layui-input" name="username" id="demoSearch" autocomplete="off">
                 </div>
-                <button class="layui-btn" data-type="reload">搜索</button>
+                <button id="searchBtn" class="layui-btn" data-type="reload">搜索</button>
             </div>
             <table class="layui-hide" id="userInfo" lay-filter="userTable"></table>
         </div>
@@ -36,16 +36,13 @@
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" >
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a th:href="@{index_sys}">账号管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">子标签1</a></dd>
-                        <dd><a href="">子标签2</a></dd>
-                    </dl>
-                    <a th:href="@{index_tag}">标签管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">子标签1</a></dd>
-                        <dd><a href="">子标签2</a></dd>
-                    </dl>
+                    <a th:href="@{/sysadmin/index_act}">活动管理</a>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a th:href="@{/sysadmin/index_sys}">用户管理</a>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a th:href="@{/sysadmin/index_tag}">标签管理</a>
                 </li>
             </ul>
         </div>
@@ -58,7 +55,7 @@
 <script type="text/html" id="tagCheck">
     <a class="layui-btn layui-btn-xs" lay-event="tag">Tag</a>
 </script>
-<script src="webjars/layui/2.5.6/layui.js"></script>
+<script src="/webjars/layui/2.5.6/layui.js"></script>
 <script type="text/javascript">
     layui.use(['laypage', 'layer', 'table', 'element'],function () {
         var layer = layui.layer //弹层
@@ -73,14 +70,13 @@
         });
 
         //执行一个 table 实例
-        table.render({
+        var tableIns = table.render({
             elem: '#userInfo'
             ,height: 420
-            //,url: '/sysadmin/users' //数据接口
+            ,url: '/sysadmin/users'
             ,title: '用户表'
             ,page: true //开启分页
             ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-            ,totalRow: true //开启合计行
             ,id: 'userInfo'
             ,cols:
                 [
@@ -88,54 +84,65 @@
                         {type: 'checkbox', fixed: 'left'}
                         ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                         ,{field: 'username', title: '用户名', width:100,sort: true}
+                        ,{field: 'email', title: '邮箱', width:100,sort: true}
+                        ,{field: 'phoneNum', title: '手机号码', width:100,sort: true}
+                        ,{field: 'password', title: '密码', width:100,sort: true}
+                        ,{field: 'state', title: '权限', width:100,sort: true}
+                        ,{field: 'firstName', title: '首名', width:100,sort: true}
+                        ,{field: 'lastName', title: '次名', width:100,sort: true}
+                        ,{field: 'studentId', title: '学号', width:100,sort: true}
+                        ,{field: 'avatarUrl', title: 'avatarUrl', width:100,sort: true}
+                        ,{field: 'gender', title: '性别', width:100,sort: true}
                         ,{fixed: 'right', width: 165, align:'center', toolbar: '#tagCheck'}
                     ]
                 ]
-            ,data:[{
-                "id": "1"
-                ,"username": "afdf"
-            }, {
-                "id": "2"
-                ,"username": "fsadaf"
-            },]
+            ,parseData:function(res) {
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "", //解析提示文本
+                    "count": res.length, //解析数据长度
+                    "data": res //解析数据列表
+                };
+            }
         });
 
-        var $ = layui.$, active = {
-            reload: function(){
-                var demoSearch = $('#demoSearch');
-                //执行重载
-                table.reload('testSearch', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        key: {
-                            id: demoSearch.val()
-                        }
-                    }
-                }, 'data');
+        var $ = layui.$;
+        tableIns.reload({
+            where:{
+                username:""
             }
-        };
+            ,page:{
+                curr:1
+            }
+        })
 
-        $('.demoTable .layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
+        $('#searchBtn').on('click', function(){
+            console.log('click');
+            var demoSearch = $('#demoSearch');
+            tableIns.reload({
+                where:{
+                    username:demoSearch.val()
+                }
+                ,page:{
+                    curr:1
+                }
+            })
         });
 
         //监听行工具事件
         table.on('tool(userTable)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
-            var id = data.id;
+            var userId = data.id;
             if(layEvent === 'tag'){
-                //向服务端发送批准指令
                 $.ajax({
                     url:'sysadmin/tags',
                     type:'GET',
-                    data:data,
-                    dataType:'string',
+                    data:{"id":userId},
                     success:function (data) {
-                       window.location.href = data;
+                        var jsonData = JSON.parse(data);
+                        layer.msg(String(jsonData.message));
+                        window.location.href = jsonData;
                     },
                     error:function (data) {
                         layer.msg(data)

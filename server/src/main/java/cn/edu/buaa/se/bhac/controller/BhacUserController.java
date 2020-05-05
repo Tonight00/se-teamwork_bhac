@@ -1,38 +1,25 @@
 package cn.edu.buaa.se.bhac.controller;
 
-import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
-import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacRoleMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.JWTUtils;
-import cn.edu.buaa.se.bhac.code.ActivityCode;
-import cn.edu.buaa.se.bhac.code.TagCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
-import cn.edu.buaa.se.bhac.config.JWTConfig;
 import cn.edu.buaa.se.bhac.services.BhacRoleService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.PropertyFilter;
-import com.alibaba.fastjson.serializer.SerializeFilter;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.jsonwebtoken.Claims;
-import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -57,7 +44,7 @@ public class BhacUserController {
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
      */
     @GetMapping("/sysadmin/users")
-    public String getUsersByUsername(@Param("username") String username, @Param("page") Integer pageNum, @Param("limit") Integer limit) {
+    public String getUsersByUsername(@Param("username") String username,@Param("page") Integer pageNum, @Param("limit") Integer limit) {
         List<BhacUser> users = userService.getUsersByUsername(username, pageNum, limit);
         if (users == null || users.size() == 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_NO_UNAME));
