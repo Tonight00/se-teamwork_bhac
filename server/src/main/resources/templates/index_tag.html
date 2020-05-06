@@ -203,7 +203,7 @@
             console.log(id);
             if(layEvent === 'delete'){
                 $.ajax({
-                    url:'/sysadmin/tag/'+id,
+                    url:'/sysadmin/tags/'+id,
                     type:'DELETE',
                     success:function (data) {
                         tableIns.reload({

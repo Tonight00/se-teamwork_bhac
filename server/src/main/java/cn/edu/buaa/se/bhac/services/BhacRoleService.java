@@ -16,9 +16,10 @@ public class BhacRoleService {
     
     
     /**
+     * 返回满足tagId = tid的角色中的一个
      * @param state 权限级别
      * @param tid 标签id
-     * @return 返回满足tagId = tid的角色中的一个
+     * @return BhacRole对象
      */
     public BhacRole getRoleByTid(Integer tid,Integer state) {
         QueryWrapper q = new QueryWrapper();

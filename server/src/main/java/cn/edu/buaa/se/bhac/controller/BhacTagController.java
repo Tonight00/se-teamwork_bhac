@@ -8,6 +8,7 @@ import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.TagCode;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +35,24 @@ public class BhacTagController {
     @PostMapping("/sysadmin/tags")
     @Transactional(rollbackFor = Exception.class)
     public String addTag(BhacTag input) {
-        bhacTagMapper.insert(input);
-        BhacRole role = new BhacRole();
-        role.setTid(input.getId());
-        role.setState(0);
-        bhacRoleMapper.insert(role);
-        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.SUCC_TAG_NAME_EXISTED));
+        QueryWrapper q = new QueryWrapper();
+        q.eq("name",input.getName());
+        BhacTag tag = bhacTagMapper.selectOne(q);
+        if (tag!=null ) {
+            if(tag.getState()!=-1) {
+                return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_EXISTED));
+            }
+            tag.setState(0);
+            bhacTagMapper.updateById(tag);
+        }
+        else {
+            bhacTagMapper.insert(input);
+            BhacRole role = new BhacRole();
+            role.setTid(input.getId());
+            role.setState(0);
+            bhacRoleMapper.insert(role);
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.SUCC_TAG_ADDED));
     }
 
     /**
@@ -47,11 +60,12 @@ public class BhacTagController {
      * @return 删除该标签，返回code和message
      * @implNote 软删除，把标签的state置为-1即可，不需要真正从数据库中删除
      */
-    @DeleteMapping("/sysadmin/tag/{id}")
+
+    @DeleteMapping("/sysadmin/tags/{id}")
     public String delTag(@PathVariable("id") Integer id) {
-        System.out.println(id);
-        if (!tagService.delTag(id))
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_INNER_ERROR));
+        if( tagService.delTag(id) == -1)  {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_DELETED));
+        }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.SUCC_TAG_DELETED));
     }
 
@@ -62,13 +76,32 @@ public class BhacTagController {
      */
     @GetMapping("/sysadmin/tags")
     public String getTagsByName(@Param("name") String name, @Param("page") Integer page , @Param("limit")Integer limit) {
+        System.out.println(name);
+        System.out.println(page);
+        System.out.println(limit);
         Integer pageNum = page;
         List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
         if(tags == null ) {
             tags = new ArrayList<>();
-            // return  JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_NO_NAME));
         }
+        System.out.println(JSONObject.toJSONString(tags,
+                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class)));
         return JSONObject.toJSONString(tags,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class));
     }
+    
+    
+    /**
+     *
+     * @return 返回所有的tags
+     * @apiNote 此接口为appAPI
+     * @implNote 不需要判断token,无登录状态也应该能够查询
+     */
+    @GetMapping("untoken/tags")
+    public String getTags(Integer pageNum, Integer limit) {
+      return JSONObject.toJSONString(tagService.showTags(pageNum,limit),ControllerUtils.filterFactory(BhacTag.class));
+    }
+    
+    
+    
 }
