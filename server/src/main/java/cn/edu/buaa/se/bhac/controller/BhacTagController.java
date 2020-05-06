@@ -35,7 +35,7 @@ public class BhacTagController {
      * @return 添加该标签，返回code和message
      * @implNote 添加标签的同时要添加对应的role(State = 0)，建议这里使用事务
      */
-    @PostMapping("sysadmin/tags")
+    @PostMapping("/sysadmin/tags")
     @Transactional(rollbackFor = Exception.class)
     public String addTag(BhacTag input) {
         QueryWrapper q = new QueryWrapper();
@@ -63,7 +63,7 @@ public class BhacTagController {
      * @return 删除该标签，返回code和message
      * @implNote 软删除，把标签的state置为-1即可，不需要真正从数据库中删除
      */
-    @DeleteMapping("sysadmin/tags/{id}")
+    @DeleteMapping("/sysadmin/tags/{id}")
     public String delTag(@PathVariable("id") Integer id) {
         if( tagService.delTag(id) == -1)  {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.ERR_TAG_DELETED));
@@ -94,7 +94,7 @@ public class BhacTagController {
      * @apiNote 此接口为appAPI
      * @implNote 不需要判断token,无登录状态也应该能够查询
      */
-    @GetMapping("untoken/tags")
+    @GetMapping("/untoken/tags")
     public String getTags(Integer pageNum, Integer limit) {
       return JSONObject.toJSONString(tagService.showTags(pageNum,limit),ControllerUtils.filterFactory(BhacTag.class));
     }
