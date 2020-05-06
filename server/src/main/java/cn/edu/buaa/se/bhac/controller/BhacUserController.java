@@ -39,13 +39,14 @@ public class BhacUserController {
 
     /**
      * @param username 输入的用户名
-     * @param pageNum  第几页
+     * @param page  第几页
      * @param limit    页容量
      * @return 根据username模糊查询(% x %)查出对应的用户，以Json格式返回
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
      */
     @GetMapping("/sysadmin/users")
-    public String getUsersByUsername(@Param("username") String username,@Param("page") Integer pageNum, @Param("limit") Integer limit) {
+    public String getUsersByUsername(@Param("username") String username,@Param("page") Integer page, @Param("limit") Integer limit) {
+        Integer pageNum = page;
         List<BhacUser> users = userService.getUsersByUsername(username, pageNum, limit);
         if (users == null ) users = new ArrayList<>();
         return JSONObject.toJSONString(users, ControllerUtils.filterFactory(BhacUser.class));

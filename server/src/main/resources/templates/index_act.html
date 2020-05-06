@@ -29,10 +29,14 @@ s
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" >
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">活动管理</a>
+                    <a href="javascript:">活动管理</a>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a th:if="${session.isSysadmin}" th:href="@{/sysadmin/index_sys}">系统管理</a>
+                    <a th:if="${session.isSysadmin}" href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:if="${session.isSysadmin}" th:href="@{/sysadmin/index_sys}">用户管理</a></dd>
+                        <dd><a th:if="${session.isSysadmin}" th:href="@{/sysadmin/index_tag}">标签管理</a></dd>
+                    </dl>
                 </li>
             </ul>
         </div>

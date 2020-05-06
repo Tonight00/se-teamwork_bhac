@@ -22,7 +22,7 @@ public class BhacActivityController {
     private BhacActivityService activityService;
 
     @GetMapping("/admin/activities/authed")
-    public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
+    public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
         List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
         if(authedActivities == null) authedActivities = new ArrayList<>();
@@ -36,7 +36,7 @@ public class BhacActivityController {
      * @implNote 返回时请使用ControllerUtils.JsonCodeAndMessage方法
      */
     @PutMapping("/admin/activities/permit")
-    public String permitActivity(@Param("activityId") Integer id) {
+    public String permitActivity(@Param("id") Integer id) {
         System.out.println(id);
         BhacActivity activity = activityService.getActivity(id);
         if (activity == null) {

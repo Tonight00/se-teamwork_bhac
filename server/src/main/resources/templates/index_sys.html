@@ -39,10 +39,11 @@
                     <a th:href="@{/sysadmin/index_act}">活动管理</a>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a th:href="@{/sysadmin/index_sys}">用户管理</a>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a th:href="@{/sysadmin/index_tag}">标签管理</a>
+                    <a href="javascript:">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{/sysadmin/index_sys}">用户管理</a></dd>
+                        <dd><a th:href="@{/sysadmin/index_tag}">标签管理</a></dd>
+                    </dl>
                 </li>
             </ul>
         </div>
@@ -114,10 +115,9 @@
             ,page:{
                 curr:1
             }
-        })
+        });
 
         $('#searchBtn').on('click', function(){
-            console.log('click');
             var demoSearch = $('#demoSearch');
             tableIns.reload({
                 where:{
@@ -136,7 +136,7 @@
             var userId = data.id;
             if(layEvent === 'tag'){
                 $.ajax({
-                    url:'sysadmin/tags',
+                    url:'/sysadmin/tags',
                     type:'GET',
                     data:{"id":userId},
                     success:function (data) {
