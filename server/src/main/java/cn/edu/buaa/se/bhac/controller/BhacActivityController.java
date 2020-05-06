@@ -7,13 +7,18 @@ import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +27,14 @@ import java.util.List;
 public class BhacActivityController {
     @Autowired
     private BhacActivityService activityService;
-
+    
+    /**
+     * 返回该用户可以管理的活动集
+     * @param session
+     * @param pageNum
+     * @param limit
+     * @return BhacActivities集合
+     */
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session,Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
@@ -33,6 +45,7 @@ public class BhacActivityController {
     }
 
     /**
+     * 更改活动审核状态state
      * @param id 批准的活动的aid
      * @return 返回code和message
      * @implNote 返回时请使用ControllerUtils.JsonCodeAndMessage方法
@@ -45,11 +58,80 @@ public class BhacActivityController {
                   .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
         }
         if (activity.getState() != 1) {
-            if (!activityService.permitActivity(activity.getId(), 1))
-                return JSONObject.toJSONString(ControllerUtils
-                        .JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_INNER_ERROR));
+            activityService.permitActivity(activity.getId(), 1);
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_AUDIT_SUCC));
     }
-
+    
+    /**
+     * 返回(%title%)且category = tid 的活动列表
+     * @param title 活动标题
+     * @param tid 活动分类
+     * @return  List<BhacActivities>
+     * @implNote  BhacActivity对象集合
+     */
+    @GetMapping("untoken/activities")
+    public String getActivities(@Param("title")String title, @Param("tid") Integer tid,
+                                    @Param("pageNum")Integer pageNum , @Param("limit") Integer limit) {
+        return JSONObject.toJSONString(
+                activityService.getActivities(title,tid,pageNum,limit) ,
+                ControllerUtils.filterFactory(BhacActivity.class));
+    }
+    
+    /**
+     * 返回id对应的BhacActivity
+     * @param id 活动id
+     * @return BhacActivity对象
+     */
+    @GetMapping("untoken/activities/{id}")
+    public String getActivity(@PathVariable("id") Integer id) {
+        BhacActivity activity = activityService.getActivity(id);
+        if (activityService.getActivity(id) == null) {
+            activity = new BhacActivity();
+        }
+        return JSONObject.toJSONString(activity,
+                ControllerUtils.filterFactory(BhacActivity.class));
+    }
+    
+    /**
+     * 用户id加入活动aid
+     * @param aid 活动id
+     * @param request Http 请求
+     * @return 返回code 和 message
+    */
+    
+    @PutMapping("/activities/enroll")
+    public String enroll(Integer aid, HttpServletRequest request) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        if(activityService.getActivity(aid) == null ) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
+        }
+        Integer state = activityService.enroll(aid,(Integer)claims.get("uid"));
+        if(state == -1 ) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ENROLLED));
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_ENROLL));
+    }
+    
+    
+    /**
+     * 用户id退出活动aid
+     * @param aid 活动id
+     * @param request Http请求
+     * @return 返回code和message
+     */
+    @PutMapping("/activities/unenroll")
+    public String unenroll (Integer aid,HttpServletRequest request) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        if(activityService.getActivity(aid) == null ) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
+        }
+        Integer state = activityService.unenroll(aid,(Integer)claims.get("uid"));
+        if(state == -1) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_UNENROLLED));
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_UNENROLL));
+    }
+    
+    
 }

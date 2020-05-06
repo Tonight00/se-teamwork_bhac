@@ -1,10 +1,8 @@
 package cn.edu.buaa.se.bhac.services;
 
-import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
-import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
-import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
-import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
+import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacJoinuseractivityMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -21,15 +19,18 @@ public class BhacActivityService {
 
     @Autowired
     private BhacActivityMapper activityMapper;
+    @Autowired
+    BhacJoinuseractivityMapper joinuseractivityMapper;
 
     /**
+     * 该用户拥有所有权限的所有活动
      * @param admin 用户
-     * @return 该用户拥有所有权限的所有活动
+     * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
     public List<BhacActivity> getAuthedActivities(BhacUser admin, @Param("page") Integer pageNum, Integer limit) {
         List<BhacRole> roles = admin.getRolesAct();
-        if(roles == null) {
+        if(roles.isEmpty()) {
             return null;
         }
         List<Integer> category = new ArrayList<>();
@@ -49,23 +50,79 @@ public class BhacActivityService {
     }
 
     /**
+     *  查询id 对应的活动
      * @param id 活动id
-     * @return 该id 对应的活动
+     * @return BhacActivity对象
      */
     public BhacActivity getActivity(Integer id) {
         return activityMapper.selectById(id);
     }
 
     /**
-     *
+     * 更改活动审核状态state
      * @param id 被审核活动id
      * @param state 活动状态
-     * @return 是否成功更改活动状态,通过判断更新条数是否为1条,来判断是否成功更改活动状态
+     * @return true
      */
     public Boolean permitActivity(Integer id,Integer state) {
         BhacActivity activity = new BhacActivity();
         activity.setId(id);
         activity.setState(state);
-        return activityMapper.updateById(activity) == 1;
+        activityMapper.updateById(activity);
+        return true;
+    }
+    
+    /**
+     * 返回表中字段title是(%title%),并且category = tid 的活动列表
+     * @param title
+     * @param tid
+     * @return  BhacActivity对象集合
+     */
+    public List<BhacActivity> getActivities (String title ,Integer tid,Integer pageNum,Integer limit) {
+        
+        QueryWrapper q = new QueryWrapper();
+        q.like("title",title);
+        q.eq("category",tid);
+        
+        Page<BhacActivity> page = new Page<BhacActivity>(pageNum,limit);
+        return DaoUtils.PageSearch(activityMapper,page,q);
+      
+    }
+    
+    /**
+     * 让用户uid加入活动aid,并判断是否重复退出(-1)
+     * @param aid
+     * @param uid
+     * @return 1 或者 -1
+     */
+    public  Integer enroll(Integer aid, Integer uid) {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("aid",aid);
+        q.eq("uid",uid);
+        if(joinuseractivityMapper.selectCount(q) > 0 ) {
+            return -1; // 已经加入
+        }
+        BhacJoinuseractivity join = new BhacJoinuseractivity();
+        join.setAid(aid);
+        join.setUid(uid);
+        joinuseractivityMapper.insert(join);
+        return 1;
+    }
+    
+    /**
+     * 让用户uid退出活动aid,并判断是否重复退出(-1)
+     * @param aid
+     * @param uid
+     * @return 1 或者 -1
+     */
+    public Integer unenroll(Integer aid,Integer uid) {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("aid",aid);
+        q.eq("uid",uid);
+        if(joinuseractivityMapper.selectCount(q) == 0 ) {
+            return -1; // 已经退出
+        }
+        joinuseractivityMapper.delete(q);
+        return 1;
     }
 }

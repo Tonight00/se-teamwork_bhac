@@ -51,10 +51,11 @@ public class BhacUserController {
     BhacRoleMapper bhacRoleMapper;
 
     /**
+     * 根据username模糊查询(% x %)查出对应的用户
      * @param username 输入的用户名
      * @param pageNum  第几页
      * @param limit    页容量
-     * @return 根据username模糊查询(% x %)查出对应的用户，以Json格式返回
+     * @return BhacUser对象集合
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
      */
     @GetMapping("/sysadmin/users")
@@ -65,30 +66,30 @@ public class BhacUserController {
     }
 
     /**
+     * 赋予用户uid 标签tid的角色state
      * @param uid   用户id
      * @param tid   标签id
      * @param state 赋予的权限(目前都是0)
-     * @return 赋予用户uid 标签tid的角色state，返回code和message
+     * @return 返回code和message
      */
     @PutMapping("sysadmin/users/auth")
     public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
-              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
+             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
-        else {
-            if(!userService.addRole2User(role.getId(),uid)) {
-                return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_INNER_ERROR));
-            }
+        if(userService.addRole2User(role.getId(),uid)==-1) {
+             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_OWNED));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_AUTHORIZED));
     }
 
     /**
+     * 撤销用户uid 标签tid的角色state
      * @param uid   用户id
      * @param tid   标签id
      * @param state 赋予的权限(目前都是0)
-     * @return 撤销用户uid 标签tid的角色state，返回code和message
+     * @return 返回code和message
      */
     @PutMapping("sysadmin/users/deauth")
     public String deauthorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
@@ -96,13 +97,17 @@ public class BhacUserController {
         if(role == null ) {
              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
         }
-        if (!userService.deleteRoleOfUser(role.getId(), uid)) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_INNER_ERROR));
+        if (userService.deleteRoleOfUser(role.getId(), uid)==-1) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_DELETED));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_DEAUTHORIZED));
     }
-
-
+    
+    /**
+     * 登录user
+     * @param user 用户对象
+     * @return  返回code和message,如果成功登录则还返回token。
+     */
     @PostMapping("/users/login")
     public String login(BhacUser user) {
         UserCode code = userService.login(user);
@@ -112,7 +117,12 @@ public class BhacUserController {
         }
         return json.toJSONString();
     }
-
+    
+    /**
+     * 注册user
+     * @param input 用户对象
+     * @return 返回code 和 message
+     */
     @PostMapping("/users")
     public String register(BhacUser input) {
         UserCode code = userService.register(input);
@@ -122,14 +132,28 @@ public class BhacUserController {
         }
         return json.toJSONString();
     }
-
+    
+    /**
+     * 查询当前用户对象
+     * @param request
+     * @return BhacUser对象
+     */
     @GetMapping("/users/self")
     public String getCurUsers(HttpServletRequest request) {
         Claims claims = (Claims) request.getAttribute("claims");
         return JSONObject.toJSONString(userService.getUserById((Integer) claims.get("uid")),
                 ControllerUtils.filterFactory(BhacUser.class));
     }
-
+    
+    /**
+     * 根据type更改信息当前用户信息;type==0是修改基本信息,type==1是修改密码
+     * @param type
+     * @param oldPassword
+     * @param newPassword
+     * @param modified
+     * @param request
+     * @return , 返回code 和 message
+     */
     @PutMapping("/users/self")
     public String editUserInfo(@Param("type") Integer type,
                                @Param("oldPassword") String oldPassword,

@@ -82,8 +82,9 @@ public class BhacUserService {
 
 
     /**
+     * 通过模糊查询(% name %)来返回满足条件的用户
      * @param name 用户名
-     * @return 通过模糊查询(% name %)来返回满足条件的用户
+     * @return BhacUser对象集合
      */
     public List<BhacUser> getUsersByUsername(String name, Integer pageNum, Integer limit) {
         QueryWrapper q = new QueryWrapper();
@@ -94,30 +95,48 @@ public class BhacUserService {
     }
 
     /**
+     *  将角色rid加入到用户uid的角色集合中, 并判断是否重复添加(-1)
      * @param rid 角色id
      * @param uid 用户id
-     * @return 将角色rid加入到用户uid的角色集合中, 通过判断更新条数是否为1, 来判断是否正常修改
+     * @return 1 或者 -1
      */
 
-    public Boolean addRole2User(Integer rid, Integer uid) {
+    public int addRole2User(Integer rid, Integer uid) {
         BhacActuserrole actuserrole = new BhacActuserrole();
         actuserrole.setRid(rid);
         actuserrole.setUid(uid);
-        return actuserroleMapper.insert(actuserrole) == 1;
+        QueryWrapper q = new QueryWrapper();
+        q.eq("rid",rid);
+        q.eq("uid",uid);
+        if(actuserroleMapper.selectCount(q) > 0) {
+            return -1 ; // 已经存在
+        }
+        actuserroleMapper.insert(actuserrole);
+        return 1;
     }
 
     /**
+     *  将角色rid从用户id的角色集中移除, 并判断是否重复移除(-1)
      * @param rid 角色id
      * @param uid 用户id
-     * @return 将角色rid从用户id的角色集中移除, 通过判断更新条数是否为1, 来判断是否正常修改
+     * @return 1 或者 -1
      */
-    public Boolean deleteRoleOfUser(Integer rid, Integer uid) {
+    public int deleteRoleOfUser(Integer rid, Integer uid) {
         QueryWrapper q = new QueryWrapper();
         q.eq("uid", uid);
         q.eq("rid", rid);
-        return actuserroleMapper.delete(q) == 1;
+        if(actuserroleMapper.selectCount(q) == 0) {
+            return  -1;
+        }
+        actuserroleMapper.delete(q);
+        return 1;
     }
-
+    
+    /**
+     * 登录
+     * @param credential 用户对象
+     * @return 根据用户对象返回相应的登录状态码
+     */
     public UserCode login(BhacUser credential) {
         QueryWrapper<BhacUser> wrapper = new QueryWrapper<>();
         BhacUser user = null;
@@ -151,7 +170,12 @@ public class BhacUserService {
         }
         return code;
     }
-
+    
+    /**
+     * 判断对象是否重复，是否需要注册。
+     * @param input 用户对象
+     * @return 状态码
+     */
     public UserCode register(BhacUser input) {
         UserCode code = checkDuplicate(input);
         if (code != null) {
@@ -160,11 +184,21 @@ public class BhacUserService {
         userMapper.insert(input);
         return UserCode.SUCC_USER_REG;
     }
-
+    
+    /**
+     * 根据用户id返回用户
+     * @param uid 用户id
+     * @return BhacUser对象
+     */
     public BhacUser getUserById(Integer uid) {
         return userMapper.selectById(uid);
     }
-
+    
+    /**
+     * 用modified对象去更新之前的old对象,当old.id == modified.id
+     * @param modified 用户对象
+     * @return 状态码
+     */
     public UserCode editBasic(BhacUser modified) {
         UserCode code = checkDuplicate(modified);
         if (code != null) {
@@ -173,7 +207,12 @@ public class BhacUserService {
         userMapper.updateById(modified);
         return UserCode.SUCC_USER_EDIT;
     }
-
+    
+    /**
+     * 用户查重
+     * @param input 用户对象
+     * @return 状态码
+     */
     private UserCode checkDuplicate(BhacUser input) {
         UserCode code = null;
         if (!userMapper.selectList(new QueryWrapper<BhacUser>()
@@ -194,7 +233,14 @@ public class BhacUserService {
         }
         return code;
     }
-
+    
+    /**
+     * 当uid对应的user.password ==oldPassword时,令user.password = newPassword
+     * @param oldPassword
+     * @param newPassword
+     * @param uid
+     * @return 状态码
+     */
     public UserCode editPWD(String oldPassword, String newPassword, Integer uid) {
         BhacUser user = userMapper.selectById(uid);
         if (!user.getPassword().equals(oldPassword)) {
