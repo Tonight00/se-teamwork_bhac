@@ -97,7 +97,7 @@ public class BhacTagController {
      * @apiNote 此接口为appAPI
      * @implNote 不需要判断token,无登录状态也应该能够查询
      */
-    @GetMapping("untoken/tags")
+    @GetMapping("/untoken/tags")
     public String getTags(Integer pageNum, Integer limit) {
       return JSONObject.toJSONString(tagService.showTags(pageNum,limit),ControllerUtils.filterFactory(BhacTag.class));
     }

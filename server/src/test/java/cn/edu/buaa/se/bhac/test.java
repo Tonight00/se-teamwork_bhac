@@ -5,8 +5,11 @@ import cn.edu.buaa.se.bhac.Dao.mapper.*;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.Utils.JWTUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import net.minidev.json.JSONUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.omg.CORBA.PUBLIC_MEMBER;
@@ -15,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -191,4 +195,13 @@ public class test
         System.out.println(bhacUserMapper.selectList(null));
     }
     
+    @Test
+    public  void testJson() {
+        List<BhacUser> users = new ArrayList<>();
+        users.add(new BhacUser());
+        users.add(new BhacUser());
+        String s = JSONObject.toJSONString(users);
+        List<BhacUser> u =  (List<BhacUser>)JSON.parseArray(s,BhacUser.class);
+        System.out.println(u);
+    }
 }

@@ -60,7 +60,7 @@ public class BhacUserController {
      * @param state 赋予的权限(目前都是0)
      * @return 返回code和message
      */
-    @PutMapping("sysadmin/users/auth")
+    @PutMapping("/sysadmin/users/auth")
     public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
@@ -79,7 +79,7 @@ public class BhacUserController {
      * @param state 赋予的权限(目前都是0)
      * @return 返回code和message
      */
-    @PutMapping("sysadmin/users/deauth")
+    @PutMapping("/sysadmin/users/deauth")
     public String deauthorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
