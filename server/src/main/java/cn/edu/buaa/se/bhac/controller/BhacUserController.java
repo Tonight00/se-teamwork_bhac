@@ -61,7 +61,7 @@ public class BhacUserController {
      * @return 返回code和message
      */
     @PutMapping("/sysadmin/users/auth")
-    public String authorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
+    public String authorize(@Param("uid") Integer uid, @Param("tid") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));
@@ -80,7 +80,7 @@ public class BhacUserController {
      * @return 返回code和message
      */
     @PutMapping("/sysadmin/users/deauth")
-    public String deauthorize(@Param("userId") Integer uid, @Param("tagId") Integer tid, @Param("state") Integer state) {
+    public String deauthorize(@Param("uid") Integer uid, @Param("tid") Integer tid, @Param("state") Integer state) {
         BhacRole role = roleService.getRoleByTid(tid,state);
         if(role == null ) {
              return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ROLE_NOT_FOUND));

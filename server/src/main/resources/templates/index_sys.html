@@ -56,6 +56,10 @@
 <script type="text/html" id="tagCheck">
     <a class="layui-btn layui-btn-xs" lay-event="tag">Tag</a>
 </script>
+<script type="text/html" id="authCheck">
+    <a class="layui-btn layui-btn-xs" lay-event="auth">Auth</a>
+    <a class="layui-btn layui-btn-xs" lay-event="deauth">Deauth</a>
+</script>
 <script src="/webjars/layui/2.5.6/layui.js"></script>
 <script type="text/javascript">
     layui.use(['laypage', 'layer', 'table', 'element'],function () {
@@ -134,16 +138,18 @@
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             var name = data.username;
+            var uid = data.id;
             console.log(obj);
             console.log(name);
             if(layEvent === 'tag'){
                 layer.open({
                     title:'Tag权限'
+                    ,type:1
+                    ,offset:['200px','450px']
                     ,content:'<table class="layui-hide" id="layerTable" lay-filter="layerTable"></table>'
                     ,success:function (layero, index) {
                         var tableLayer = table.render({
                             elem: '#layerTable'
-                            ,height: 200
                             ,url: '/sysadmin/tags' //数据接口
                             ,title: 'Tag表'
                             ,id: 'layerTable'
@@ -154,7 +160,7 @@
                                         ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                                         ,{field: 'name', title: 'Tag名', width:100,sort: true}
                                         ,{field: 'state', title: '权限', width:100,sort: true}
-                                        //,{fixed: 'right', width: 220, align:'center', toolbar: '#tagCheck'}
+                                        ,{fixed: 'right', width: 220, align:'center', toolbar: '#authCheck'}
                                     ]
                                 ]
                             ,parseData:function(res) {
@@ -168,12 +174,45 @@
                         });
                         tableLayer.reload({
                             where:{
-                                name:name
+                                name:""
                             }
                             ,page:{
                                 curr:1
                             }
                         });
+                        table.on('tool(layerTable)',function (obj) {
+                            var layerData = obj.data
+                                ,layerEvent = obj.event;
+                            var tagId = layerData.id;
+                            if(layerEvent === 'auth'){
+                                $.ajax({
+                                    url:'/sysadmin/users/auth',
+                                    type:'PUT',
+                                    data:{"uid": uid,"tid":tagId,"state":0},
+                                    success:function (data) {
+                                        var jsonData = JSON.parse(data);
+                                        layer.msg(String(jsonData.message));
+                                    },
+                                    error:function (data) {
+                                        layer.msg(data)
+                                    }
+                                })
+                            }else if(layerEvent === 'deauth'){
+                                $.ajax({
+                                    url:'/sysadmin/users/deauth',
+                                    type:'PUT',
+                                    data:{"uid": uid,"tid":tagId,"state":0},
+                                    success:function (data) {
+                                        var jsonData = JSON.parse(data);
+                                        layer.msg(String(jsonData.message));
+                                    },
+                                    error:function (data) {
+                                        layer.msg(data)
+                                    }
+                                })
+                            }
+                        })
+                        return false;
                     }
                 });
             }
