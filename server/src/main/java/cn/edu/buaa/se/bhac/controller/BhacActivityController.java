@@ -70,7 +70,7 @@ public class BhacActivityController {
      * @return  List<BhacActivities>
      * @implNote  BhacActivity对象集合
      */
-    @GetMapping("untoken/activities")
+    @GetMapping("/untoken/activities")
     public String getActivities(@Param("title")String title, @Param("tid") Integer tid,
                                     @Param("pageNum")Integer pageNum , @Param("limit") Integer limit) {
         return JSONObject.toJSONString(
@@ -83,7 +83,7 @@ public class BhacActivityController {
      * @param id 活动id
      * @return BhacActivity对象
      */
-    @GetMapping("untoken/activities/{id}")
+    @GetMapping("/untoken/activities/{id}")
     public String getActivity(@PathVariable("id") Integer id) {
         BhacActivity activity = activityService.getActivity(id);
         if (activityService.getActivity(id) == null) {
