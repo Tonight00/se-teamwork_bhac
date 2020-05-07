@@ -143,6 +143,12 @@ public class BhacActivityController {
         return JSONObject.toJSONString(activityService.getJoinUserActivity(aid,(Integer)claims.get("uid")));
     }
     
+    /**
+     * 添加活动activity
+     * @param activity
+     * @param request
+     * @return
+     */
     @PostMapping("/activities")
     public String addActivities(BhacActivity activity,HttpServletRequest request) {
         Claims claims  =  (Claims) request.getAttribute("claims");
