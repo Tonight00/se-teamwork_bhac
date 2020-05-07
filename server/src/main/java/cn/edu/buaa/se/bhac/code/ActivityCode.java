@@ -7,6 +7,7 @@ public enum ActivityCode implements BaseCode
 {
     ERR_ACTIVITY_NOT_EXISTED,
     SUCC_ACTIVITY_AUDIT_SUCC,
+    SUCC_ACTIVITY_ADD,
     SUCC_ACTIVITY_AUDIT_WAIT;
     
     private static Map<BaseCode, String> message = new HashMap<BaseCode, String>() {
@@ -14,6 +15,7 @@ public enum ActivityCode implements BaseCode
             put(ActivityCode.SUCC_ACTIVITY_AUDIT_SUCC,"活动审核成功");
             put(ActivityCode.SUCC_ACTIVITY_AUDIT_WAIT,"活动待审核");
             put(ActivityCode.ERR_ACTIVITY_NOT_EXISTED,"活动不存在");
+            put(ActivityCode.SUCC_ACTIVITY_ADD,"活动添加成功");
         }
     };
     

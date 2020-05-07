@@ -19,7 +19,7 @@ public class BhacActivityService {
     @Autowired
     private BhacActivityMapper activityMapper;
     @Autowired
-    BhacJoinuseractivityMapper joinuseractivityMapper;
+    private BhacJoinuseractivityMapper joinuseractivityMapper;
 
     /**
      * 该用户拥有所有权限的所有活动
@@ -122,5 +122,32 @@ public class BhacActivityService {
         }
         joinuseractivityMapper.delete(q);
         return 1;
+    }
+    
+    /**
+     * 查看用户id加入活动aid的信息。
+     * @param aid
+     * @param id
+     * @return
+     */
+    public Object getJoinUserActivity(Integer aid,Integer id) {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("aid",aid );
+        q.eq("uid",id);
+        if(joinuseractivityMapper.selectCount(q) == 0) {
+            return "null";
+        }
+        else{
+            return joinuseractivityMapper.selectOne(q);
+        }
+    }
+    
+    /**
+     * org: 添加活动activity
+     * @param activity
+     */
+    public void addActivity (BhacActivity activity)
+    {
+        activityMapper.insert(activity);
     }
 }

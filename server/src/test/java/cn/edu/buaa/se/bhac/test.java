@@ -204,4 +204,13 @@ public class test
         List<BhacUser> u =  (List<BhacUser>)JSON.parseArray(s,BhacUser.class);
         System.out.println(u);
     }
+    
+    @Test
+    public  void testJSON2() {
+        
+        String s = "null";
+        String a = JSONObject.toJSONString(s);
+        String b  = (String)JSON.parse(a);
+        if(b.equals(s)) System.out.println("123");
+    }
 }
