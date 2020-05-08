@@ -1,11 +1,13 @@
 package cn.edu.buaa.se.bhac.Dao.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -36,12 +38,15 @@ public class BhacActivity extends Model<BhacActivity> {
     private String title;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField( format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ddl;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField( format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime begin;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField( format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime end;
 
     private String brief;
