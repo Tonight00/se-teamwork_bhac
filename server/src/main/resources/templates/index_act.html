@@ -135,8 +135,6 @@ s
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             var activityId = data.id;
             var extraData = data.extra;
-            console.log(data);
-            console.log(extraData);
             if(layEvent === 'permit'){
                 $.ajax({
                     url:'/admin/activities/permit',
