@@ -54,11 +54,20 @@
     </div>
 </div>
 <script type="text/html" id="tagCheck">
-    <a class="layui-btn layui-btn-xs" lay-event="tag">Tag</a>
+    <a class="layui-btn layui-btn-xs" lay-event="tag">标签授权</a>
 </script>
 <script type="text/html" id="authCheck">
-    <a class="layui-btn layui-btn-xs" lay-event="auth">Auth</a>
-    <a class="layui-btn layui-btn-xs" lay-event="deauth">Deauth</a>
+    <a class="layui-btn layui-btn-xs" lay-event="auth">授权</a>
+    <a class="layui-btn layui-btn-xs" lay-event="deauth">取消授权</a>
+</script>
+<script type="text/html" id="sexTpl">
+    {{#  if(d.gender === 0){ }}
+    男
+    {{#  } else if(d.gender === 1) { }}
+    女
+    {{#  } else { }}
+    无
+    {{#  } }}
 </script>
 <script src="/webjars/layui/2.5.6/layui.js"></script>
 <script type="text/javascript">
@@ -81,24 +90,25 @@
             ,url: '/sysadmin/users'
             ,title: '用户表'
             ,page: true //开启分页
-            ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,toolbar:true
+            ,defaultToolbar: ['filter','print','exports'] //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
             ,id: 'userInfo'
             ,cols:
                 [
                     [ //表头
-                        {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                        ,{field: 'username', title: '用户名', width:100,sort: true}
-                        ,{field: 'email', title: '邮箱', width:100,sort: true}
-                        ,{field: 'phoneNum', title: '手机号码', width:100,sort: true}
-                        ,{field: 'password', title: '密码', width:100,sort: true}
-                        ,{field: 'state', title: '权限', width:100,sort: true}
-                        ,{field: 'firstName', title: '首名', width:100,sort: true}
-                        ,{field: 'lastName', title: '次名', width:100,sort: true}
+                        //{type: 'checkbox', fixed: 'left'}
+                        //,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                        {field: 'username', title: '用户名', width:100,sort: true}
+                        ,{field: 'email', title: '邮箱', width:200,sort: true}
+                        ,{field: 'phoneNum', title: '手机号码', width:150,sort: true}
+                        //,{field: 'password', title: '密码', width:100,sort: true}
+                        //,{field: 'state', title: '权限', width:100,sort: true}
+                        ,{field: 'firstName', title: '姓', width:80,sort: true}
+                        ,{field: 'lastName', title: '名', width:60}
                         ,{field: 'studentId', title: '学号', width:100,sort: true}
-                        ,{field: 'avatarUrl', title: 'avatarUrl', width:100,sort: true}
-                        ,{field: 'gender', title: '性别', width:100,sort: true}
-                        ,{fixed: 'right', width: 165, align:'center', toolbar: '#tagCheck'}
+                        //,{field: 'avatarUrl', title: 'avatarUrl', width:100,sort: true}
+                        ,{field: 'gender', title: '性别', width:100,sort: true,templet: '#sexTpl'}
+                        ,{fixed: 'right', title:'管理',width: 100, align:'center', toolbar: '#tagCheck'}
                     ]
                 ]
             ,parseData:function(res) {
@@ -143,7 +153,7 @@
             console.log(name);
             if(layEvent === 'tag'){
                 layer.open({
-                    title:'Tag权限'
+                    title:'标签授权'
                     ,type:1
                     ,offset:['200px','450px']
                     ,content:'<table class="layui-hide" id="layerTable" lay-filter="layerTable"></table>'
@@ -156,10 +166,10 @@
                             ,cols:
                                 [
                                     [ //表头
-                                        {type: 'checkbox', fixed: 'left'}
-                                        ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                                        ,{field: 'name', title: 'Tag名', width:100,sort: true}
-                                        ,{field: 'state', title: '权限', width:100,sort: true}
+                                        //{type: 'checkbox', fixed: 'left'}
+                                        //,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                                        {field: 'name', title: '标签名', width:100,sort: true}
+                                        ,{field: 'state', title: '状态', width:100,sort: true}
                                         ,{fixed: 'right', width: 220, align:'center', toolbar: '#authCheck'}
                                     ]
                                 ]
