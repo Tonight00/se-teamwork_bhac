@@ -15,9 +15,14 @@ import org.junit.runner.RunWith;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -203,5 +208,13 @@ public class test
         String s = JSONObject.toJSONString(users);
         List<BhacUser> u =  (List<BhacUser>)JSON.parseArray(s,BhacUser.class);
         System.out.println(u);
+    }
+    
+    @Test
+    public  void testJSON2() {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime d = LocalDateTime.now();
+        System.out.println(f.format(d));
+        
     }
 }

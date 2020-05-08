@@ -72,6 +72,7 @@ public class MyWebConfig implements WebMvcConfigurer {
                 add("/roles/**");
                 add("/posts/**");
                 add("/comments/**");
+                add("/join/**");
             }
         };
 

@@ -10,10 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -49,7 +46,6 @@ public class BhacActivityController {
      */
     @PutMapping("/admin/activities/permit")
     public String permitActivity(@Param("id") Integer id) {
-        System.out.println(id);
         BhacActivity activity = activityService.getActivity(id);
         if (activity == null) {
             return JSONObject.toJSONString(ControllerUtils
@@ -131,5 +127,32 @@ public class BhacActivityController {
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_UNENROLL));
     }
     
+    /**
+     * 根据用户id和活动id返回JoinUserActivity对象
+     * @param aid
+     * @param request
+     * @return
+     */
+    @GetMapping("/join/info")
+    public String getJoinInfo(Integer aid,HttpServletRequest request) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        if(activityService.getActivity(aid) == null ) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
+        }
+        return JSONObject.toJSONString(activityService.getJoinUserActivity(aid,(Integer)claims.get("uid")));
+    }
     
+    /**
+     * 添加活动activity
+     * @param activity
+     * @param request
+     * @return
+     */
+    @PostMapping("/activities")
+    public String addActivities(BhacActivity activity,HttpServletRequest request) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        activity.setUid((Integer) claims.get("uid"));
+        activityService.addActivity(activity);
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ADD));
+    }
 }
