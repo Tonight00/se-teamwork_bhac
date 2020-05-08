@@ -161,6 +161,10 @@
                         var tableLayer = table.render({
                             elem: '#layerTable'
                             ,url: '/sysadmin/tags' //数据接口
+                            ,request:{
+                                pageName: 'pageNum'
+                                ,limitName:'limit'
+                            }
                             ,title: 'Tag表'
                             ,id: 'layerTable'
                             ,cols:
@@ -169,7 +173,7 @@
                                         //{type: 'checkbox', fixed: 'left'}
                                         //,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                                         {field: 'name', title: '标签名', width:100,sort: true}
-                                        ,{field: 'state', title: '状态', width:100,sort: true}
+                                        //,{field: 'state', title: '状态', width:100,sort: true}
                                         ,{fixed: 'right', width: 220, align:'center', toolbar: '#authCheck'}
                                     ]
                                 ]
