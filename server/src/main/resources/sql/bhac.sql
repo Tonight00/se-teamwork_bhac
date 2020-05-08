@@ -4,7 +4,6 @@ MySQL - 8.0.18 : Database - bhac
 *********************************************************************
 */
 
-
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -13,7 +12,7 @@ MySQL - 8.0.18 : Database - bhac
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE IF NOT EXISTS `bhac` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`bhac` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `bhac`;
 
@@ -26,6 +25,7 @@ CREATE TABLE `bhac_activity` (
   `category` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
+  `place` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `ddl` datetime DEFAULT NULL,
   `begin` datetime DEFAULT CURRENT_TIMESTAMP,
   `end` datetime DEFAULT NULL,
@@ -33,13 +33,13 @@ CREATE TABLE `bhac_activity` (
   `isOpen` int(11) DEFAULT '0',
   `limitPeopleNum` int(11) DEFAULT '-1',
   `state` int(11) DEFAULT '0',
-  `extra` varchar(200) DEFAULT NULL,
+  `extra` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `bhac_activity` */
 
-insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(2,1,2,'post2',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
+insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1','place1',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(2,1,2,'post2','place2',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3','place3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
 
 /*Table structure for table `bhac_actuserrole` */
 
@@ -127,9 +127,9 @@ DROP TABLE IF EXISTS `bhac_post`;
 
 CREATE TABLE `bhac_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `aid` int(11) NOT NULL,
-  `tid` int(11) NOT NULL,
-  `title` varchar(50) DEFAULT NULL,
+  `aid` int(11) DEFAULT NULL,
+  `tid` int(11) DEFAULT NULL,
+  `title` varchar(50) NOT NULL,
   `postedBy` int(11) NOT NULL,
   `numOfComment` int(11) NOT NULL,
   `lastEdited` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -139,7 +139,7 @@ CREATE TABLE `bhac_post` (
 
 /*Data for the table `bhac_post` */
 
-insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,NULL,1,1,'2020-04-30 17:10:28',0),(2,1,2,NULL,1,2,'2020-04-30 17:10:29',0);
+insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0),(2,1,2,'',1,2,'2020-04-30 17:10:29',0);
 
 /*Table structure for table `bhac_role` */
 

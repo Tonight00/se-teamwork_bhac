@@ -33,8 +33,9 @@ public class BhacActivity extends Model<BhacActivity> {
     private Integer category;
 
     private Integer uid;
-
-
+    
+    private String place;
+    
     private String title;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -235,34 +236,21 @@ public class BhacActivity extends Model<BhacActivity> {
     public void setCategoryTag(BhacTag categoryTag) {
         this.categoryTag = categoryTag;
     }
-
+    
+    public String getPlace () { return place; }
+    
+    public void setPlace (String place) { this.place = place; }
+    
+    
+    @Override
+    public String toString ()
+    {
+        return "BhacActivity{" + "id=" + id + ", category=" + category + ", uid=" + uid + ", place='" + place + '\'' + ", title='" + title + '\'' + ", ddl=" + ddl + ", begin=" + begin + ", end=" + end + ", brief='" + brief + '\'' + ", isOpen=" + isOpen + ", limitPeopleNum=" + limitPeopleNum + ", state=" + state + ", extra='" + extra + '\'' + ", releaser=" + releaser + ", usersProcessing=" + usersProcessing + ", usersSucceed=" + usersSucceed + ", categoryTag=" + categoryTag + ", usersManage=" + usersManage + ", tagsBelong=" + tagsBelong + ", posts=" + posts + '}';
+    }
+    
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
-
-    @Override
-    public String toString() {
-        return "BhacActivity{" +
-                "id=" + id +
-                ", category=" + category +
-                ", uid=" + uid +
-                ", title='" + title + '\'' +
-                ", ddl=" + ddl +
-                ", begin=" + begin +
-                ", end=" + end +
-                ", brief='" + brief + '\'' +
-                ", isOpen=" + isOpen +
-                ", limitPeopleNum=" + limitPeopleNum +
-                ", state=" + state +
-                ", extra='" + extra + '\'' +
-                ", releaser=" + releaser +
-                ", usersProcessing=" + usersProcessing +
-                ", usersSucceed=" + usersSucceed +
-                ", categoryTag=" + categoryTag +
-                ", usersManage=" + usersManage +
-                ", tagsBelong=" + tagsBelong +
-                ", posts=" + posts +
-                '}';
-    }
+    
 }
