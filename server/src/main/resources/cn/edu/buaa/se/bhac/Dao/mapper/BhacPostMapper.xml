@@ -3,6 +3,9 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacPostMapper">
     <resultMap id="BhacPostMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacPost">
         <id property="id" column="id"/>
+        <result property="aid" column="aid"/>
+        <result property="tid" column="tid"/>
+        <result property="postedBy" column="postedBy"/>
         <association property="tag" column="tid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
                      select="Tag"/>
         <association property="activity" column="aid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity"

@@ -34,6 +34,7 @@ public class BhacActivityController {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
         List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
         if(authedActivities == null) authedActivities = new ArrayList<>();
+        System.out.println(authedActivities);
         return JSONObject.toJSONString(authedActivities,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
     }

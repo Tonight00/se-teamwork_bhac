@@ -3,6 +3,8 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper">
     <resultMap id="BhacActivityMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity">
         <id property="id" column="id"/>
+        <result property="category" column="category"/>
+        <result property="uid"  column="uid"/>
         <association property="releaser" column="uid" javaType="BhacUser"
                      select="User4"/>
         <association property="categoryTag" column="category" javaType="BhacTag"

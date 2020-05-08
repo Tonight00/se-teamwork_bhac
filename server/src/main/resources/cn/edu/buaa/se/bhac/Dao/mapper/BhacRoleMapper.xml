@@ -3,6 +3,7 @@
 <mapper namespace="cn.edu.buaa.se.bhac.Dao.mapper.BhacRoleMapper">
     <resultMap id="BhacRoleMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacRole">
         <id property="id" column="id"/>
+        <result property="tid" column="tid"/>
         <association property="tag" column="tid" javaType="BhacTag"
                      select="Tag"/>
         <collection property="usersAct" column="id" ofType="BhacUser"
