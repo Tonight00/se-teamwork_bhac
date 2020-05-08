@@ -46,7 +46,6 @@ public class BhacActivityController {
      */
     @PutMapping("/admin/activities/permit")
     public String permitActivity(@Param("id") Integer id) {
-        System.out.println(id);
         BhacActivity activity = activityService.getActivity(id);
         if (activity == null) {
             return JSONObject.toJSONString(ControllerUtils

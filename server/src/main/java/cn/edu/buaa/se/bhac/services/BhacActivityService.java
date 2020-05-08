@@ -73,14 +73,16 @@ public class BhacActivityService {
     /**
      * 返回表中字段title是(%title%),并且category = tid 的活动列表
      * @param title
-     * @param tid
+     * @param tid tid = 0,则返回所有activities
      * @return  BhacActivity对象集合
      */
     public List<BhacActivity> getActivities (String title ,Integer tid,Integer pageNum,Integer limit) {
         
         QueryWrapper q = new QueryWrapper();
-        q.like("title",title);
-        q.eq("category",tid);
+        if(title != null && tid!=null && tid!=0)
+            q.like("title",title);
+        if(tid != null && tid !=0)
+            q.eq("category",tid);
         
         Page<BhacActivity> page = new Page<BhacActivity>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);

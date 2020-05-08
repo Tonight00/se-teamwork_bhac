@@ -75,17 +75,11 @@ public class BhacTagController {
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
      */
     @GetMapping("/sysadmin/tags")
-    public String getTagsByName(@Param("name") String name, @Param("page") Integer page , @Param("limit")Integer limit) {
-        System.out.println(name);
-        System.out.println(page);
-        System.out.println(limit);
-        Integer pageNum = page;
+    public String getTagsByName(@Param("name") String name, @Param("page") Integer pageNum , @Param("limit")Integer limit) {
         List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
         if(tags == null ) {
             tags = new ArrayList<>();
         }
-        System.out.println(JSONObject.toJSONString(tags,
-                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class)));
         return JSONObject.toJSONString(tags,
                 /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class));
     }

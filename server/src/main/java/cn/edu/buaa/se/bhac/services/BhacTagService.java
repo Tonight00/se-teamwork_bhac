@@ -27,7 +27,7 @@ public class BhacTagService {
     public List<BhacTag> getTagsByTagname(String name, Integer pageNum, Integer limit) {
         QueryWrapper q = new QueryWrapper();
         q.like("name",name);
-        
+        q.ne("state",-1);
         Page<BhacTag> page =  new Page<>(pageNum,limit,false);
         return DaoUtils.PageSearch(tagMapper,page,q);
     }
