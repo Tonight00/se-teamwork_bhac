@@ -29,7 +29,7 @@ CREATE TABLE `bhac_activity` (
   `ddl` datetime DEFAULT NULL,
   `begin` datetime DEFAULT CURRENT_TIMESTAMP,
   `end` datetime DEFAULT NULL,
-  `brief` varchar(50) DEFAULT NULL,
+  `brief` varchar(2000) DEFAULT NULL,
   `isOpen` int(11) DEFAULT '0',
   `limitPeopleNum` int(11) DEFAULT '-1',
   `state` int(11) DEFAULT '0',

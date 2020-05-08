@@ -3,6 +3,7 @@ package cn.edu.buaa.se.bhac.services;
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacJoinuseractivityMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,14 +21,17 @@ public class BhacActivityService {
     private BhacActivityMapper activityMapper;
     @Autowired
     private BhacJoinuseractivityMapper joinuseractivityMapper;
+    @Autowired
+    private BhacUserMapper bhacUserMapper;
 
     /**
      * 该用户拥有所有权限的所有活动
-     * @param admin 用户
+     * @param user 用户
      * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public List<BhacActivity> getAuthedActivities(BhacUser admin, @Param("page") Integer pageNum, Integer limit) {
+    public List<BhacActivity> getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
+        BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
         if(roles.isEmpty()) {
             return null;
