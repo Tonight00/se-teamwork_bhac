@@ -39,7 +39,7 @@ CREATE TABLE `bhac_activity` (
 
 /*Data for the table `bhac_activity` */
 
-insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1','place1',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(2,1,2,'post2','place2',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3','place3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
+insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1','place1',NULL,'2020-04-30 13:59:02','2020-05-10 16:43:53',NULL,0,-1,0,NULL),(2,1,2,'post2','place2',NULL,'2020-04-30 13:00:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3','place3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
 
 /*Table structure for table `bhac_actuserrole` */
 
@@ -131,15 +131,17 @@ CREATE TABLE `bhac_post` (
   `tid` int(11) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `postedBy` int(11) NOT NULL,
-  `numOfComment` int(11) NOT NULL,
+  `numOfComment` int(11) DEFAULT NULL,
   `lastEdited` datetime DEFAULT CURRENT_TIMESTAMP,
-  `type` int(11) DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '0',
+  `content` blob NOT NULL,
+  `rate` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `bhac_post` */
 
-insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0),(2,1,2,'',1,2,'2020-04-30 17:10:29',0);
+insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`,`content`,`rate`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0,'asdasd				asdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',NULL),(2,1,2,'',1,2,'2020-04-30 17:10:29',0,'asdasdasdasdasd',NULL),(3,NULL,NULL,'12312',1,NULL,'2020-05-10 18:01:39',1,'这是一个Content',NULL);
 
 /*Table structure for table `bhac_role` */
 

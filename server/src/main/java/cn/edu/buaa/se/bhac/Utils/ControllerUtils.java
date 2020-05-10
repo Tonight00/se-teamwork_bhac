@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 
 public class ControllerUtils {
 
@@ -44,5 +45,14 @@ public class ControllerUtils {
         };
         return filter;
     }
-
+    
+    public static JSONObject JsonMap (HashMap<String, Object> mp)
+    {
+        JSONObject json = new JSONObject();
+        for(Object key : mp.keySet()) {
+            Object val = mp.get(key);
+            json.put((String) key,val);
+        }
+        return json;
+    }
 }

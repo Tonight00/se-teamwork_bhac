@@ -7,6 +7,7 @@ import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -115,6 +118,7 @@ public class BhacActivityController {
      * @param request Http请求
      * @return 返回code和message
      */
+    
     @PutMapping("/activities/unenroll")
     public String unenroll (Integer aid,HttpServletRequest request) {
         Claims claims  =  (Claims) request.getAttribute("claims");
@@ -155,5 +159,31 @@ public class BhacActivityController {
         activity.setUid((Integer) claims.get("uid"));
         activityService.addActivity(activity);
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ADD));
+    }
+    
+    
+    @GetMapping("/activities/getActByDate")
+    public String getActByDate(HttpServletRequest request, String date) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        List<BhacActivity> activities = activityService.getActByDate((Integer)claims.get("uid"),date);
+        return JSONObject.toJSONString(activities,ControllerUtils.filterFactory(BhacActivity.class));
+    }
+    
+    @GetMapping("/untoken/activities/belongs")
+    public String getActTagNames(Integer aid) {
+        String mname = activityService.getMname(aid);
+        List<String> names = activityService.getNames(aid,mname);
+        if(mname ==null) mname ="";
+        HashMap<String,Object> mp = new HashMap<>();
+        mp.put("categoryName",mname);
+        mp.put("belongs",names);
+        return JSONObject.toJSONString(ControllerUtils.JsonMap(mp));
+    }
+    
+    @GetMapping("/activities/getDates")
+    public String getDatesWithAct(HttpServletRequest request) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        List<String> times = activityService.getDatesWithAct((Integer)claims.get("uid"));
+        return JSONObject.toJSONString(times);
     }
 }

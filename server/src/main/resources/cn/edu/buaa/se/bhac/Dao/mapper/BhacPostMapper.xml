@@ -6,6 +6,7 @@
         <result property="aid" column="aid"/>
         <result property="tid" column="tid"/>
         <result property="postedBy" column="postedBy"/>
+        <result property="content" column="content" jdbcType="BLOB"  typeHandler="cn.edu.buaa.se.bhac.config.BlogTypeHandler"/>
         <association property="tag" column="tid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacTag"
                      select="Tag"/>
         <association property="activity" column="aid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacActivity"

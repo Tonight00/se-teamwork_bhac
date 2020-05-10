@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,7 +55,30 @@ public class BhacPost extends Model<BhacPost> {
     
     @TableField(exist = false)
     private BhacUser poster;
-
+    
+    private String content;
+    
+    private Integer rate;
+    
+    public Integer getRate ()
+    {
+        return rate;
+    }
+    
+    public void setRate (Integer rate)
+    {
+        this.rate = rate;
+    }
+    
+    public String getContent ()
+    {
+        return content;
+    }
+    
+    public void setContent (String content)
+    {
+        this.content = content;
+    }
     
     public BhacActivity getActivity ()
     {
@@ -162,22 +186,10 @@ public class BhacPost extends Model<BhacPost> {
     protected Serializable pkVal() {
         return this.id;
     }
-
+    
     @Override
-    public String toString() {
-        return "BhacPost{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", postedBy=" + postedBy +
-                ", numOfComment=" + numOfComment +
-                ", lastEdited=" + lastEdited +
-                ", type=" + type +
-                ", aid=" + aid +
-                ", tid=" + tid +
-                ", comments=" + comments +
-                ", activity=" + activity +
-                ", tag=" + tag +
-                ", poster=" + poster +
-                '}';
+    public String toString ()
+    {
+        return "BhacPost{" + "id=" + id + ", title='" + title + '\'' + ", postedBy=" + postedBy + ", numOfComment=" + numOfComment + ", lastEdited=" + lastEdited + ", type=" + type + ", aid=" + aid + ", tid=" + tid + ", comments=" + comments + ", activity=" + activity + ", tag=" + tag + ", poster=" + poster + ", content=" + content + ", rate=" + rate + '}';
     }
 }

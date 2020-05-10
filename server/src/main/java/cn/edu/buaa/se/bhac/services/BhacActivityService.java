@@ -2,6 +2,7 @@ package cn.edu.buaa.se.bhac.services;
 
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacJoinuseractivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
@@ -11,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class BhacActivityService {
     private BhacJoinuseractivityMapper joinuseractivityMapper;
     @Autowired
     private BhacUserMapper bhacUserMapper;
+    @Autowired
+    private BhacBelongactivitytagMapper belongactivitytagMapper;
 
     /**
      * 该用户拥有所有权限的所有活动
@@ -155,5 +159,57 @@ public class BhacActivityService {
     public void addActivity (BhacActivity activity)
     {
         activityMapper.insert(activity);
+    }
+    
+    public String getMname (Integer aid)
+    {
+        BhacActivity activity = activityMapper.selectById(aid);
+        return activity.getCategoryTag().getName();
+    }
+    
+    public List<String> getNames (Integer aid, String mname)
+    {
+        BhacActivity activity = activityMapper.selectById(aid);
+        List<BhacTag> tags = activity.getTagsBelong();
+        List<String> names = new ArrayList<>();
+        for(BhacTag tag : tags) {
+            if (!tag.getName().equals(mname)) {
+                names.add(tag.getName());
+            }
+        }
+        return names;
+    }
+    
+    public List<String> getDatesWithAct (Integer uid)
+    {
+        BhacUser user = bhacUserMapper.selectById(uid);
+        List<BhacActivity> activities =  user.getActivitiesProcessing();
+        List<BhacActivity> activities2 = user.getActivitiesSucceed();
+        List<String> times = new ArrayList<>();
+        
+        for(BhacActivity activity : activities) {
+            times.add(activity.getBegin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
+        for(BhacActivity activity : activities2) {
+            times.add(activity.getBegin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
+        return times;
+    }
+    
+    public List<BhacActivity> getActByDate (Integer uid,String date)
+    {
+        date = date.substring(0,10);
+        BhacUser user = bhacUserMapper.selectById(uid);
+        List<BhacActivity> activities = new ArrayList<>();
+        activities.addAll(user.getActivitiesProcessing());
+        activities.addAll(user.getActivitiesSucceed());
+        List<Integer> ids = new ArrayList<>();
+        for(BhacActivity activity : activities) {
+            ids.add(activity.getId());
+        }
+        QueryWrapper q = new QueryWrapper();
+        q.eq("date(begin)",date);
+        q.in("id",ids);
+        return activityMapper.selectList(q);
     }
 }

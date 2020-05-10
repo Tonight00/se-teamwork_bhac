@@ -14,10 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -159,5 +156,14 @@ public class BhacUserController {
         }
         return ControllerUtils.JsonCodeAndMessage(code).toJSONString();
     }
-
+    
+    
+    @GetMapping("/untoken/users/{id}")
+    public String getUser(@PathVariable("id")Integer id) {
+        BhacUser user = userService.getUserById(id);
+        if(user == null) {
+            user = new BhacUser();
+        }
+        return JSONObject.toJSONString(user,ControllerUtils.filterFactory(BhacUser.class));
+    }
 }
