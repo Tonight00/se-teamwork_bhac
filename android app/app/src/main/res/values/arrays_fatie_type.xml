@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ctype">
+        <item>评价</item>
+        <item>帖子</item>
+    </string-array>
+
+    <string-array name="isopen">
+        <item>是</item>
+        <item>否</item>
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/activity_detail_manage"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector2"
+            android:text="管理"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="标题:"
+            android:textColor="#000"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/activity_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="这里是title"
+            android:textColor="#000"
+            android:textSize="25dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="截止时间:"
+                android:textColor="#000"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/activity_detail_ddl"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="这里是ddl"
+                android:textColor="#000"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="开始时间:"
+                android:textColor="#000"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/activity_detail_begin"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="这里是begin"
+                android:textColor="#000"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="结束时间:"
+                android:textColor="#000"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/activity_detail_end"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="这里是end"
+                android:textColor="#000"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="活动地点:"
+                android:textColor="#000"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/activity_detail_place"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="这里是place"
+                android:textColor="#000"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="活动简介:"
+            android:textColor="#000"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/activity_detail_brief"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="这里是brief"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="是否开放:"
+                android:textColor="#000"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/activity_detail_isOpen"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="这里是isOpen"
+                android:textColor="#000"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="限制人数:"
+                android:textColor="#000"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/activity_detail_limitPeopleNum"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="这里是limitPeopleNum"
+                android:textColor="#000"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="------------------------------------------------------------------------------------------------------------------------"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+
+        <Button
+            android:id="@+id/activity_detail_canjia"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector1"
+            android:text="申请参加活动"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+        <Button
+            android:id="@+id/activity_detail_quxiaoshenqing"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector1"
+            android:text="取消申请"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+        <Button
+            android:id="@+id/activity_detail_tuichu"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector3"
+            android:text="退出活动"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/activity_detail_taolunqu"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector4"
+            android:text="讨论区"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/activity_detail_back"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector2"
+            android:text="返回"
+            android:textColor="#ffffff"
+            android:textSize="25dp" />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</ScrollView>
