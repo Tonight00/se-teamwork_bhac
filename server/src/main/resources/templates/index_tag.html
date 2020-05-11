@@ -14,7 +14,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;" th:text="${session.admin.username}"></a>
             </li>
-            <li class="layui-nav-item"><a th:href="@{logout}" >登出</a></li>
+            <li class="layui-nav-item"><a th:href="@{/u/logout}" >登出</a></li>
         </ul>
     </div>
 
@@ -88,7 +88,7 @@
         var tableIns = table.render({
             elem: '#tagTable'
             ,height: 420
-            ,url: '/sysadmin/tags' //数据接口
+            ,url: '/admin/tags' //数据接口
             ,request:{
                 pageName: 'pageNum'
                 ,limitName:'limit'
@@ -101,7 +101,7 @@
                     [ //表头
                         //{type: 'checkbox', fixed: 'left'}
                         //,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                        {field: 'name', title: '标签名', width:100,sort: true}
+                        {field: 'name', title: '标签名', width:300,sort: true}
                         //,{field: 'state', title: '权限', width:100,sort: true}
                         ,{fixed: 'right', title:'管理',width: 100, align:'center', toolbar: '#tagCheck'}
                     ]
@@ -158,7 +158,7 @@
                     console.log("error");
                     layer.msg(data)
                 }
-            })
+            });
         });
 
         //监听行工具事件

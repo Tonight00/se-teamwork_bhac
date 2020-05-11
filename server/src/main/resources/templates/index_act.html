@@ -18,7 +18,6 @@
         </ul>
     </div>
 
-s
     <div class="layui-body">
         <div style="padding: 15px;">
             <table class="layui-hide" id="actTable" lay-filter="actTable"></table>
@@ -87,10 +86,12 @@ s
             });
         });
 
+        var $ = layui.$;
+
         //执行一个 table 实例
         var tableIns = table.render({
             elem: '#actTable'
-            ,height: 420
+            ,height: 640
             ,url: '/admin/activities/authed' //数据接口
             ,request:{
                 pageName: 'pageNum'
@@ -104,8 +105,9 @@ s
                     [ //表头
                         //{type: 'checkbox', fixed: 'left'}
                         //{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                        {field: 'title', title: '项目名', width:100,sort: true}
-                        ,{field: 'category', title: '类别', width:100}
+                        {field: 'title', title: '项目名', width:300,sort: true}
+                        ,{field: 'category', title: '类别', width:200}
+                        ,{field: 'place', title: '地点', width:100}
                         ,{field: 'ddl', title: '报名截止时间', width: 140,sort: true}
                         ,{field: 'begin', title: '开始时间', width: 160, sort: true}
                         ,{field: 'end', title: '结束时间', width: 160, sort: true}
@@ -118,16 +120,44 @@ s
                     ]
                 ]
             ,parseData:function(res) {
+                var jsonData = undefined;
+                var newRes = "";
+                $.ajax({
+                    url:'/admin/tags',
+                    type:'GET',
+                    async:false,
+                    data:{"name":"","pageNum":1,"limit":10},
+                    success:function (data) {
+                        console.log(data);
+                        jsonData = JSON.parse(data);
+                        console.log(jsonData);
+                        newRes = res;
+                        for (var i=0; i<newRes.length; i++){
+                            var index = newRes[i].category;
+                            for (var j=0; j<jsonData.length;j++){
+                                if(jsonData[j].id === index){
+                                    newRes[i].category = jsonData[j].name;
+                                    break;
+                                }
+                            }
+                        }
+                        console.log(res);
+                        console.log(newRes);
+
+                    },
+                    error:function (data) {
+                        console.log("error");
+                        layer.msg(data)
+                    }
+                });
                 return {
                     "code": 0, //解析接口状态
                     "msg": "", //解析提示文本
-                    "count": res.length, //解析数据长度
-                    "data": res //解析数据列表
+                    "count": 1000, //解析数据长度
+                    "data": newRes //解析数据列表
                 };
             }
         });
-
-        var $ = layui.$;
 
         //监听行工具事件
         table.on('tool(actTable)', function(obj){
@@ -135,6 +165,7 @@ s
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             var activityId = data.id;
             var extraData = data.extra;
+            console.log(extraData);
             if(layEvent === 'permit'){
                 $.ajax({
                     url:'/admin/activities/permit',
@@ -154,14 +185,18 @@ s
                     }
                 })
             }else if(layEvent === 'extra'){
-                var extraJson = JSON.parse(extraData);
-                var str = "";
-                for (var val in extraJson){
-                    str = str + val + ':'+extraJson[val] + '</br>';
+                if(extraData === undefined){
+                    layer.msg('没有额外信息');
+                }else {
+                    var extraJson = JSON.parse(extraData);
+                    var str = "";
+                    for (var val in extraJson){
+                        str = str + val + ':'+extraJson[val] + '</br>';
+                    }
+                    layer.open({
+                        content:str
+                    });
                 }
-                layer.open({
-                    content:str
-                });
             }
         });
     });
