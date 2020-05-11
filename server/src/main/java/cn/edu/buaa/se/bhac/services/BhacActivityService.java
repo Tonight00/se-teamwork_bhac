@@ -238,6 +238,7 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         Page<BhacJoinuseractivity> page = new Page<>(pageNum,limit);
         q.eq("aid",aid);
+        q.eq("state",1);
         return DaoUtils.PageSearch(joinuseractivityMapper,page,q);
     }
     
@@ -251,8 +252,11 @@ public class BhacActivityService {
             return -1;
         }
         BhacJoinuseractivity join = new BhacJoinuseractivity();
+        QueryWrapper qq = new QueryWrapper();
+        qq.eq("aid",aid);
+        qq.eq("uid",uid);
         join.setState(0);
-        joinuseractivityMapper.update(join,q);
+        joinuseractivityMapper.update(join,qq);
         return 0;
     }
     
