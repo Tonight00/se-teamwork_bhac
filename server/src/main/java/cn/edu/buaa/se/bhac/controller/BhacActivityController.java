@@ -45,7 +45,6 @@ public class BhacActivityController {
 //                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
 
         return activityService.getAuthedActivities(admin,pageNum,limit);
-
     }
 
     /**
