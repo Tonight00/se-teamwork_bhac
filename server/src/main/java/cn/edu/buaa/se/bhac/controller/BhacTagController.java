@@ -90,7 +90,7 @@ public class BhacTagController {
      */
     @GetMapping("/untoken/tags")
     public String getTags(Integer pageNum, Integer limit) {
-      return JSONObject.toJSONString(tagService.showTags(pageNum,limit),ControllerUtils.filterFactory(BhacTag.class));
+      return JSONObject.toJSONString(tagService.showTags(pageNum,limit));
     }
     
     @GetMapping("/untoken/tags/{id}")
@@ -99,7 +99,7 @@ public class BhacTagController {
         if( tag == null ){
             tag = new BhacTag();
         }
-        return JSONObject.toJSONString(tag,ControllerUtils.filterFactory(BhacTag.class));
+        return JSONObject.toJSONString(tag);
     }
     
 //    @GetMapping("/admin/tagsCount")

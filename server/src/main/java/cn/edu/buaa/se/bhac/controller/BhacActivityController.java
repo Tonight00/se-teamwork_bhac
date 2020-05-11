@@ -72,8 +72,7 @@ public class BhacActivityController {
     public String getActivities(@Param("title")String title, @Param("tid") Integer tid,
                                     @Param("pageNum")Integer pageNum , @Param("limit") Integer limit) {
         return JSONObject.toJSONString(
-                activityService.getActivities(title,tid,pageNum,limit) ,
-                ControllerUtils.filterFactory(BhacActivity.class));
+                activityService.getActivities(title,tid,pageNum,limit));
     }
     
     /**
@@ -87,8 +86,7 @@ public class BhacActivityController {
         if (activityService.getActivity(id) == null) {
             activity = new BhacActivity();
         }
-        return JSONObject.toJSONString(activity,
-                ControllerUtils.filterFactory(BhacActivity.class));
+        return JSONObject.toJSONString(activity);
     }
     
     /**
@@ -170,7 +168,7 @@ public class BhacActivityController {
     public String getActByDate(HttpServletRequest request, String date) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         List<BhacActivity> activities = activityService.getActByDate((Integer)claims.get("uid"),date);
-        return JSONObject.toJSONString(activities,ControllerUtils.filterFactory(BhacActivity.class));
+        return JSONObject.toJSONString(activities);
     }
     
     @GetMapping("/untoken/activities/belongs")

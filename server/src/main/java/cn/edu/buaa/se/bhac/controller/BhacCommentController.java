@@ -22,7 +22,7 @@ public class BhacCommentController {
         if (comment == null ){
             comment = new BhacComment();
         }
-        return JSONObject.toJSONString(comment, ControllerUtils.filterFactory(BhacComment.class));
+        return JSONObject.toJSONString(comment);
     }
     
     

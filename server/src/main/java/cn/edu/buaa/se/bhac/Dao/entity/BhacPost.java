@@ -1,5 +1,6 @@
 package cn.edu.buaa.se.bhac.Dao.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -44,15 +45,19 @@ public class BhacPost extends Model<BhacPost> {
     
     private Integer tid;
     
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacComment> comments;
     
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private BhacActivity activity;
     
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private BhacTag tag;
     
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private BhacUser poster;
 

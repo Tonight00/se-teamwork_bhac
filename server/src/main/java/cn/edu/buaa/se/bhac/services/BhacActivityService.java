@@ -37,7 +37,7 @@ public class BhacActivityService {
      * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public String getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
+    public String getAuthedActivities(BhacUser user, Integer pageNum, Integer limit) {
         BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
         if(roles.isEmpty()) {
@@ -131,6 +131,7 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);
         q.eq("uid",uid);
+        q.eq("state",0);
         if(joinuseractivityMapper.selectCount(q) == 0 ) {
             return -1; // 已经退出
         }

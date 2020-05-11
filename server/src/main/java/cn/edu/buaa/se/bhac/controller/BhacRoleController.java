@@ -21,7 +21,7 @@ public class BhacRoleController {
         if (role == null) {
             role = new BhacRole();
         }
-        return JSONObject.toJSONString(role, ControllerUtils.filterFactory(BhacRole.class));
+        return JSONObject.toJSONString(role);
     }
     
     
