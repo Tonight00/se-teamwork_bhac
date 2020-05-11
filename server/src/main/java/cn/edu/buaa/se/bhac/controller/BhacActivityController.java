@@ -9,7 +9,6 @@ import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +37,7 @@ public class BhacActivityController {
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
+        System.out.println(activityService.getAuthedActivities(admin,pageNum,limit));
         return activityService.getAuthedActivities(admin,pageNum,limit);
     }
 
@@ -152,7 +151,7 @@ public class BhacActivityController {
      * @return
      */
     @PostMapping("/activities")
-    public String addActivity(BhacActivity activity,HttpServletRequest request,ArrayList<Integer>tags) {
+    public String addActivity(BhacActivity activity, HttpServletRequest request, ArrayList<Integer> tags) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         activity.setUid((Integer) claims.get("uid"));
         activityService.addActivity(activity);

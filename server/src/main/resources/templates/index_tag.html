@@ -12,9 +12,9 @@
         <div class="layui-logo">北航大学生活动</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;" th:text="${id}"></a>
+                <a href="javascript:;" th:text="${session.admin.username}"></a>
             </li>
-            <li class="layui-nav-item"><a th:href="@{logout}" >登出</a></li>
+            <li class="layui-nav-item"><a th:href="@{/u/logout}" >登出</a></li>
         </ul>
     </div>
 
@@ -68,7 +68,7 @@
     </div>
 </div>
 <script type="text/html" id="tagCheck">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">DELETE</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script src="/webjars/layui/2.5.6/layui.js"></script>
 <script type="text/javascript">
@@ -87,28 +87,31 @@
         //执行一个 table 实例
         var tableIns = table.render({
             elem: '#tagTable'
-            ,height: 420
-            ,url: '/sysadmin/tags' //数据接口
+            ,height: 480
+            ,url: '/admin/tags' //数据接口
+            ,request:{
+                pageName: 'pageNum'
+                ,limitName:'limit'
+            }
             ,title: 'Tag表'
             ,page: true //开启分页
-            //,toolbar: '#toolbarHead'
             ,id: 'tagTable'
             ,cols:
                 [
                     [ //表头
-                        {type: 'checkbox', fixed: 'left'}
-                        ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                        ,{field: 'name', title: 'Tag名', width:100,sort: true}
-                        ,{field: 'state', title: '权限', width:100,sort: true}
-                        ,{fixed: 'right', width: 220, align:'center', toolbar: '#tagCheck'}
+                        //{type: 'checkbox', fixed: 'left'}
+                        //,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                        {field: 'name', title: '标签名', width:300,sort: true}
+                        //,{field: 'state', title: '权限', width:100,sort: true}
+                        ,{fixed: 'right', title:'管理',width: 100, align:'center', toolbar: '#tagCheck'}
                     ]
                 ]
             ,parseData:function(res) {
                 return {
                     "code": 0, //解析接口状态
                     "msg": "", //解析提示文本
-                    "count": res.length, //解析数据长度
-                    "data": res //解析数据列表
+                    "count": res.count, //解析数据长度
+                    "data": res.data //解析数据列表
                 };
             }
         });
@@ -155,45 +158,8 @@
                     console.log("error");
                     layer.msg(data)
                 }
-            })
+            });
         });
-
-        //监听头工具栏事件
-        // table.on('toolbar(tagTable)',function (obj) {
-        //     var layEvent = obj.event,
-        //         data = obj.data();
-        //     if(layEvent === 'addTag'){
-        //         console.log(data);
-        //         $.ajax({
-        //             url:'/sysadmin/tags',
-        //             type:'POST',
-        //             data:data,
-        //             dataType:'json',
-        //             success:function (data) {
-        //                 //修改table里的状态
-        //                 layer.msg('成功添加Tag');
-        //             },
-        //             error:function (data) {
-        //                 layer.msg(data)
-        //             }
-        //         })
-        //     }
-            // else if(layEvent === 'deleteTag'){
-            //     $.ajax({
-            //         url:'/sysadmin/tags/{id}',
-            //         type:'DELETE',
-            //         data:data,
-            //         dataType:'json',
-            //         success:function (data) {
-            //             //修改table里的状态
-            //             layer.msg('成功删除Tag');
-            //         },
-            //         error:function (data) {
-            //             layer.msg(data)
-            //         }
-            //     })
-        //     // }
-        // })
 
         //监听行工具事件
         table.on('tool(tagTable)', function(obj){
@@ -202,22 +168,26 @@
             var id = data.id;
             console.log(id);
             if(layEvent === 'delete'){
-                $.ajax({
-                    url:'/sysadmin/tags/'+id,
-                    type:'DELETE',
-                    success:function (data) {
-                        tableIns.reload({
-                            page:{
-                                curr:1
-                            }
-                        })
-                        var jsonData = JSON.parse(data);
-                        layer.msg(String(jsonData.message));
-                    },
-                    error:function (data) {
-                        layer.msg(data)
-                    }
-                })
+                layer.confirm('确定删除标签？',function (index) {
+                    $.ajax({
+                        url:'/sysadmin/tags/'+id,
+                        type:'DELETE',
+                        success:function (data) {
+                            tableIns.reload({
+                                page:{
+                                    curr:1
+                                }
+                            })
+                            var jsonData = JSON.parse(data);
+                            layer.msg(String(jsonData.message));
+                        },
+                        error:function (data) {
+                            layer.msg(data)
+                        }
+                    });
+                    layer.close(index);
+                });
+
             }
         });
     });
