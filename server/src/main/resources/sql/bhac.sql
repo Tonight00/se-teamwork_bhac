@@ -133,9 +133,7 @@ CREATE TABLE `bhac_post` (
   `postedBy` int(11) NOT NULL,
   `numOfComment` int(11) DEFAULT NULL,
   `lastEdited` datetime DEFAULT CURRENT_TIMESTAMP,
-  `type` int(11) NOT NULL DEFAULT '0',
-  `content` blob NOT NULL,
-  `rate` int(10) DEFAULT NULL,
+  `type` int(11) NOT NULL DEFAULT '0'
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
