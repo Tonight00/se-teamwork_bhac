@@ -252,4 +252,9 @@ public class BhacUserService {
         userMapper.updateById(modified);
         return UserCode.SUCC_USER_EDIT;
     }
+    
+    public int getUsersCount ()
+    {
+        return userMapper.selectCount(null);
+    }
 }

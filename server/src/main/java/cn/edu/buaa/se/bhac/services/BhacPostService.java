@@ -24,7 +24,6 @@ public class BhacPostService {
     public List<BhacPost> GetPostsByAid (Integer aid ,Integer pageNum, Integer limit){
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);
-        
         Page<BhacPost> page = new Page<>(pageNum,limit);
         return DaoUtils.PageSearch(bhacPostMapper,page,q);
         
@@ -39,5 +38,13 @@ public class BhacPostService {
     public BhacPost getPost (Integer id)
     {
         return bhacPostMapper.selectById(id);
+    }
+    
+    public Integer getId (Integer uid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.select("max(id) max_id").eq("postedBy",uid);
+        List<Integer> ids = bhacPostMapper.selectObjs(q);
+        return ids.get(0);
     }
 }

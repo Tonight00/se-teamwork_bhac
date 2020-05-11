@@ -1,12 +1,10 @@
 package cn.edu.buaa.se.bhac.services;
 
 import cn.edu.buaa.se.bhac.Dao.entity.*;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacJoinuseractivityMapper;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.*;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,8 @@ public class BhacActivityService {
     private BhacUserMapper bhacUserMapper;
     @Autowired
     private BhacBelongactivitytagMapper belongactivitytagMapper;
+    @Autowired
+    private BhacManageuseractivityMapper manageuseractivityMapper;
 
     /**
      * 该用户拥有所有权限的所有活动
@@ -211,5 +211,78 @@ public class BhacActivityService {
         q.eq("date(begin)",date);
         q.in("id",ids);
         return activityMapper.selectList(q);
+    }
+    
+    public Boolean isPostedByMe (Integer uid,Integer aid)
+    {
+        QueryWrapper q  = new QueryWrapper();
+        q.eq("uid",uid);
+        q.eq("id",aid);
+       return activityMapper.selectCount(q)!=0;
+    }
+    
+    public Boolean isManagedByMe (Integer uid,Integer aid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("uid",uid);
+        q.eq("aid",aid);
+        return manageuseractivityMapper.selectCount(q)!=0;
+    }
+    
+    public List<BhacJoinuseractivity> getAllApplications (Integer aid,Integer pageNum, Integer limit)
+    {
+        QueryWrapper q = new QueryWrapper();
+        Page<BhacJoinuseractivity> page = new Page<>(pageNum,limit);
+        q.eq("aid",aid);
+        return DaoUtils.PageSearch(joinuseractivityMapper,page,q);
+    }
+    
+    public int accept (Integer aid, Integer uid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("aid",aid);
+        q.eq("uid",uid);
+        q.eq("state",1);
+        if(joinuseractivityMapper.selectCount(q)!=0) {
+            return -1;
+        }
+        BhacJoinuseractivity join = new BhacJoinuseractivity();
+        join.setState(1);
+        joinuseractivityMapper.update(join,q);
+        return 0;
+    }
+    
+    public void editActInfo (BhacActivity activity)
+    {
+        activityMapper.updateById(activity);
+    }
+    
+    public int getAuthedActivitiesCount (BhacUser user, Integer pageNum, Integer limit)
+    {
+        BhacUser admin = bhacUserMapper.selectById(user.getId());
+        List<BhacRole> roles = admin.getRolesAct();
+        if(roles.isEmpty()) {
+            return 0;
+        }
+        List<Integer> category = new ArrayList<>();
+        for (BhacRole role : roles) {
+            if (role.getState() == 0 && role.getTag().getState() == 0) {
+                category.add(role.getTag().getId());
+            }
+        }
+        if(category.isEmpty()) {
+            return 0;
+        }
+        QueryWrapper q = new QueryWrapper();
+        q.in("category",category);
+        return activityMapper.selectCount(q);
+    }
+    
+    public Integer getId (Integer uid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.select("max(id) max_id").eq("uid",uid);
+        List<Integer> ids = activityMapper.selectObjs(q);
+        return ids.get(0);
     }
 }

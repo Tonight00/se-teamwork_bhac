@@ -235,17 +235,25 @@ public class test
         post.setPostedBy(1);
         post.setType(1);
         String b ="这是一个Content";
-        post.setContent(b);
         bhacPostMapper.insert(post);
       
     }
     
     @Test
     public void testy() {
-        String ddate = "2020-04-30-123123";
-        System.out.println(ddate.substring(0,10));
+        BhacComment comment = new BhacComment();
+        String content="13213123xxx";
+        comment.setPostedBy(1);
+        comment.setPid(1);
+        comment.setSeqNum(1);
+        comment.setContent(content);
+        bhacCommentMapper.insert(comment);
+       // String ddate = "2020-04-30-123123";
+        // System.out.println(ddate.substring(0,10));
         //        QueryWrapper q = new QueryWrapper();
 //        q.ge("date(begin)",ddate);
 //        System.out.println(bhacActivityMapper.selectList(q));
     }
+    
+    
 }

@@ -1,9 +1,11 @@
 package cn.edu.buaa.se.bhac.controller;
 
+import cn.edu.buaa.se.bhac.Dao.entity.BhacComment;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacPost;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.PostCode;
 import cn.edu.buaa.se.bhac.code.TagCode;
+import cn.edu.buaa.se.bhac.services.BhacCommentService;
 import cn.edu.buaa.se.bhac.services.BhacPostService;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
@@ -25,7 +27,8 @@ public class BhacPostController {
     @Autowired
     private BhacPostService bhacPostService;
     
-    
+    @Autowired
+    private BhacCommentService commentService;
     
     @GetMapping("/untoken/posts/getPostsByAid")
     public String getPostsByAid (Integer aid,Integer pageNum, Integer limit) {
@@ -39,10 +42,25 @@ public class BhacPostController {
     
     
     @PostMapping("/posts")
-    public String addPost(HttpServletRequest request, BhacPost post) {
+    public String addPost(HttpServletRequest request, BhacPost post,String content,Integer rate) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         post.setPostedBy((Integer)claims.get("uid"));
+        Integer type = post.getType();
+        if (type == 0) {
+            String s = post.getTitle();
+            post.setTitle("[评分"+rate+"/5] "+s);
+        }
         bhacPostService.addPost(post);
+        Integer pid = bhacPostService.getId((Integer)claims.get("uid"));
+        
+        // 配置一楼
+        BhacComment comment = new BhacComment();
+        comment.setContent(content);
+        comment.setPostedBy((Integer)claims.get("uid"));
+        comment.setPid(pid);
+        comment.setSeqNum(1);
+        commentService.addComment(comment);
+        
         if(post.getType()== 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(PostCode.SUCC_POST_ADD_TYPE0));
         }

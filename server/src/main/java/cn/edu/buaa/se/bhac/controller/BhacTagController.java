@@ -56,11 +56,6 @@ public class BhacTagController {
     }
     
     
-    
-    
-    
-    
-    
     /**
      * @param id 要删除的标签的id
      * @return 删除该标签，返回code和message
@@ -102,6 +97,17 @@ public class BhacTagController {
       return JSONObject.toJSONString(tagService.showTags(pageNum,limit),ControllerUtils.filterFactory(BhacTag.class));
     }
     
+    @GetMapping("/untoken/tags/{id}")
+    public String getTag(@PathVariable("id") Integer id) {
+        BhacTag tag = tagService.getTag(id);
+        if( tag == null ){
+            tag = new BhacTag();
+        }
+        return JSONObject.toJSONString(tag,ControllerUtils.filterFactory(BhacTag.class));
+    }
     
-    
+    @GetMapping("/admin/tagsCount")
+    public int getTagsCount() {
+        return tagService.getTagsCount();
+    }
 }

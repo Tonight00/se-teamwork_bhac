@@ -166,4 +166,9 @@ public class BhacUserController {
         }
         return JSONObject.toJSONString(user,ControllerUtils.filterFactory(BhacUser.class));
     }
+    
+    @GetMapping("/sysadmin/usersCount")
+    public int getUsersCount() {
+        return userService.getUsersCount();
+    }
 }

@@ -1,11 +1,13 @@
 package cn.edu.buaa.se.bhac.controller;
 
 import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
+import cn.edu.buaa.se.bhac.Dao.entity.BhacJoinuseractivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
+import cn.edu.buaa.se.bhac.services.BhacTagService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
@@ -24,6 +26,8 @@ import java.util.List;
 public class BhacActivityController {
     @Autowired
     private BhacActivityService activityService;
+    @Autowired
+    private BhacTagService tagService;
     
     /**
      * 返回该用户可以管理的活动集
@@ -154,10 +158,14 @@ public class BhacActivityController {
      * @return
      */
     @PostMapping("/activities")
-    public String addActivities(BhacActivity activity,HttpServletRequest request) {
+    public String addActivity(BhacActivity activity,HttpServletRequest request,List<Integer>tags) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         activity.setUid((Integer) claims.get("uid"));
         activityService.addActivity(activity);
+        if(tags!=null && tags.size()!=0) {
+            Integer aid = activityService.getId((Integer) claims.get("uid"));
+            tagService.addTags(tags, aid);
+        }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ADD));
     }
     
@@ -186,4 +194,49 @@ public class BhacActivityController {
         List<String> times = activityService.getDatesWithAct((Integer)claims.get("uid"));
         return JSONObject.toJSONString(times);
     }
+    
+    @GetMapping("/activities/isPostedByMe")
+    public String isPostedByMe(HttpServletRequest request,Integer aid) {
+        Claims claims = (Claims) request.getAttribute("claims");
+        return  activityService.isPostedByMe((Integer)claims.get("uid"),aid).toString();
+    }
+    
+    @GetMapping("/activities/isManagedByMe")
+    public String IsManagedByMe(HttpServletRequest request,Integer aid) {
+        Claims claims = (Claims) request.getAttribute("claims");
+        return activityService.isManagedByMe((Integer)claims.get("uid"),aid).toString();
+    }
+    
+    @GetMapping("/untoken/activities/getAllApplications")
+    public String GetAllApplications(Integer aid, Integer pageNum , Integer limit) {
+        List<BhacJoinuseractivity> joinuseractivities = activityService.getAllApplications(aid,pageNum,limit);
+        return JSONObject.toJSONString(joinuseractivities);
+    }
+    
+    @PutMapping("/activities/accept")
+    public String Accept(Integer aid,Integer uid) {
+        int state = activityService.accept(aid,uid);
+        if (state == 0) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ACC));
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_ACC_DUP));
+    }
+    
+    @PutMapping("/activities/editInfo")
+    public String editActInfo(BhacActivity activity,List<Integer> tags) {
+        activityService.editActInfo(activity);
+        if(tags!=null&&tags.size()!=0) {
+            Integer aid = activity.getId();
+            tagService.deleteTags(aid);
+            tagService.addTags(tags, aid);
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_UPD));
+    }
+    
+    @GetMapping("/admin/activities/authedCount")
+    public int getAuthedActivitiesCount(HttpSession session, Integer pageNum, Integer limit) {
+        BhacUser admin = (BhacUser) session.getAttribute("admin");
+        return activityService.getAuthedActivitiesCount(admin,pageNum,limit);
+    }
+    
 }

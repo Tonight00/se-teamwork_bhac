@@ -1,6 +1,8 @@
 package cn.edu.buaa.se.bhac.services;
 
+import cn.edu.buaa.se.bhac.Dao.entity.BhacBelongactivitytag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,6 +20,8 @@ public class BhacTagService {
     
     @Autowired
     private BhacTagMapper tagMapper;
+    @Autowired
+    private BhacBelongactivitytagMapper belongactivitytagMapper;
     
     /**
      * 根据标签名字name，进行模糊查询(%name%)，返回标签集合
@@ -60,5 +64,32 @@ public class BhacTagService {
     public List<BhacTag> showTags(Integer pageNum,Integer limit) {
         Page<BhacTag> page = new Page<>(pageNum,limit);
         return DaoUtils.PageSearch(tagMapper,page,null);
+    }
+    
+    public BhacTag getTag (Integer id)
+    {
+        return tagMapper.selectById(id);
+    }
+    
+    public int getTagsCount ()
+    {
+        return tagMapper.selectCount(null);
+    }
+    
+    public void addTags (List<Integer> tags, Integer aid)
+    {
+        for(int tid : tags) {
+            BhacBelongactivitytag belong  = new BhacBelongactivitytag();
+            belong.setAid(aid);
+            belong.setTid(tid);
+            belongactivitytagMapper.insert(belong);
+        }
+    }
+    
+    public void deleteTags (Integer aid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("aid",aid);
+        belongactivitytagMapper.delete(q);
     }
 }
