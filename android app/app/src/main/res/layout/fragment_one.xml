@@ -69,12 +69,6 @@
 
 
 
-
-
-
-
-
-
     <ListView
         android:id="@+id/fg1_activities_listview"
         android:layout_width="match_parent"
