@@ -29,5 +29,9 @@ public class BhacRoleService {
         if(roles == null || roles.size() == 0) return null;
         return  roles.get(0);
     }
-
+    
+    public BhacRole getRole (Integer id)
+    {
+        return roleMapper.selectById(id);
+    }
 }

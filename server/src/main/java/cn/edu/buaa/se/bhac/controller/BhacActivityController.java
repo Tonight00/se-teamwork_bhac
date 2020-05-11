@@ -1,11 +1,13 @@
 package cn.edu.buaa.se.bhac.controller;
 
 import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
+import cn.edu.buaa.se.bhac.Dao.entity.BhacJoinuseractivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
+import cn.edu.buaa.se.bhac.services.BhacTagService;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
@@ -14,13 +16,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 public class BhacActivityController {
     @Autowired
     private BhacActivityService activityService;
+    @Autowired
+    private BhacTagService tagService;
     
     /**
      * 返回该用户可以管理的活动集
@@ -32,11 +36,9 @@ public class BhacActivityController {
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
-        if(authedActivities == null) authedActivities = new ArrayList<>();
-        System.out.println(authedActivities);
-        return JSONObject.toJSONString(authedActivities,
-                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
+        return activityService.getAuthedActivities(admin,pageNum,limit);
+    
+    
     }
 
     /**
@@ -115,6 +117,7 @@ public class BhacActivityController {
      * @param request Http请求
      * @return 返回code和message
      */
+    
     @PutMapping("/activities/unenroll")
     public String unenroll (Integer aid,HttpServletRequest request) {
         Claims claims  =  (Claims) request.getAttribute("claims");
@@ -150,10 +153,85 @@ public class BhacActivityController {
      * @return
      */
     @PostMapping("/activities")
-    public String addActivities(BhacActivity activity,HttpServletRequest request) {
+    public String addActivity(BhacActivity activity,HttpServletRequest request,List<Integer>tags) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         activity.setUid((Integer) claims.get("uid"));
         activityService.addActivity(activity);
+        if(tags!=null && tags.size()!=0) {
+            Integer aid = activityService.getId((Integer) claims.get("uid"));
+            tagService.addTags(tags, aid);
+        }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ADD));
     }
+    
+    
+    @GetMapping("/activities/getActByDate")
+    public String getActByDate(HttpServletRequest request, String date) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        List<BhacActivity> activities = activityService.getActByDate((Integer)claims.get("uid"),date);
+        return JSONObject.toJSONString(activities,ControllerUtils.filterFactory(BhacActivity.class));
+    }
+    
+    @GetMapping("/untoken/activities/belongs")
+    public String getActTagNames(Integer aid) {
+        String mname = activityService.getMname(aid);
+        List<String> names = activityService.getNames(aid,mname);
+        if(mname ==null) mname ="";
+        HashMap<String,Object> mp = new HashMap<>();
+        mp.put("categoryName",mname);
+        mp.put("belongs",names);
+        return JSONObject.toJSONString(ControllerUtils.JsonMap(mp));
+    }
+    
+    @GetMapping("/activities/getDates")
+    public String getDatesWithAct(HttpServletRequest request) {
+        Claims claims  =  (Claims) request.getAttribute("claims");
+        List<String> times = activityService.getDatesWithAct((Integer)claims.get("uid"));
+        return JSONObject.toJSONString(times);
+    }
+    
+    @GetMapping("/activities/isPostedByMe")
+    public String isPostedByMe(HttpServletRequest request,Integer aid) {
+        Claims claims = (Claims) request.getAttribute("claims");
+        return  activityService.isPostedByMe((Integer)claims.get("uid"),aid).toString();
+    }
+    
+    @GetMapping("/activities/isManagedByMe")
+    public String IsManagedByMe(HttpServletRequest request,Integer aid) {
+        Claims claims = (Claims) request.getAttribute("claims");
+        return activityService.isManagedByMe((Integer)claims.get("uid"),aid).toString();
+    }
+    
+    @GetMapping("/untoken/activities/getAllApplications")
+    public String GetAllApplications(Integer aid, Integer pageNum , Integer limit) {
+        List<BhacJoinuseractivity> joinuseractivities = activityService.getAllApplications(aid,pageNum,limit);
+        return JSONObject.toJSONString(joinuseractivities);
+    }
+    
+    @PutMapping("/activities/accept")
+    public String Accept(Integer aid,Integer uid) {
+        int state = activityService.accept(aid,uid);
+        if (state == 0) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ACC));
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_ACC_DUP));
+    }
+    
+    @PutMapping("/activities/editInfo")
+    public String editActInfo(BhacActivity activity,List<Integer> tags) {
+        activityService.editActInfo(activity);
+        if(tags!=null&&tags.size()!=0) {
+            Integer aid = activity.getId();
+            tagService.deleteTags(aid);
+            tagService.addTags(tags, aid);
+        }
+        return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_UPD));
+    }
+//
+//    @GetMapping("/admin/activities/authedCount")
+//    public int getAuthedActivitiesCount(HttpSession session, Integer pageNum, Integer limit) {
+//        BhacUser admin = (BhacUser) session.getAttribute("admin");
+//        return activityService.getAuthedActivitiesCount(admin,pageNum,limit);
+//    }
+//
 }

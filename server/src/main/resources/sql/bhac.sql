@@ -12,7 +12,7 @@ MySQL - 8.0.18 : Database - bhac
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`bhac` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `bhac` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `bhac`;
 
@@ -39,7 +39,7 @@ CREATE TABLE `bhac_activity` (
 
 /*Data for the table `bhac_activity` */
 
-insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1','place1',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(2,1,2,'post2','place2',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3','place3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
+insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1','place1',NULL,'2020-04-30 13:59:02','2020-05-10 16:43:53',NULL,0,-1,0,NULL),(2,1,2,'post2','place2',NULL,'2020-04-30 13:00:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3','place3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
 
 /*Table structure for table `bhac_actuserrole` */
 
@@ -84,11 +84,11 @@ CREATE TABLE `bhac_comment` (
   `content` blob,
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `bhac_comment` */
 
-insert  into `bhac_comment`(`id`,`pid`,`seqNum`,`postedBy`,`parentId`,`content`,`date`) values (1,1,1,1,NULL,'first_comment','2020-04-30 18:06:28'),(2,2,2,1,NULL,'second_comment','2020-04-30 18:06:28'),(3,3,3,1,NULL,'third_comment','2020-04-30 18:06:28');
+insert  into `bhac_comment`(`id`,`pid`,`seqNum`,`postedBy`,`parentId`,`content`,`date`) values (1,1,1,1,NULL,'first_comment','2020-04-30 18:06:28'),(2,2,2,1,NULL,'second_comment','2020-04-30 18:06:28'),(3,3,3,1,NULL,'third_comment','2020-04-30 18:06:28'),(4,1,1,1,NULL,NULL,'2020-05-11 11:30:40'),(5,1,1,1,NULL,NULL,'2020-05-11 11:32:14'),(6,1,1,1,NULL,'13213123xxx','2020-05-11 11:33:50'),(7,1,1,1,NULL,'13213123xxx','2020-05-11 12:19:30');
 
 /*Table structure for table `bhac_joinuseractivity` */
 
@@ -131,15 +131,15 @@ CREATE TABLE `bhac_post` (
   `tid` int(11) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `postedBy` int(11) NOT NULL,
-  `numOfComment` int(11) NOT NULL,
+  `numOfComment` int(11) DEFAULT NULL,
   `lastEdited` datetime DEFAULT CURRENT_TIMESTAMP,
-  `type` int(11) DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `bhac_post` */
 
-insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0),(2,1,2,'',1,2,'2020-04-30 17:10:29',0);
+insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0),(2,1,2,'',1,2,'2020-04-30 17:10:29',0),(3,NULL,NULL,'12312',1,NULL,'2020-05-10 18:01:39',1);
 
 /*Table structure for table `bhac_role` */
 

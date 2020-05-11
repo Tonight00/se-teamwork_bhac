@@ -2,6 +2,7 @@ package cn.edu.buaa.se.bhac;
 
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.*;
+import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.Utils.JWTUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
@@ -19,12 +20,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -43,6 +47,7 @@ public class test
     private BhacPostMapper bhacPostMapper;
     @Autowired
     private BhacCommentMapper bhacCommentMapper;
+  
     
     public <T>void print(List<T> st ) {
         if(st==null){
@@ -219,4 +224,36 @@ public class test
         System.out.println(f.format(d));
         
     }
+    
+    @Test
+    public void testx() {
+    
+       // System.out.println(bhacPostMapper.selectById(1));
+        
+         BhacPost post = new BhacPost();
+        post.setTitle("12312");
+        post.setPostedBy(1);
+        post.setType(1);
+        String b ="这是一个Content";
+        bhacPostMapper.insert(post);
+      
+    }
+    
+    @Test
+    public void testy() {
+        BhacComment comment = new BhacComment();
+        String content="13213123xxx";
+        comment.setPostedBy(1);
+        comment.setPid(1);
+        comment.setSeqNum(1);
+        comment.setContent(content);
+        bhacCommentMapper.insert(comment);
+       // String ddate = "2020-04-30-123123";
+        // System.out.println(ddate.substring(0,10));
+        //        QueryWrapper q = new QueryWrapper();
+//        q.ge("date(begin)",ddate);
+//        System.out.println(bhacActivityMapper.selectList(q));
+    }
+    
+    
 }

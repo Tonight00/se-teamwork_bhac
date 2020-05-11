@@ -1,16 +1,19 @@
 package cn.edu.buaa.se.bhac.services;
 
 import cn.edu.buaa.se.bhac.Dao.entity.*;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacJoinuseractivityMapper;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.*;
+import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,10 @@ public class BhacActivityService {
     private BhacJoinuseractivityMapper joinuseractivityMapper;
     @Autowired
     private BhacUserMapper bhacUserMapper;
+    @Autowired
+    private BhacBelongactivitytagMapper belongactivitytagMapper;
+    @Autowired
+    private BhacManageuseractivityMapper manageuseractivityMapper;
 
     /**
      * 该用户拥有所有权限的所有活动
@@ -30,7 +37,7 @@ public class BhacActivityService {
      * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public List<BhacActivity> getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
+    public String getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
         BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
         if(roles.isEmpty()) {
@@ -48,7 +55,8 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         q.in("category",category);
         Page<BhacActivity> page = new Page<>(pageNum,limit);
-        return  DaoUtils.PageSearch(activityMapper,page,q);
+        IPage<BhacActivity> iPage = activityMapper.selectPage(page,q);;
+        return ControllerUtils.putCountAndData(iPage,BhacActivity.class);
     }
 
     /**
@@ -155,5 +163,110 @@ public class BhacActivityService {
     public void addActivity (BhacActivity activity)
     {
         activityMapper.insert(activity);
+    }
+    
+    public String getMname (Integer aid)
+    {
+        BhacActivity activity = activityMapper.selectById(aid);
+        return activity.getCategoryTag().getName();
+    }
+    
+    public List<String> getNames (Integer aid, String mname)
+    {
+        BhacActivity activity = activityMapper.selectById(aid);
+        List<BhacTag> tags = activity.getTagsBelong();
+        List<String> names = new ArrayList<>();
+        for(BhacTag tag : tags) {
+            if (!tag.getName().equals(mname)) {
+                names.add(tag.getName());
+            }
+        }
+        return names;
+    }
+    
+    public List<String> getDatesWithAct (Integer uid)
+    {
+        BhacUser user = bhacUserMapper.selectById(uid);
+        List<BhacActivity> activities =  user.getActivitiesProcessing();
+        List<BhacActivity> activities2 = user.getActivitiesSucceed();
+        List<String> times = new ArrayList<>();
+        
+        for(BhacActivity activity : activities) {
+            times.add(activity.getBegin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
+        for(BhacActivity activity : activities2) {
+            times.add(activity.getBegin().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
+        return times;
+    }
+    
+    public List<BhacActivity> getActByDate (Integer uid,String date)
+    {
+        date = date.substring(0,10);
+        BhacUser user = bhacUserMapper.selectById(uid);
+        List<BhacActivity> activities = new ArrayList<>();
+        activities.addAll(user.getActivitiesProcessing());
+        activities.addAll(user.getActivitiesSucceed());
+        List<Integer> ids = new ArrayList<>();
+        for(BhacActivity activity : activities) {
+            ids.add(activity.getId());
+        }
+        QueryWrapper q = new QueryWrapper();
+        q.eq("date(begin)",date);
+        q.in("id",ids);
+        return activityMapper.selectList(q);
+    }
+    
+    public Boolean isPostedByMe (Integer uid,Integer aid)
+    {
+        QueryWrapper q  = new QueryWrapper();
+        q.eq("uid",uid);
+        q.eq("id",aid);
+       return activityMapper.selectCount(q)!=0;
+    }
+    
+    public Boolean isManagedByMe (Integer uid,Integer aid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("uid",uid);
+        q.eq("aid",aid);
+        return manageuseractivityMapper.selectCount(q)!=0;
+    }
+    
+    public List<BhacJoinuseractivity> getAllApplications (Integer aid,Integer pageNum, Integer limit)
+    {
+        QueryWrapper q = new QueryWrapper();
+        Page<BhacJoinuseractivity> page = new Page<>(pageNum,limit);
+        q.eq("aid",aid);
+        return DaoUtils.PageSearch(joinuseractivityMapper,page,q);
+    }
+    
+    public int accept (Integer aid, Integer uid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("aid",aid);
+        q.eq("uid",uid);
+        q.eq("state",1);
+        if(joinuseractivityMapper.selectCount(q)!=0) {
+            return -1;
+        }
+        BhacJoinuseractivity join = new BhacJoinuseractivity();
+        join.setState(1);
+        joinuseractivityMapper.update(join,q);
+        return 0;
+    }
+    
+    public void editActInfo (BhacActivity activity)
+    {
+        activityMapper.updateById(activity);
+    }
+    
+    
+    public Integer getId (Integer uid)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.select("max(id) max_id").eq("uid",uid);
+        List<Integer> ids = activityMapper.selectObjs(q);
+        return ids.get(0);
     }
 }
