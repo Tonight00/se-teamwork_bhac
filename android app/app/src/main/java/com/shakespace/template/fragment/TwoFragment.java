@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -30,6 +31,8 @@ import com.shakespace.template.R;
 import com.shakespace.template.base.BaseFragment;
 import com.shakespace.template.copy.BhacActivity;
 import com.shakespace.template.copy.BhacTag;
+import com.shakespace.template.in_fragment1.activity_detail;
+import com.shakespace.template.in_fragment1.select_which_activity;
 import com.shakespace.template.in_fragment4.log_state;
 
 import java.io.IOException;
@@ -179,6 +182,22 @@ public class TwoFragment extends BaseFragment {
                 }
             }
         });*/
+
+
+        fg2_activities_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String,Object> map = (Map<String,Object>)parent.getItemAtPosition(position);
+                //Toast.makeText(getActivity(),map.get("id").toString(),Toast.LENGTH_LONG).show();
+
+                select_which_activity.setid((int)map.get("id"));
+
+                Intent intent =new Intent(getActivity().getApplicationContext(), activity_detail.class);
+                //启动
+                startActivity(intent);
+
+            }
+        });
 
 
 
