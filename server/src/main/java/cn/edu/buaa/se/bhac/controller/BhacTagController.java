@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 public class BhacTagController {
     @Autowired
@@ -54,7 +51,8 @@ public class BhacTagController {
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(TagCode.SUCC_TAG_ADDED));
     }
-
+    
+    
     /**
      * @param id 要删除的标签的id
      * @return 删除该标签，返回code和message
@@ -75,14 +73,21 @@ public class BhacTagController {
      * @return 根据name模糊查询(% x %)查出对应的标签，以Json格式返回
      * @implNote 返回JSON格式的做法请参考getAuthedActivities方法
      */
+
+
+//    @GetMapping("/sysadmin/tags")
+//    public String getTagsByName(@Param("name") String name, @Param("pageNum") Integer pageNum , @Param("limit")Integer limit) {
+//        List<BhacTag> tags = tagService.getTagsByTagname(name, pageNum, limit);
+//        if (tags == null) {
+//            tags = new ArrayList<>();
+//        }
+//        return JSONObject.toJSONString(tags,
+//                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class));
+//    }
+
     @GetMapping("/admin/tags")
     public String getTagsByName(@Param("name") String name, @Param("pageNum") Integer pageNum , @Param("limit")Integer limit) {
-        List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
-        if(tags == null ) {
-            tags = new ArrayList<>();
-        }
-        return JSONObject.toJSONString(tags,
-                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class));
+        return tagService.getTagsByTagname(name,pageNum,limit);
     }
     
     
@@ -97,6 +102,17 @@ public class BhacTagController {
       return JSONObject.toJSONString(tagService.showTags(pageNum,limit),ControllerUtils.filterFactory(BhacTag.class));
     }
     
+    @GetMapping("/untoken/tags/{id}")
+    public String getTag(@PathVariable("id") Integer id) {
+        BhacTag tag = tagService.getTag(id);
+        if( tag == null ){
+            tag = new BhacTag();
+        }
+        return JSONObject.toJSONString(tag,ControllerUtils.filterFactory(BhacTag.class));
+    }
     
-    
+//    @GetMapping("/admin/tagsCount")
+//    public int getTagsCount() {
+//        return tagService.getTagsCount();
+//    }
 }

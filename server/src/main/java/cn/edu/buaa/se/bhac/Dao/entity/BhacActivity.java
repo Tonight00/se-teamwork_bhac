@@ -52,25 +52,36 @@ public class BhacActivity extends Model<BhacActivity> {
 
     private String brief;
 
+    @JSONField(serialize = false)
     @TableField("isOpen")
     private Integer isOpen;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField("limitPeopleNum")
     private Integer limitPeopleNum;
 
     private Integer state;
 
     private String extra;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private BhacUser releaser;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacUser> usersProcessing;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacUser> usersSucceed;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private BhacTag categoryTag;
 

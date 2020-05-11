@@ -1,5 +1,6 @@
 package cn.edu.buaa.se.bhac.Dao.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -28,7 +29,9 @@ public class BhacUser extends Model<BhacUser> {
     private String username;
 
     private String email;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField("phoneNum")
     private String phoneNum;
 
@@ -36,33 +39,51 @@ public class BhacUser extends Model<BhacUser> {
     private String password;
 
     private Integer state;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField("firstName")
     private String firstName;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField("lastName")
     private String lastName;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField("studentId")
     private String studentId;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField("avatarUrl")
     private String avatarUrl;
 
     private Integer gender;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacActivity> activitiesProcessing;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacActivity> activitiesSucceed;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacRole> rolesAct;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacActivity> activitiesRelease;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacActivity> activitiesManage;
 

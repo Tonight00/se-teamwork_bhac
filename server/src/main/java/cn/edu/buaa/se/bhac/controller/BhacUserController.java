@@ -14,10 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -48,9 +45,7 @@ public class BhacUserController {
     @GetMapping("/sysadmin/users")
     public String getUsersByUsername(@Param("username") String username,@Param("page") Integer page, @Param("limit") Integer limit) {
         Integer pageNum = page;
-        List<BhacUser> users = userService.getUsersByUsername(username, pageNum, limit);
-        if (users == null ) users = new ArrayList<>();
-        return JSONObject.toJSONString(users, ControllerUtils.filterFactory(BhacUser.class));
+        return userService.getUsersByUsername(username, pageNum, limit);
     }
 
     /**
@@ -159,5 +154,19 @@ public class BhacUserController {
         }
         return ControllerUtils.JsonCodeAndMessage(code).toJSONString();
     }
-
+    
+    
+    @GetMapping("/untoken/users/{id}")
+    public String getUser(@PathVariable("id")Integer id) {
+        BhacUser user = userService.getUserById(id);
+        if(user == null) {
+            user = new BhacUser();
+        }
+        return JSONObject.toJSONString(user,ControllerUtils.filterFactory(BhacUser.class));
+    }
+    
+//    @GetMapping("/sysadmin/usersCount")
+//    public int getUsersCount() {
+//        return userService.getUsersCount();
+//    }
 }

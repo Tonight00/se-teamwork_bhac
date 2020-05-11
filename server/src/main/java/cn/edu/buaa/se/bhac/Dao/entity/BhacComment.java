@@ -1,6 +1,8 @@
 package cn.edu.buaa.se.bhac.Dao.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import org.junit.Test;
@@ -21,7 +23,8 @@ import java.time.LocalDateTime;
 public class BhacComment extends Model<BhacComment> {
 
     private static final long serialVersionUID=1L;
-
+    
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @TableField("seqNum")
@@ -33,7 +36,7 @@ public class BhacComment extends Model<BhacComment> {
     @TableField("parentId")
     private Integer parentId;
 
-    private Blob content;
+    private String content;
 
     private LocalDateTime date;
     
@@ -107,11 +110,11 @@ public class BhacComment extends Model<BhacComment> {
         this.parentId = parentId;
     }
 
-    public Blob getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(Blob content) {
+    public void setContent(String content) {
         this.content = content;
     }
 

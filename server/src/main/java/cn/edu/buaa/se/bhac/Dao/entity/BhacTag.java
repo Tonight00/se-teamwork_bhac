@@ -1,5 +1,6 @@
 package cn.edu.buaa.se.bhac.Dao.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -30,22 +31,29 @@ public class BhacTag extends Model<BhacTag> {
     private Integer state;
 
     private Integer parentId;
-
+    
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacPost> posts;
-
+    
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacRole> roles;
 
     /**
      * 属于本tag但category不是本tag的活动，
      */
+
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacActivity> activitiesBelong;
 
     /**
      * category是本tag的活动
      */
+
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacActivity> activities;
 

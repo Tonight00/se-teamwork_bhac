@@ -22,4 +22,9 @@
         <setting name="lazyLoadTriggerMethods"
                  value=""/>
     </settings>
+    <!--
+    <typeHandlers>
+        <typeHandler jdbcType="BLOB" javaType="byte[]" handler="org.apache.ibatis.type.BlobTypeHandler"/>
+    </typeHandlers>
+    -->
 </configuration>

@@ -5,6 +5,7 @@ import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActuserroleMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
+import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -86,12 +87,12 @@ public class BhacUserService {
      * @param name 用户名
      * @return BhacUser对象集合
      */
-    public List<BhacUser> getUsersByUsername(String name, Integer pageNum, Integer limit) {
+    public String getUsersByUsername(String name, Integer pageNum, Integer limit) {
         QueryWrapper q = new QueryWrapper();
         q.like("username", name);
-
-        Page<BhacUser> page = new Page<>(pageNum, limit, false);
-        return DaoUtils.PageSearch(userMapper, page, q);
+        Page<BhacUser> page = new Page<>(pageNum, limit);
+        IPage<BhacUser> iPage = userMapper.selectPage(page,q);
+        return ControllerUtils.putCountAndData(iPage,BhacUser.class);
     }
 
     /**
@@ -251,5 +252,10 @@ public class BhacUserService {
         modified.setPassword(newPassword);
         userMapper.updateById(modified);
         return UserCode.SUCC_USER_EDIT;
+    }
+    
+    public int getUsersCount ()
+    {
+        return userMapper.selectCount(null);
     }
 }
