@@ -84,11 +84,11 @@ CREATE TABLE `bhac_comment` (
   `content` blob,
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `bhac_comment` */
 
-insert  into `bhac_comment`(`id`,`pid`,`seqNum`,`postedBy`,`parentId`,`content`,`date`) values (1,1,1,1,NULL,'first_comment','2020-04-30 18:06:28'),(2,2,2,1,NULL,'second_comment','2020-04-30 18:06:28'),(3,3,3,1,NULL,'third_comment','2020-04-30 18:06:28');
+insert  into `bhac_comment`(`id`,`pid`,`seqNum`,`postedBy`,`parentId`,`content`,`date`) values (1,1,1,1,NULL,'first_comment','2020-04-30 18:06:28'),(2,2,2,1,NULL,'second_comment','2020-04-30 18:06:28'),(3,3,3,1,NULL,'third_comment','2020-04-30 18:06:28'),(4,1,1,1,NULL,NULL,'2020-05-11 11:30:40'),(5,1,1,1,NULL,NULL,'2020-05-11 11:32:14'),(6,1,1,1,NULL,'13213123xxx','2020-05-11 11:33:50'),(7,1,1,1,NULL,'13213123xxx','2020-05-11 12:19:30');
 
 /*Table structure for table `bhac_joinuseractivity` */
 
@@ -139,7 +139,7 @@ CREATE TABLE `bhac_post` (
 
 /*Data for the table `bhac_post` */
 
-insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`,`content`,`rate`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0,'asdasd				asdasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',NULL),(2,1,2,'',1,2,'2020-04-30 17:10:29',0,'asdasdasdasdasd',NULL),(3,NULL,NULL,'12312',1,NULL,'2020-05-10 18:01:39',1,'这是一个Content',NULL);
+insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0),(2,1,2,'',1,2,'2020-04-30 17:10:29',0),(3,NULL,NULL,'12312',1,NULL,'2020-05-10 18:01:39',1);
 
 /*Table structure for table `bhac_role` */
 
