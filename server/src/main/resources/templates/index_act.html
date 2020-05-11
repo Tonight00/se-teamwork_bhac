@@ -91,7 +91,7 @@
         //执行一个 table 实例
         var tableIns = table.render({
             elem: '#actTable'
-            ,height: 640
+            ,height: 480
             ,url: '/admin/activities/authed' //数据接口
             ,request:{
                 pageName: 'pageNum'
@@ -128,22 +128,18 @@
                     async:false,
                     data:{"name":"","pageNum":1,"limit":10},
                     success:function (data) {
-                        console.log(data);
-                        jsonData = JSON.parse(data);
-                        console.log(jsonData);
+                        jsonTagRes = JSON.parse(data);
+                        jsonData = jsonTagRes.data;
                         newRes = res;
-                        for (var i=0; i<newRes.length; i++){
-                            var index = newRes[i].category;
+                        for (var i=0; i<newRes.data.length; i++){
+                            var index = newRes.data[i].category;
                             for (var j=0; j<jsonData.length;j++){
                                 if(jsonData[j].id === index){
-                                    newRes[i].category = jsonData[j].name;
+                                    newRes.data[i].category = jsonData[j].name;
                                     break;
                                 }
                             }
                         }
-                        console.log(res);
-                        console.log(newRes);
-
                     },
                     error:function (data) {
                         console.log("error");
@@ -153,8 +149,8 @@
                 return {
                     "code": 0, //解析接口状态
                     "msg": "", //解析提示文本
-                    "count": 1000, //解析数据长度
-                    "data": newRes //解析数据列表
+                    "count": newRes.count, //解析数据长度
+                    "data": newRes.data //解析数据列表
                 };
             }
         });

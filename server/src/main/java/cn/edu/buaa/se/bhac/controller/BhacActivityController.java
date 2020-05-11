@@ -37,14 +37,7 @@ public class BhacActivityController {
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-
-//        List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
-//        if(authedActivities == null) authedActivities = new ArrayList<>();
-//        System.out.println(JSONObject.toJSONString(authedActivities,
-//                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class)));
-//        return JSONObject.toJSONString(authedActivities,
-//                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
-
+        System.out.println(activityService.getAuthedActivities(admin,pageNum,limit));
         return activityService.getAuthedActivities(admin,pageNum,limit);
     }
 

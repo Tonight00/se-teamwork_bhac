@@ -87,7 +87,7 @@
         //执行一个 table 实例
         var tableIns = table.render({
             elem: '#tagTable'
-            ,height: 420
+            ,height: 480
             ,url: '/admin/tags' //数据接口
             ,request:{
                 pageName: 'pageNum'
@@ -110,8 +110,8 @@
                 return {
                     "code": 0, //解析接口状态
                     "msg": "", //解析提示文本
-                    "count": res.length, //解析数据长度
-                    "data": res //解析数据列表
+                    "count": res.count, //解析数据长度
+                    "data": res.data //解析数据列表
                 };
             }
         });
