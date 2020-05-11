@@ -85,13 +85,15 @@ public class BhacActivity extends Model<BhacActivity> {
     @TableField(exist = false)
     private BhacTag categoryTag;
 
-
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacUser> usersManage;
 
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacTag> tagsBelong;
 
+    @JSONField(serialize = false)
     @TableField(exist = false)
     private List<BhacPost> posts;
 

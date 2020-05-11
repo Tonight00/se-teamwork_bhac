@@ -37,8 +37,6 @@ public class BhacActivityController {
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
         return activityService.getAuthedActivities(admin,pageNum,limit);
-    
-    
     }
 
     /**
@@ -153,7 +151,7 @@ public class BhacActivityController {
      * @return
      */
     @PostMapping("/activities")
-    public String addActivity(BhacActivity activity,HttpServletRequest request,List<Integer>tags) {
+    public String addActivity(BhacActivity activity,HttpServletRequest request,ArrayList<Integer>tags) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         activity.setUid((Integer) claims.get("uid"));
         activityService.addActivity(activity);
@@ -218,7 +216,7 @@ public class BhacActivityController {
     }
     
     @PutMapping("/activities/editInfo")
-    public String editActInfo(BhacActivity activity,List<Integer> tags) {
+    public String editActInfo(BhacActivity activity,ArrayList<Integer> tags) {
         activityService.editActInfo(activity);
         if(tags!=null&&tags.size()!=0) {
             Integer aid = activity.getId();
