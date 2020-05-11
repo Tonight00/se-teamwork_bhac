@@ -131,7 +131,6 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);
         q.eq("uid",uid);
-        q.eq("state",0);
         if(joinuseractivityMapper.selectCount(q) == 0 ) {
             return -1; // 已经退出
         }
@@ -247,12 +246,12 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);
         q.eq("uid",uid);
-        q.eq("state",1);
+        q.eq("state",0);
         if(joinuseractivityMapper.selectCount(q)!=0) {
             return -1;
         }
         BhacJoinuseractivity join = new BhacJoinuseractivity();
-        join.setState(1);
+        join.setState(0);
         joinuseractivityMapper.update(join,q);
         return 0;
     }

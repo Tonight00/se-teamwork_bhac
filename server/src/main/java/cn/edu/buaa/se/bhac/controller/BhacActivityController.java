@@ -37,7 +37,6 @@ public class BhacActivityController {
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        System.out.println(activityService.getAuthedActivities(admin,pageNum,limit));
         return activityService.getAuthedActivities(admin,pageNum,limit);
     }
 
