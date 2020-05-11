@@ -27,25 +27,15 @@
 
 
             <TextView
-                android:id="@+id/welcome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginRight="10dp"
-                android:text="欢迎您！"
-                android:textColor="#03A9F4"
-                android:textSize="45dp" />
-
-            <TextView
                 android:id="@+id/show_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="待设定用户名abc"
+                android:text="未登录\n \n \n \n"
                 android:textColor="#03A9F4"
-                android:textSize="35dp" />
+                android:textSize="30dp"
+                android:background="@drawable/edit_background"/>
 
             <Button
                 android:id="@+id/getpost"

@@ -17,19 +17,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/activity_detail_manage"
-            android:layout_marginTop="10dp"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector2"
-            android:text="管理"
-            android:textColor="#ffffff"
-            android:textSize="25dp" />
+            android:gravity="right">
+            <ImageButton
+                android:id="@+id/activity_detail_manage"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@mipmap/guanli"
+                android:background="#0000"
+                android:scaleType="fitXY">
+
+            </ImageButton>
+        </LinearLayout>
+
 
 
         <TextView
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="标题:"

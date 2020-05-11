@@ -10,21 +10,19 @@
     tools:context="com.shakespace.template.fragment.OneFragment">
 
 
-
-    <TextView
+    <!--<TextView
         android:id="@+id/thisistwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:text="与服务器连接失败"/>
+        android:text="与服务器连接失败"/>-->
 
 
     <com.haibin.calendarview.CalendarLayout
         android:id="@+id/fg2_calendarLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/thisistwo">
+        android:orientation="vertical">
 
         <com.haibin.calendarview.CalendarView
             android:id="@+id/fg2_calendarview"
@@ -35,28 +33,15 @@
 
     </com.haibin.calendarview.CalendarLayout>
 
-    <Button
-        android:id="@+id/fg2_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/selector4"
-        android:layout_below="@+id/fg2_calendarLayout"
-        android:text="刷新"
-        android:textColor="#ffffff"
-        android:textSize="20dp" />
+
 
 
     <ListView
         android:id="@+id/fg2_activities_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/fg2_refresh">
-    </ListView>
-
-
+        android:layout_below="@+id/fg2_calendarLayout"
+        android:layout_marginTop="13dp"></ListView>
 
 
 </RelativeLayout>

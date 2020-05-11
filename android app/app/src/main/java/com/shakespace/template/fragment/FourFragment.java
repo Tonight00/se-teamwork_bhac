@@ -62,7 +62,7 @@ public class FourFragment extends BaseFragment {
     private static final int GET = 1;
     private static final int POST = 2;
     //部件定义
-    private TextView welcome;
+    //private TextView welcome;
     private TextView show_username;
     private Button btn_login;
     private Button btn_reg;
@@ -86,7 +86,7 @@ public class FourFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         //连接对应部件
-        welcome = (TextView)getActivity().findViewById(R.id.welcome);
+        //welcome = (TextView)getActivity().findViewById(R.id.welcome);
         show_username = (TextView)getActivity().findViewById(R.id.show_username);
         btn_login= (Button)getActivity().findViewById(R.id.login);
         btn_reg= (Button)getActivity().findViewById(R.id.register);
@@ -105,6 +105,8 @@ public class FourFragment extends BaseFragment {
 
         //设置部件可见性
         setVisibility();
+
+        getpost.setVisibility(View.GONE);
 
         //广播方法实现Fragment页面刷新
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
@@ -287,7 +289,7 @@ public class FourFragment extends BaseFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        welcome.setText(result);
+                        //welcome.setText(result);
                     }
                 });
 
@@ -338,7 +340,7 @@ public class FourFragment extends BaseFragment {
                         //JsonObject responseBodyJSONObject = (JsonObject) new JsonParser().parse(result);
 
 
-                        welcome.setText(result);
+                        //welcome.setText(result);
 
                         /*
                         if(responseBodyJSONObject.get("title")!=null){
@@ -475,7 +477,7 @@ public class FourFragment extends BaseFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        welcome.setText(result);
+                        //welcome.setText(result);
                     }
                 });
 
@@ -531,7 +533,7 @@ public class FourFragment extends BaseFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        welcome.setText(result);
+                       // welcome.setText(result);
                     }
                 });
 
@@ -626,8 +628,33 @@ public class FourFragment extends BaseFragment {
                     JsonObject responseBodyJSONObject = (JsonObject) new JsonParser().parse(result);
                     // 使用JSON对象获取具体值
 
-                    show_username.setText(responseBodyJSONObject.get("username").getAsString());
 
+
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        String temp = "个人信息\n用户名:";
+
+                        temp = temp + responseBodyJSONObject.get("username").getAsString();
+
+                        System.out.println(result);//
+
+                        if(responseBodyJSONObject.get("phoneNum")!=null){
+                            temp = temp + "\n手机号:" + responseBodyJSONObject.get("phoneNum").getAsString();
+                        }
+                        if(responseBodyJSONObject.get("email")!=null){
+                            temp = temp + "\n邮箱:" + responseBodyJSONObject.get("email").getAsString();
+                        }
+                        if(responseBodyJSONObject.get("studentId")!=null){
+                            temp = temp + "\n学号:" + responseBodyJSONObject.get("studentId").getAsString();
+                        }
+
+
+                        show_username.setText(temp);
+                    }
+                });
 
                 Looper.loop();
             }

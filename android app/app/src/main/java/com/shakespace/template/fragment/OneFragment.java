@@ -62,11 +62,11 @@ import static com.shakespace.template.ui.MainActivity.server_location;
 public class OneFragment extends BaseFragment {
 
     //部件定义
-    private TextView thisisone;
+    //private TextView thisisone;
     private EditText f1_getactivities_edittext;
     private Spinner f1_tag_spinner;
     private Button fg1_search_button;
-    private Button fg1_fabu;
+    //private Button fg1_fabu;
     private ListView fg1_activities_listview;
     private int selected_tagid;
 
@@ -90,11 +90,11 @@ public class OneFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         //连接对应部件
-        thisisone = (TextView)getActivity().findViewById(R.id.thisisone);
+        //thisisone = (TextView)getActivity().findViewById(R.id.thisisone);
         f1_getactivities_edittext = (EditText)getActivity().findViewById(R.id.f1_getactivities_edittext);
         f1_tag_spinner = (Spinner)getActivity().findViewById(R.id.f1_tag_spinner);
         fg1_search_button = (Button) getActivity().findViewById(R.id.fg1_search_button);
-        fg1_fabu = (Button) getActivity().findViewById(R.id.fg1_fabu);
+        //fg1_fabu = (Button) getActivity().findViewById(R.id.fg1_fabu);
         fg1_activities_listview = (ListView)getActivity().findViewById(R.id.fg1_activities_listview);
 
 
@@ -124,11 +124,11 @@ public class OneFragment extends BaseFragment {
                 if("refresh".equals(msg)){
                     //在这里写刷新的具体内容
                     if(log_state.getvalue()==1){
-                        thisisone.setText("登录状态:" + "已登录");//
-                        fg1_fabu.setVisibility(View.VISIBLE);
+                        //thisisone.setText("登录状态:" + "已登录");//
+                        //fg1_fabu.setVisibility(View.VISIBLE);
                     }else{
-                        thisisone.setText("登录状态:" + "未登录");//
-                        fg1_fabu.setVisibility(View.INVISIBLE);
+                        //thisisone.setText("登录状态:" + "未登录");//
+                        //fg1_fabu.setVisibility(View.INVISIBLE);
                     }
 
                 }
@@ -139,7 +139,7 @@ public class OneFragment extends BaseFragment {
 
 
         //部件具体
-        fg1_fabu.setOnClickListener(new View.OnClickListener() {
+        /*fg1_fabu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(getActivity().getApplicationContext(), fabuhuodong.class);
@@ -147,7 +147,7 @@ public class OneFragment extends BaseFragment {
                 startActivity(intent);
 
             }
-        });
+        });*/
 
 
         //主要根据下拉列表框的选择，改变selected_tagid的值

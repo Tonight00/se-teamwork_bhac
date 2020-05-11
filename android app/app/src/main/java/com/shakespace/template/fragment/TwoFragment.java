@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -70,16 +71,38 @@ public class TwoFragment extends BaseFragment {
     }
 
 
+    private boolean isCreated=false;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isCreated=true;
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isCreated){
+            return;
+        }else {
+            //进行刷新操作 这个貌似有点BUG,当点击别的Fragment时,他也会执行刷新操作
+            //在CalendarView上标记出所有的有活动天数
+            if(log_state.getvalue()==1){
+                get_GetDatesWithAct();
+            }
+        }
+    }
+
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
 
         //连接对应部件
-        thisistwo = (TextView)getActivity().findViewById(R.id.thisistwo);
+        //thisistwo = (TextView)getActivity().findViewById(R.id.thisistwo);
         fg2_calendarview = (CalendarView)getActivity().findViewById(R.id.fg2_calendarview);
         fg2_activities_listview = (ListView)getActivity().findViewById(R.id.fg2_activities_listview);
-        fg2_refresh = (Button)getActivity().findViewById(R.id.fg2_refresh);
+        //fg2_refresh = (Button)getActivity().findViewById(R.id.fg2_refresh);
 
 
 
@@ -90,7 +113,7 @@ public class TwoFragment extends BaseFragment {
             get_autologin_bytoken(token);
 
         }else{
-            thisistwo.setText("登录状态:" + "已登录");//
+            //thisistwo.setText("登录状态:" + "已登录");//
         }
 
 
@@ -105,11 +128,11 @@ public class TwoFragment extends BaseFragment {
                 if("refresh".equals(msg)){
                     //在这里写刷新的具体内容
                     if(log_state.getvalue()==1){
-                        thisistwo.setText("登录状态:" + "已登录");//
+                        //thisistwo.setText("登录状态:" + "已登录");//
                         fg2_calendarview.setVisibility(View.VISIBLE);
                         fg2_activities_listview.setVisibility(View.VISIBLE);
                     }else{
-                        thisistwo.setText("登录状态:" + "未登录");//
+                        //thisistwo.setText("登录状态:" + "未登录");//
                         fg2_calendarview.setVisibility(View.INVISIBLE);
                         fg2_activities_listview.setVisibility(View.INVISIBLE);
                     }
@@ -147,7 +170,7 @@ public class TwoFragment extends BaseFragment {
         });
 
 
-        fg2_refresh.setOnClickListener(new View.OnClickListener() {
+        /*fg2_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //在CalendarView上标记出所有的有活动天数
@@ -155,7 +178,7 @@ public class TwoFragment extends BaseFragment {
                     get_GetDatesWithAct();
                 }
             }
-        });
+        });*/
 
 
 
@@ -313,28 +336,32 @@ public class TwoFragment extends BaseFragment {
 
                 List<BhacActivity> list = new ArrayList<BhacActivity>();
 
-                list = (List<BhacActivity>) JSON.parseArray(result,BhacActivity.class);
-                int size = list.size();
+                if(result.charAt(0)!='{'){
+                    list = (List<BhacActivity>) JSON.parseArray(result,BhacActivity.class);
+                    int size = list.size();
 
-                List<Map<String,Object>> listitem = new ArrayList<Map<String,Object>>();
-                for(int i = 0;i<size;i++){
-                    Map<String,Object> map = new HashMap<String,Object>();
-                    map.put("id",list.get(i).getId());
-                    map.put("title",list.get(i).getTitle() + "\n开始时间:" + list.get(i).getBegin());
-                    map.put("image",R.drawable.listview_item_image);
-                    listitem.add(map);
+                    List<Map<String,Object>> listitem = new ArrayList<Map<String,Object>>();
+                    for(int i = 0;i<size;i++){
+                        Map<String,Object> map = new HashMap<String,Object>();
+                        map.put("id",list.get(i).getId());
+                        map.put("title",list.get(i).getTitle() + "\n开始时间:" + list.get(i).getBegin());
+                        map.put("image",R.drawable.listview_item_image);
+                        listitem.add(map);
+                    }
+
+                    SimpleAdapter adapter = new SimpleAdapter(getActivity(),listitem,R.layout.single_listview_item,new String[]{"title","image"},new int[]{R.id.single_listview_item_title,R.id.single_listview_item_image});
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //动态改变listview  fg1_activities_listview
+
+                            fg2_activities_listview.setAdapter(adapter);
+                        }
+                    });
                 }
 
-                SimpleAdapter adapter = new SimpleAdapter(getActivity(),listitem,R.layout.single_listview_item,new String[]{"title","image"},new int[]{R.id.single_listview_item_title,R.id.single_listview_item_image});
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //动态改变listview  fg1_activities_listview
-
-                        fg2_activities_listview.setAdapter(adapter);
-                    }
-                });
 
 
                 Looper.loop();

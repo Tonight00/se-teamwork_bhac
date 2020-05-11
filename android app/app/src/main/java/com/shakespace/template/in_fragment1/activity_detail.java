@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,7 @@ public class activity_detail extends AppCompatActivity {
     private Button activity_detail_tuichu;
     private Button activity_detail_taolunqu;
     private Button activity_detail_back;
-    private Button activity_detail_manage;
+    private ImageButton activity_detail_manage;
 
 
     @Override
@@ -72,7 +73,7 @@ public class activity_detail extends AppCompatActivity {
         activity_detail_tuichu = (Button) findViewById(R.id.activity_detail_tuichu);
         activity_detail_taolunqu = (Button) findViewById(R.id.activity_detail_taolunqu);
         activity_detail_back = (Button) findViewById(R.id.activity_detail_back);
-        activity_detail_manage = (Button) findViewById(R.id.activity_detail_manage);
+        activity_detail_manage = (ImageButton) findViewById(R.id.activity_detail_manage);
 
 
 
@@ -216,8 +217,15 @@ public class activity_detail extends AppCompatActivity {
 
                         }
                         if(responseBodyJSONObject.get("limitPeopleNum")!=null){
+
                             String limitPeopleNum = responseBodyJSONObject.get("limitPeopleNum").getAsString();
-                            activity_detail_limitPeopleNum.setText(limitPeopleNum);
+
+                            if(limitPeopleNum.equals("-1")){
+                                activity_detail_limitPeopleNum.setText("无限制");
+                            }else{
+                                activity_detail_limitPeopleNum.setText(limitPeopleNum);
+                            }
+
                         }
                         if(responseBodyJSONObject.get("place")!=null){
                             String place = responseBodyJSONObject.get("place").getAsString();

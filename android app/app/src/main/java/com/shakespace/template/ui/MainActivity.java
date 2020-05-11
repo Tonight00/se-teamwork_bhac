@@ -2,6 +2,7 @@ package com.shakespace.template.ui;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.shakespace.template.fragment.FourFragment;
 import com.shakespace.template.fragment.OneFragment;
 import com.shakespace.template.fragment.ThreeFragment;
 import com.shakespace.template.fragment.TwoFragment;
+import com.shakespace.template.in_fragment1.fabuhuodong;
 import com.shakespace.template.util.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -108,6 +110,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                     case R.id.nav_info:
                         Toast.makeText(MainActivity.this, "点击了关于我们", Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.nav_fabuhuodong:
+                        Intent intent =new Intent(MainActivity.this, fabuhuodong.class);
+                        //启动
+                        startActivity(intent);
+                        break;
                 }
                 return false;
             }
@@ -141,11 +148,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                 index = 1;
                 break;
 
-            case R.id.nav_three:
+            /*case R.id.nav_three:
                 Log.e(TAG, "THREE");
                 mToolbar.setTitle("消息");
                 index = 2;
-                break;
+                break;*/
 
             case R.id.nav_four:
                 Log.e(TAG, "FOUR");
