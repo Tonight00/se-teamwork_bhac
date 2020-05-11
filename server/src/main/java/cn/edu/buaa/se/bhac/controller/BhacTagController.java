@@ -77,12 +77,8 @@ public class BhacTagController {
      */
     @GetMapping("/admin/tags")
     public String getTagsByName(@Param("name") String name, @Param("page") Integer pageNum , @Param("limit")Integer limit) {
-        List<BhacTag> tags = tagService.getTagsByTagname(name,pageNum,limit);
-        if(tags == null ) {
-            tags = new ArrayList<>();
-        }
-        return JSONObject.toJSONString(tags,
-                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacTag.class));
+        return tagService.getTagsByTagname(name,pageNum,limit);
+     
     }
     
     
@@ -106,8 +102,8 @@ public class BhacTagController {
         return JSONObject.toJSONString(tag,ControllerUtils.filterFactory(BhacTag.class));
     }
     
-    @GetMapping("/admin/tagsCount")
-    public int getTagsCount() {
-        return tagService.getTagsCount();
-    }
+//    @GetMapping("/admin/tagsCount")
+//    public int getTagsCount() {
+//        return tagService.getTagsCount();
+//    }
 }

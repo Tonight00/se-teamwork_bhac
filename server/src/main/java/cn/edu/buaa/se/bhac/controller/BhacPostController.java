@@ -61,6 +61,8 @@ public class BhacPostController {
         comment.setSeqNum(1);
         commentService.addComment(comment);
         
+        //更新帖子的numOfComment
+        
         if(post.getType()== 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(PostCode.SUCC_POST_ADD_TYPE0));
         }

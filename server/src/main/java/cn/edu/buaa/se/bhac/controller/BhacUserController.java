@@ -45,9 +45,7 @@ public class BhacUserController {
     @GetMapping("/sysadmin/users")
     public String getUsersByUsername(@Param("username") String username,@Param("page") Integer page, @Param("limit") Integer limit) {
         Integer pageNum = page;
-        List<BhacUser> users = userService.getUsersByUsername(username, pageNum, limit);
-        if (users == null ) users = new ArrayList<>();
-        return JSONObject.toJSONString(users, ControllerUtils.filterFactory(BhacUser.class));
+        return userService.getUsersByUsername(username, pageNum, limit);
     }
 
     /**
@@ -167,8 +165,8 @@ public class BhacUserController {
         return JSONObject.toJSONString(user,ControllerUtils.filterFactory(BhacUser.class));
     }
     
-    @GetMapping("/sysadmin/usersCount")
-    public int getUsersCount() {
-        return userService.getUsersCount();
-    }
+//    @GetMapping("/sysadmin/usersCount")
+//    public int getUsersCount() {
+//        return userService.getUsersCount();
+//    }
 }

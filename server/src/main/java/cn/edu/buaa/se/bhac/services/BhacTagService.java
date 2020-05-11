@@ -1,9 +1,11 @@
 package cn.edu.buaa.se.bhac.services;
 
+import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacBelongactivitytag;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacTag;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacTagMapper;
+import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -28,12 +30,13 @@ public class BhacTagService {
      * @param name 标签名字
      * @return BhacTag对象集合
      */
-    public List<BhacTag> getTagsByTagname(String name, Integer pageNum, Integer limit) {
+    public String getTagsByTagname(String name, Integer pageNum, Integer limit) {
         QueryWrapper q = new QueryWrapper();
         q.like("name",name);
         q.ne("state",-1);
-        Page<BhacTag> page =  new Page<>(pageNum,limit,false);
-        return DaoUtils.PageSearch(tagMapper,page,q);
+        Page<BhacTag> page =  new Page<>(pageNum,limit);
+        IPage<BhacTag> iPage = tagMapper.selectPage(page,q);;
+        return ControllerUtils.putCountAndData(iPage,BhacTag.class);
     }
     
     /**

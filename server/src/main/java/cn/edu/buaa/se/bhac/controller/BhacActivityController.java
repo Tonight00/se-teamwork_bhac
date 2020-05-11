@@ -39,11 +39,9 @@ public class BhacActivityController {
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        List<BhacActivity> authedActivities = activityService.getAuthedActivities(admin,pageNum,limit);
-        if(authedActivities == null) authedActivities = new ArrayList<>();
-        System.out.println(authedActivities);
-        return JSONObject.toJSONString(authedActivities,
-                /*exist=false属性的filter，不打印这部分属性*/ControllerUtils.filterFactory(BhacActivity.class));
+        return activityService.getAuthedActivities(admin,pageNum,limit);
+    
+    
     }
 
     /**
@@ -232,11 +230,11 @@ public class BhacActivityController {
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_UPD));
     }
-    
-    @GetMapping("/admin/activities/authedCount")
-    public int getAuthedActivitiesCount(HttpSession session, Integer pageNum, Integer limit) {
-        BhacUser admin = (BhacUser) session.getAttribute("admin");
-        return activityService.getAuthedActivitiesCount(admin,pageNum,limit);
-    }
-    
+//
+//    @GetMapping("/admin/activities/authedCount")
+//    public int getAuthedActivitiesCount(HttpSession session, Integer pageNum, Integer limit) {
+//        BhacUser admin = (BhacUser) session.getAttribute("admin");
+//        return activityService.getAuthedActivitiesCount(admin,pageNum,limit);
+//    }
+//
 }

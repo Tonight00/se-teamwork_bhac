@@ -2,9 +2,12 @@ package cn.edu.buaa.se.bhac.services;
 
 import cn.edu.buaa.se.bhac.Dao.entity.*;
 import cn.edu.buaa.se.bhac.Dao.mapper.*;
+import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,7 @@ public class BhacActivityService {
      * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public List<BhacActivity> getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
+    public String getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
         BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
         if(roles.isEmpty()) {
@@ -52,7 +55,8 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         q.in("category",category);
         Page<BhacActivity> page = new Page<>(pageNum,limit);
-        return  DaoUtils.PageSearch(activityMapper,page,q);
+        IPage<BhacActivity> iPage = activityMapper.selectPage(page,q);;
+        return ControllerUtils.putCountAndData(iPage,BhacActivity.class);
     }
 
     /**
@@ -257,26 +261,6 @@ public class BhacActivityService {
         activityMapper.updateById(activity);
     }
     
-    public int getAuthedActivitiesCount (BhacUser user, Integer pageNum, Integer limit)
-    {
-        BhacUser admin = bhacUserMapper.selectById(user.getId());
-        List<BhacRole> roles = admin.getRolesAct();
-        if(roles.isEmpty()) {
-            return 0;
-        }
-        List<Integer> category = new ArrayList<>();
-        for (BhacRole role : roles) {
-            if (role.getState() == 0 && role.getTag().getState() == 0) {
-                category.add(role.getTag().getId());
-            }
-        }
-        if(category.isEmpty()) {
-            return 0;
-        }
-        QueryWrapper q = new QueryWrapper();
-        q.in("category",category);
-        return activityMapper.selectCount(q);
-    }
     
     public Integer getId (Integer uid)
     {

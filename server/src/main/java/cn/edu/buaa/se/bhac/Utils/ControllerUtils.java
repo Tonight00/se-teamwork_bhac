@@ -1,15 +1,18 @@
 package cn.edu.buaa.se.bhac.Utils;
 
+import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.code.BaseCode;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.ui.Model;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 
 public class ControllerUtils {
 
@@ -54,5 +57,15 @@ public class ControllerUtils {
             json.put((String) key,val);
         }
         return json;
+    }
+    
+    public static <T> String putCountAndData (IPage<T> iPage, Class clazz)
+    {
+        List<T> activities =  iPage.getRecords();
+        Long count = iPage.getTotal();
+        JSONObject json = new JSONObject();
+        json.put("count",count);
+        json.put("data",activities);
+        return json.toJSONString();
     }
 }
