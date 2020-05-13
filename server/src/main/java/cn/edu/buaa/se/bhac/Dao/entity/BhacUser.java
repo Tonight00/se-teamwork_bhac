@@ -31,7 +31,7 @@ public class BhacUser extends Model<BhacUser> {
     private String email;
     
     
-    @JSONField(serialize = false)
+    
     @TableField("phoneNum")
     private String phoneNum;
 
@@ -41,22 +41,22 @@ public class BhacUser extends Model<BhacUser> {
     private Integer state;
     
     
-    @JSONField(serialize = false)
+    
     @TableField("firstName")
     private String firstName;
     
     
-    @JSONField(serialize = false)
+    
     @TableField("lastName")
     private String lastName;
     
     
-    @JSONField(serialize = false)
+   
     @TableField("studentId")
     private String studentId;
     
     
-    @JSONField(serialize = false)
+    
     @TableField("avatarUrl")
     private String avatarUrl;
 
