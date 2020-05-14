@@ -10,6 +10,7 @@ import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
+import cn.edu.buaa.se.bhac.services.BhacUserService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
@@ -31,9 +32,7 @@ public class BhacActivityController {
     @Autowired
     private BhacTagService tagService;
     @Autowired
-    private BhacUserMapper userMapper;
-    @Autowired
-    private BhacActivityMapper activityMapper;
+    private BhacUserService userService;
     
     /**
      * 返回该用户可以管理的活动集
@@ -112,6 +111,9 @@ public class BhacActivityController {
         if(state == -1 ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ENROLLED));
         }
+        else if(state == 0) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_JOINED));
+        }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_ENROLL));
     }
     
@@ -132,6 +134,8 @@ public class BhacActivityController {
         Integer state = activityService.unenroll(aid,(Integer)claims.get("uid"));
         if(state == -1) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_UNENROLLED));
+        } else if(state == 0) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_UNJOINED));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_UNENROLL));
     }
@@ -240,7 +244,7 @@ public class BhacActivityController {
          */
         Claims claims = (Claims) request.getAttribute("claims");
         Integer id = (Integer) claims.get("uid");
-        BhacUser user =userMapper.selectById(id);
+        BhacUser user = userService.getUserById(id);
         List<BhacActivity> joinActivities = user.getActivitiesProcessing();
         joinActivities.addAll(user.getActivitiesSucceed());
         QueryWrapper q = new QueryWrapper();
@@ -249,9 +253,10 @@ public class BhacActivityController {
         for (BhacActivity activity: joinActivities) {
             joinIds.add(activity.getId());
         }
-        q.notIn("id",joinIds);
+        if(joinIds!=null&&joinIds.size()!=0 )
+         q.notIn("id",joinIds);
         q.eq("state",1);
-        notJoinActivities = activityMapper.selectList(q);
+        notJoinActivities  = activityService.getNotJoinActivities(q);
         int mx1 = 0, mx2 = 0 , mx3 = 0;
         BhacActivity ma1=null,ma2=null,ma3=null;
         for(BhacActivity activity: notJoinActivities) {

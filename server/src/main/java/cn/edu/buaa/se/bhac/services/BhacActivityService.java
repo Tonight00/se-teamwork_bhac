@@ -49,7 +49,11 @@ public class BhacActivityService {
             }
         }
         QueryWrapper q = new QueryWrapper();
-        q.in("category",category);
+        if(category!=null &&category.size()!=0)
+            q.in("category",category);
+        else {
+            q.eq("id",-1);
+        }
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         IPage<BhacActivity> iPage = activityMapper.selectPage(page,q);
         return ControllerUtils.putCountAndData(iPage,BhacActivity.class);
@@ -87,7 +91,7 @@ public class BhacActivityService {
     public List<BhacActivity> getActivities (String title ,Integer tid,Integer pageNum,Integer limit) {
         
         QueryWrapper q = new QueryWrapper();
-        if(title != null && tid!=null && tid!=0)
+        if(title != null )
             q.like("title",title);
         if(tid != null && tid !=0)
             q.eq("category",tid);
@@ -116,6 +120,13 @@ public class BhacActivityService {
         BhacJoinuseractivity join = new BhacJoinuseractivity();
         join.setAid(aid);
         join.setUid(uid);
+        BhacActivity activity = activityMapper.selectById(aid);
+        Integer isOpen = activity.getIsOpen();
+        if(isOpen == 1) {
+            join.setState(0);
+            joinuseractivityMapper.insert(join);
+            return 0;
+        }
         joinuseractivityMapper.insert(join);
         return 1;
     }
@@ -131,9 +142,17 @@ public class BhacActivityService {
         q.eq("aid",aid);
         q.eq("uid",uid);
         if(joinuseractivityMapper.selectCount(q) == 0 ) {
-            return -1; // 已经退出
-        }
-        joinuseractivityMapper.delete(q);
+             return -1; // 已经退出
+         }
+        q.eq("state",0);
+        if (joinuseractivityMapper.selectCount(q) !=0) {
+            joinuseractivityMapper.delete(q);
+            return 0;
+         }
+        QueryWrapper qq = new QueryWrapper();
+        qq.eq("aid",aid);
+        qq.eq("uid",uid);
+        joinuseractivityMapper.delete(qq);
         return 1;
     }
     
@@ -271,5 +290,10 @@ public class BhacActivityService {
         q.select("max(id) max_id").eq("uid",uid);
         List<Integer> ids = activityMapper.selectObjs(q);
         return ids.get(0);
+    }
+    
+    public List<BhacActivity> getNotJoinActivities (QueryWrapper q)
+    {
+        return activityMapper.selectList(q);
     }
 }
