@@ -95,7 +95,7 @@ public class BhacActivityService {
             q.like("title",title);
         if(tid != null && tid !=0)
             q.eq("category",tid);
-        
+        q.eq("state",1);
         Page<BhacActivity> page = new Page<BhacActivity>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);
       
