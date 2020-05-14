@@ -24,6 +24,7 @@ public enum UserCode implements BaseCode{
     ERR_USER_INVALID_TOKEN,
     ERR_USER_ROLE_OWNED,
     ERR_USER_ROLE_DELETED,
+    ERR_USER_ENROLL_DDL,
     SUCC_USER_UNENROLL,
     SUCC_USER_LOGIN,
     SUCC_USER_LOGOUT,
@@ -64,6 +65,7 @@ public enum UserCode implements BaseCode{
             put(UserCode.ERR_USER_UNENROLLED,"不能重复退出活动");
             put(UserCode.SUCC_USER_JOINED,"成功加入活动");
             put(UserCode.SUCC_USER_UNJOINED,"成功退出活动");
+            put(UserCode.ERR_USER_ENROLL_DDL,"活动已截止");
         }
     };
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -121,6 +122,11 @@ public class BhacActivityService {
         join.setAid(aid);
         join.setUid(uid);
         BhacActivity activity = activityMapper.selectById(aid);
+        LocalDateTime dt =  activity.getDdl();
+        LocalDateTime now = LocalDateTime.now();
+        if(now.compareTo(dt) > 0) {
+            return -2;
+        }
         Integer isOpen = activity.getIsOpen();
         if(isOpen == 1) {
             join.setState(0);
