@@ -249,7 +249,7 @@ public class BhacActivityController {
         for (BhacActivity activity: joinActivities) {
             joinIds.add(activity.getId());
         }
-        q.notIn(joinIds);
+        q.notIn("id",joinIds);
         q.eq("state",1);
         notJoinActivities = activityMapper.selectList(q);
         int mx1 = 0, mx2 = 0 , mx3 = 0;
@@ -262,7 +262,7 @@ public class BhacActivityController {
                 mx3 = mx2; mx2 = mx1; mx1 = mx;
                 ma3 = ma2; ma2 = ma1; ma1 = ma;
             }
-            else if (mx2 < mx) {
+            else if (mx2 <= mx) {
                 mx3 = mx2; mx2 = mx;
                 ma3 = ma2; ma2 = ma;
             }
