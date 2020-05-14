@@ -241,13 +241,6 @@ public class test
     
     @Test
     public void testy() {
-        BhacComment comment = new BhacComment();
-        String content="13213123xxx";
-        comment.setPostedBy(1);
-        comment.setPid(1);
-        comment.setSeqNum(1);
-        comment.setContent(content);
-        bhacCommentMapper.insert(comment);
        // String ddate = "2020-04-30-123123";
         // System.out.println(ddate.substring(0,10));
         //        QueryWrapper q = new QueryWrapper();
