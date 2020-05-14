@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -99,7 +100,8 @@ public class BhacActivityService {
         q.eq("state",1);
         Date t = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        q.gt("date(end)",df.format(t));
+        Long timestamp = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli()/1000;
+        q.gt("unix_timestamp(end)",timestamp);
         Page<BhacActivity> page = new Page<BhacActivity>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);
       

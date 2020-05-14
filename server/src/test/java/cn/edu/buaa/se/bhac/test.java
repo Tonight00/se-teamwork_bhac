@@ -24,6 +24,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
@@ -241,16 +242,13 @@ public class test
     
     @Test
     public void testy() {
-        Integer a =1;
-        Integer b= 1;
-        if (a == b) {
-            System.out.println(true);
+        Long timestamp = LocalDateTime.now().toInstant(ZoneOffset.of("+0")).toEpochMilli()/1000;
+        QueryWrapper q = new QueryWrapper();
+        q.le("unix_timestamp(end)",timestamp);
+        List<BhacActivity> activities =  bhacActivityMapper.selectList(q);
+        for (BhacActivity activity: activities) {
+            System.out.println(activity);
         }
-       // String ddate = "2020-04-30-123123";
-        // System.out.println(ddate.substring(0,10));
-        //        QueryWrapper q = new QueryWrapper();
-//        q.ge("date(begin)",ddate);
-//        System.out.println(bhacActivityMapper.selectList(q));
     }
     
     
