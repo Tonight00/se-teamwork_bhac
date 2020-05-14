@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="80dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/login_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:layout_margin="10dp"
+                    android:background="@mipmap/bkg1"
+                    android:gravity="center"
+                    android:hint="用户名/手机号/邮箱"
+                    android:textColorHint="#000000"
+                    android:textSize="25dp"
+                    android:padding="5dp"
+                    android:alpha="0.45"/>
+
+
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_margin="10dp"
+                android:alpha="0.45"
+                android:background="@mipmap/bkg1"
+                android:gravity="center"
+                android:hint="密码"
+                android:padding="5dp"
+                android:textColorHint="#000000"
+                android:textSize="25dp" />
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示密码" />
+
+            <RadioGroup
+                android:id="@+id/loginswitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <RadioButton
+                    android:id="@+id/rd1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="用户名登录"
+                    android:checked="true" >
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rd2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="手机号登录">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rd3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="邮箱登录">
+                </RadioButton>
+            </RadioGroup>
+
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/login_password"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/selector1"
+                android:text="登录"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_login"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/selector2"
+                android:text="返回"
+                android:textColor="#ffffff"
+                android:textSize="20dp"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+</RelativeLayout>
