@@ -26,6 +26,7 @@ import com.shakespace.template.fragment.OneFragment;
 import com.shakespace.template.fragment.ThreeFragment;
 import com.shakespace.template.fragment.TwoFragment;
 import com.shakespace.template.in_fragment1.fabuhuodong;
+import com.shakespace.template.in_fragment4.log_state;
 import com.shakespace.template.util.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -33,9 +34,9 @@ import okhttp3.MediaType;
 
 
 public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    public static final String server_location = "http://192.168.0.106";
-
-
+    public static final String server_location = "http://114.115.181.247";
+    //"http://192.168.0.106"
+    //"http://114.115.181.247"
 
     private static final String TAG = "MainActivity";
     @BindView(R.id.bottom_nav)
@@ -111,9 +112,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
                         Toast.makeText(MainActivity.this, "点击了关于我们", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_fabuhuodong:
-                        Intent intent =new Intent(MainActivity.this, fabuhuodong.class);
-                        //启动
-                        startActivity(intent);
+
+                        if(log_state.getvalue()==0){
+                            Toast.makeText(MainActivity.this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Intent intent =new Intent(MainActivity.this, fabuhuodong.class);
+                            //启动
+                            startActivity(intent);
+                        }
                         break;
                 }
                 return false;

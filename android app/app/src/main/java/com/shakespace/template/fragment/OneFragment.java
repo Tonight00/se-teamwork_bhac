@@ -39,6 +39,7 @@ import com.shakespace.template.in_fragment1.select_which_activity;
 import com.shakespace.template.in_fragment4.log_state;
 import com.shakespace.template.in_fragment4.login;
 import com.shakespace.template.in_fragment4.register;
+import com.shakespace.template.ui.MainActivity;
 
 
 import java.io.IOException;
@@ -173,7 +174,12 @@ public class OneFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 //得到 推荐列表
-                get_favouriteActivities();
+
+                if(log_state.getvalue()==0){
+                    Toast.makeText(getActivity(), "您还未登陆", Toast.LENGTH_SHORT).show();
+                }else{
+                    get_favouriteActivities();
+                }
 
             }
         });

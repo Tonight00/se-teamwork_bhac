@@ -66,7 +66,9 @@ public class BhacTagService {
      */
     public List<BhacTag> showTags(Integer pageNum,Integer limit) {
         Page<BhacTag> page = new Page<>(pageNum,limit);
-        return DaoUtils.PageSearch(tagMapper,page,null);
+        QueryWrapper q = new QueryWrapper();
+        q.eq("state",0);
+        return DaoUtils.PageSearch(tagMapper,page,q);
     }
     
     public BhacTag getTag (Integer id)
