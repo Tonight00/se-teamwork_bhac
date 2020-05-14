@@ -111,6 +111,9 @@ public class BhacActivityController {
         if(state == -1 ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ENROLLED));
         }
+        else if (state == -2) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ENROLL_DDL));
+        }
         else if(state == 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_JOINED));
         }
