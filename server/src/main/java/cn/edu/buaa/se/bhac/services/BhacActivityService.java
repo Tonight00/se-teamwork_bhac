@@ -291,4 +291,9 @@ public class BhacActivityService {
         List<Integer> ids = activityMapper.selectObjs(q);
         return ids.get(0);
     }
+    
+    public List<BhacActivity> getNotJoinActivities (QueryWrapper q)
+    {
+        return activityMapper.selectList(q);
+    }
 }
