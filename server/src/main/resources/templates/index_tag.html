@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tag管理|北航大学生活动</title>
+    <title>系统后台管理|北航大学生活动</title>
     <link rel="stylesheet" href="/webjars/layui/2.5.6/css/layui.css">
 </head>
 <body class="layui-layout-body">
@@ -22,12 +22,12 @@
     <div class="layui-body">
         <div style="padding: 15px;">
             <div class="demoTable">
-                搜索Tag：
+                搜索标签：
                 <div class="layui-inline">
                     <input class="layui-input" name="name" id="demoSearch" autocomplete="off">
                 </div>
                 <button id="searchBtn" class="layui-btn" data-type="reload">搜索</button>
-                添加Tag：
+                添加标签：
                 <div class="layui-inline">
                     <input class="layui-input" name="name" id="demoAdd" autocomplete="off">
                 </div>
@@ -37,12 +37,12 @@
         </div>
     </div>
 
-    <script type="text/html" id="toolbarHead">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="addTag">添加Tag</button>
-            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteTag">删除Tag</button>
-        </div>
-    </script>
+<!--    <script type="text/html" id="toolbarHead">-->
+<!--        <div class="layui-btn-container">-->
+<!--            <button class="layui-btn layui-btn-sm" lay-event="addTag">添加标签</button>-->
+<!--            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteTag">删除标签</button>-->
+<!--        </div>-->
+<!--    </script>-->
 
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">

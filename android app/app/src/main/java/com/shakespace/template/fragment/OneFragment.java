@@ -66,6 +66,7 @@ public class OneFragment extends BaseFragment {
     private EditText f1_getactivities_edittext;
     private Spinner f1_tag_spinner;
     private Button fg1_search_button;
+    private Button cainixihuan;
     //private Button fg1_fabu;
     private ListView fg1_activities_listview;
     private int selected_tagid;
@@ -94,6 +95,7 @@ public class OneFragment extends BaseFragment {
         f1_getactivities_edittext = (EditText)getActivity().findViewById(R.id.f1_getactivities_edittext);
         f1_tag_spinner = (Spinner)getActivity().findViewById(R.id.f1_tag_spinner);
         fg1_search_button = (Button) getActivity().findViewById(R.id.fg1_search_button);
+        cainixihuan = (Button) getActivity().findViewById(R.id.cainixihuan);
         //fg1_fabu = (Button) getActivity().findViewById(R.id.fg1_fabu);
         fg1_activities_listview = (ListView)getActivity().findViewById(R.id.fg1_activities_listview);
 
@@ -167,6 +169,14 @@ public class OneFragment extends BaseFragment {
             }
         });
 
+        cainixihuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //得到 推荐列表
+                get_favouriteActivities();
+
+            }
+        });
 
         fg1_search_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,6 +383,65 @@ public class OneFragment extends BaseFragment {
         Request request = new Request.Builder()
                 .get()
                 .url(url)
+                .build();
+
+        Call call = client.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Looper.prepare();
+                Toast.makeText(getActivity(), "get 失败", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Looper.prepare();
+
+                String result = response.body().string();
+
+                List<BhacActivity> list = new ArrayList<BhacActivity>();
+
+                list = (List<BhacActivity>) JSON.parseArray(result,BhacActivity.class);
+                int size = list.size();
+
+                List<Map<String,Object>> listitem = new ArrayList<Map<String,Object>>();
+                for(int i = 0;i<size;i++){
+                    Map<String,Object> map = new HashMap<String,Object>();
+                    map.put("id",list.get(i).getId());
+                    map.put("title",list.get(i).getTitle() + "\n开始时间:" + list.get(i).getBegin());
+                    map.put("image",R.drawable.listview_item_image);
+                    listitem.add(map);
+                }
+
+                SimpleAdapter adapter = new SimpleAdapter(getActivity(),listitem,R.layout.single_listview_item,new String[]{"title","image"},new int[]{R.id.single_listview_item_title,R.id.single_listview_item_image});
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //动态改变listview  fg1_activities_listview
+
+                        fg1_activities_listview.setAdapter(adapter);
+                    }
+                });
+
+
+                Looper.loop();
+            }
+        });
+
+    }
+
+    public void get_favouriteActivities(){
+        OkHttpClient client = new OkHttpClient();
+        String url = server_location + ":8080/activities/favorite";
+        SharedPreferences local_user_information = getActivity().getSharedPreferences("local_user_information", MODE_PRIVATE);
+        String token =local_user_information.getString("token", "#null#");
+        Request request = new Request.Builder()
+                .get()
+                .url(url)
+                .addHeader("Authorization","Bearer "+ token)
                 .build();
 
         Call call = client.newCall(request);

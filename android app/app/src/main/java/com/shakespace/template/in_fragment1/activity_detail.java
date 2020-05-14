@@ -82,7 +82,11 @@ public class activity_detail extends AppCompatActivity {
         //选择显示出哪一个按钮
         GetJoinInfo(select_which_activity.getid());
         //选择是否显示"管理"按钮
-        get_IsManagedByMe(select_which_activity.getid());
+        if(log_state.getvalue()==0){
+            activity_detail_manage.setVisibility(View.INVISIBLE);
+        }else{
+            get_IsManagedByMe(select_which_activity.getid());
+        }
 
 
         //添加监听器

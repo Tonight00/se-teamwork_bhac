@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,12 +66,16 @@ public class FourFragment extends BaseFragment {
     //部件定义
     //private TextView welcome;
     private TextView show_username;
+    private TextView show_info;
     private Button btn_login;
     private Button btn_reg;
     private Button btn_editinfo;
     private Button btn_editpassword;
     private Button btn_logout;
-    private Button getpost;
+    private ImageView iv_setting1;
+    private ImageView iv_setting2;
+    private ImageView iv_setting3;
+    //private Button getpost;
 
     public FourFragment() {
         // Required empty public constructor
@@ -88,12 +94,18 @@ public class FourFragment extends BaseFragment {
         //连接对应部件
         //welcome = (TextView)getActivity().findViewById(R.id.welcome);
         show_username = (TextView)getActivity().findViewById(R.id.show_username);
+        show_info = (TextView)getActivity().findViewById(R.id.show_info);
         btn_login= (Button)getActivity().findViewById(R.id.login);
         btn_reg= (Button)getActivity().findViewById(R.id.register);
         btn_editinfo= (Button)getActivity().findViewById(R.id.editinfo);
         btn_editpassword= (Button)getActivity().findViewById(R.id.editpassword);
         btn_logout= (Button)getActivity().findViewById(R.id.logout);
-        getpost= (Button)getActivity().findViewById(R.id.getpost);
+
+        iv_setting1= (ImageView)getActivity().findViewById(R.id.iv_setting1);
+        iv_setting2= (ImageView)getActivity().findViewById(R.id.iv_setting2);
+        iv_setting3= (ImageView)getActivity().findViewById(R.id.iv_setting3);
+
+        //getpost= (Button)getActivity().findViewById(R.id.getpost);
 
         /**********************自动登录功能 实现****************/
         if(log_state.getvalue()==0){
@@ -106,7 +118,7 @@ public class FourFragment extends BaseFragment {
         //设置部件可见性
         setVisibility();
 
-        getpost.setVisibility(View.GONE);
+        //getpost.setVisibility(View.GONE);
 
         //广播方法实现Fragment页面刷新
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getActivity());
@@ -207,12 +219,12 @@ public class FourFragment extends BaseFragment {
         });
 
         //get post  试验按钮
-        getpost.setOnClickListener(new View.OnClickListener() {
+        /*getpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //post2();
             }
-        });
+        });*/
 
     }
 
@@ -226,11 +238,15 @@ public class FourFragment extends BaseFragment {
     public void setVisibility(){
         if(log_state.getvalue()==1){
             show_username.setVisibility(View.VISIBLE);
+            show_info.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.INVISIBLE);
             btn_reg.setVisibility(View.INVISIBLE);
             btn_editinfo.setVisibility(View.VISIBLE);
             btn_editpassword.setVisibility(View.VISIBLE);
             btn_logout.setVisibility(View.VISIBLE);
+            iv_setting1.setVisibility(View.VISIBLE);
+            iv_setting2.setVisibility(View.VISIBLE);
+            iv_setting3.setVisibility(View.VISIBLE);
 
             SharedPreferences local_user_information = getActivity().getSharedPreferences("local_user_information", MODE_PRIVATE);
             String temp =local_user_information.getString("username", "#null#");
@@ -240,11 +256,17 @@ public class FourFragment extends BaseFragment {
 
         }else{
             show_username.setVisibility(View.INVISIBLE);
+            show_info.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.VISIBLE);
             btn_reg.setVisibility(View.VISIBLE);
             btn_editinfo.setVisibility(View.INVISIBLE);
             btn_editpassword.setVisibility(View.INVISIBLE);
             btn_logout.setVisibility(View.INVISIBLE);
+            iv_setting1.setVisibility(View.INVISIBLE);
+            iv_setting2.setVisibility(View.INVISIBLE);
+            iv_setting3.setVisibility(View.INVISIBLE);
+
+
         }
     }
 
@@ -635,14 +657,15 @@ public class FourFragment extends BaseFragment {
                     @Override
                     public void run() {
 
-                        String temp = "个人信息\n用户名:";
-
+                        String temp = "用户名:";
                         temp = temp + responseBodyJSONObject.get("username").getAsString();
 
-                        System.out.println(result);//
+                        show_username.setText(temp);
+
+                        temp = "";
 
                         if(responseBodyJSONObject.get("phoneNum")!=null){
-                            temp = temp + "\n手机号:" + responseBodyJSONObject.get("phoneNum").getAsString();
+                            temp = temp + "手机号:" + responseBodyJSONObject.get("phoneNum").getAsString();
                         }
                         if(responseBodyJSONObject.get("email")!=null){
                             temp = temp + "\n邮箱:" + responseBodyJSONObject.get("email").getAsString();
@@ -652,7 +675,7 @@ public class FourFragment extends BaseFragment {
                         }
 
 
-                        show_username.setText(temp);
+                        show_info.setText(temp);
                     }
                 });
 
