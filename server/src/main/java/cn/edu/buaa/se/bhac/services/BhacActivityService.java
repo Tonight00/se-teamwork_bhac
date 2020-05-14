@@ -91,7 +91,7 @@ public class BhacActivityService {
     public List<BhacActivity> getActivities (String title ,Integer tid,Integer pageNum,Integer limit) {
         
         QueryWrapper q = new QueryWrapper();
-        if(title != null && tid!=null && tid!=0)
+        if(title != null )
             q.like("title",title);
         if(tid != null && tid !=0)
             q.eq("category",tid);
