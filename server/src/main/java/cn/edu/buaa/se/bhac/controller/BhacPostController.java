@@ -8,20 +8,17 @@ import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.PostCode;
-import cn.edu.buaa.se.bhac.code.TagCode;
 import cn.edu.buaa.se.bhac.services.BhacCommentService;
 import cn.edu.buaa.se.bhac.services.BhacPostService;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +28,14 @@ public class BhacPostController {
 
     @Autowired
     private BhacPostService bhacPostService;
-    
+
     @Autowired
     private BhacCommentService commentService;
     @Autowired
     private BhacActivityMapper activityMapper;
     @Autowired
     private BhacUserMapper userMapper;
-    
+
     @GetMapping("/untoken/posts/getPostsByAid")
     public String getPostsByAid (Integer aid,Integer pageNum, Integer limit) {
         List<BhacPost> posts =  bhacPostService.GetPostsByAid(aid,pageNum,limit);
@@ -47,9 +44,9 @@ public class BhacPostController {
         }
         return JSONObject.toJSONString(posts);
     }
-    
-    
-    
+
+
+
     @PostMapping("/posts")
     public String addPost(HttpServletRequest request, BhacPost post,String content,Integer rate) {
         Claims claims  =  (Claims) request.getAttribute("claims");
@@ -61,7 +58,7 @@ public class BhacPostController {
         } else if(type == 2) {
             post.setTitle("[通知] "+s);
         }
-        
+
         BhacActivity activity = activityMapper.selectById(post.getAid());
         LocalDateTime end =  activity.getEnd();
         LocalDateTime today = LocalDateTime.now();
@@ -69,7 +66,7 @@ public class BhacPostController {
         List<BhacActivity>activities =  u.getActivitiesSucceed();
         Boolean flag = false;
         for(BhacActivity act : activities) {
-            if(act.getId() == activity.getId()) {
+            if(act.getId().equals(activity.getId())) {
                 flag = true;break;
             }
         }
@@ -80,10 +77,10 @@ public class BhacPostController {
                 return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(PostCode.ERR_POST_PUT));
             }
         }
-        
+
         bhacPostService.addPost(post);
         Integer pid = bhacPostService.getId((Integer)claims.get("uid"));
-        
+
         // 配置一楼
         BhacComment comment = new BhacComment();
         comment.setContent(content);
@@ -91,9 +88,9 @@ public class BhacPostController {
         comment.setPid(pid);
         comment.setSeqNum(1);
         commentService.addComment(comment);
-        
+
         //更新帖子的numOfComment
-        
+
         if(post.getType()== 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(PostCode.SUCC_POST_ADD_TYPE0));
         }
@@ -105,10 +102,10 @@ public class BhacPostController {
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(PostCode.ERR_POST_ADD));
     }
-    
+
     @GetMapping("/untoken/posts/{id}")
     public String getPost(@PathVariable("id")Integer id) {
-        
+
         BhacPost post = bhacPostService.getPost(id);
         if(post==null) post = new BhacPost();
         return JSONObject.toJSONString(post);
