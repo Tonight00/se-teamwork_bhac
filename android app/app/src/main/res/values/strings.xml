@@ -23,6 +23,8 @@
     <drawable name="clr_pressed3">#B7A32A2A</drawable>
     <drawable name="clr_normal4">#FF7322</drawable>
     <drawable name="clr_pressed4">#9C5901</drawable>
+    <drawable name="clr_normal5">#FFFFFF</drawable>
+    <drawable name="clr_pressed5">#C6C6C6</drawable>
 
 
     <string name="cancel">取消</string>

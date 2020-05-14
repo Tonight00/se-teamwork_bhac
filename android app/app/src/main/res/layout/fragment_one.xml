@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:hint="请输入关键词"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:layout_below="@+id/dasdadsa1213"
             android:layout_weight="3"/>
 
@@ -49,16 +49,23 @@
             android:background="@drawable/selector1"
             android:text="搜索"
             android:textColor="#ffffff"
-            android:textSize="30dp"
+            android:textSize="26dp"
             android:layout_weight="1"/>
 
     </LinearLayout>
 
 
 
-
-
-
+    <Button
+        android:id="@+id/cainixihuan"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/selector1"
+        android:text="找不到想要的？点这里"
+        android:layout_below="@+id/dsadfw2"
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
 
 
 
@@ -66,7 +73,7 @@
         android:id="@+id/fg1_activities_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dsadfw2">
+        android:layout_below="@+id/cainixihuan">
     </ListView>
 
 

@@ -137,7 +137,7 @@
         android:background="@drawable/style_item"
         android:paddingLeft="12dp">
         <ImageView
-            android:id="@+id/iv_setting1"
+            android:id="@+id/iv_money_bag"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toRightOf="@id/iv_setting1"
+            android:layout_toRightOf="@id/iv_money_bag"
             android:text="修改个人信息"
             android:gravity="center_vertical"
             android:background="@drawable/selector5"
@@ -173,7 +173,7 @@
         android:layout_height="48dp"
         android:paddingLeft="12dp">
         <ImageView
-            android:id="@+id/iv_setting2"
+            android:id="@+id/iv_setting"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
@@ -185,7 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toRightOf="@id/iv_setting2"
+            android:layout_toRightOf="@id/iv_setting"
             android:text="修改密码"
             android:gravity="center_vertical"
             android:background="@drawable/selector5"
@@ -203,7 +203,7 @@
         android:layout_height="48dp"
         android:paddingLeft="12dp">
         <ImageView
-            android:id="@+id/iv_setting3"
+            android:id="@+id/iv_setting1"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
@@ -215,7 +215,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toRightOf="@id/iv_setting3"
+            android:layout_toRightOf="@id/iv_setting1"
             android:text="退出当前账号"
             android:gravity="center_vertical"
             android:background="@drawable/selector5"
