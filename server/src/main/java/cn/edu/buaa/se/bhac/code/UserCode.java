@@ -1,5 +1,7 @@
 package cn.edu.buaa.se.bhac.code;
 
+import org.apache.catalina.User;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ public enum UserCode implements BaseCode{
     ERR_USER_VERI_FAILED,
     ERR_USER_NO_ADMIN,
     ERR_USER_PARAM,
+    SUCC_USER_UNJOINED,
     ERR_USER_NO_TOKEN,
     ERR_USER_ENROLLED,
     ERR_USER_UNENROLLED,
@@ -28,6 +31,8 @@ public enum UserCode implements BaseCode{
     SUCC_USER_AUTHORIZED,
     SUCC_USER_DEAUTHORIZED,
     SUCC_USER_ENROLL,
+    SUCC_USER_JOINED,
+    
     SUCC_USER_REG;
 
     private static Map<UserCode, String> message = new HashMap<UserCode, String>() {
@@ -51,12 +56,14 @@ public enum UserCode implements BaseCode{
             put(UserCode.ERR_USER_PARAM, "参数错误");
             put(UserCode.ERR_USER_NO_TOKEN, "尚未登陆");
             put(UserCode.ERR_USER_INVALID_TOKEN, "登录失效");
-            put(UserCode.SUCC_USER_ENROLL,"成功加入活动");
-            put(UserCode.SUCC_USER_UNENROLL,"成功退出活动");
+            put(UserCode.SUCC_USER_ENROLL,"成功申请加入活动");
+            put(UserCode.SUCC_USER_UNENROLL,"成功取消申请");
             put(UserCode.ERR_USER_ROLE_OWNED,"不能重复授权");
             put(UserCode.ERR_USER_ROLE_DELETED,"不能重复撤销授权");
             put(UserCode.ERR_USER_ENROLLED,"不能重复加入活动");
             put(UserCode.ERR_USER_UNENROLLED,"不能重复退出活动");
+            put(UserCode.SUCC_USER_JOINED,"成功加入活动");
+            put(UserCode.SUCC_USER_UNJOINED,"成功退出活动");
         }
     };
 

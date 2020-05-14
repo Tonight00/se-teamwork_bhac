@@ -112,6 +112,9 @@ public class BhacActivityController {
         if(state == -1 ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_ENROLLED));
         }
+        else if(state == 0) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_JOINED));
+        }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_ENROLL));
     }
     
@@ -132,6 +135,8 @@ public class BhacActivityController {
         Integer state = activityService.unenroll(aid,(Integer)claims.get("uid"));
         if(state == -1) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.ERR_USER_UNENROLLED));
+        } else if(state == 0) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_UNJOINED));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(UserCode.SUCC_USER_UNENROLL));
     }

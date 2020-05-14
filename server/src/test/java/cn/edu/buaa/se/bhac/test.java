@@ -241,6 +241,11 @@ public class test
     
     @Test
     public void testy() {
+        Integer a =1;
+        Integer b= 1;
+        if (a == b) {
+            System.out.println(true);
+        }
        // String ddate = "2020-04-30-123123";
         // System.out.println(ddate.substring(0,10));
         //        QueryWrapper q = new QueryWrapper();
