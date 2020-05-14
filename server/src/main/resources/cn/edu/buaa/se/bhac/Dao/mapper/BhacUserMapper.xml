@@ -20,11 +20,11 @@
     </select>
 
     <select id="Activity2" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.BhacActivityMap">
-        select * from bhac_activity where id in (select aid from bhac_joinUserActivity where uid=#{id} and state=0 )
+        select * from bhac_activity where id in (select aid from bhac_joinUserActivity where uid=#{id} and state=1 )
     </select>
 
     <select id="Activity3" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.BhacActivityMap">
-        select * from bhac_activity where id in (select aid from bhac_joinUserActivity where uid=#{id} and state=1)
+        select * from bhac_activity where id in (select aid from bhac_joinUserActivity where uid=#{id} and state=0)
     </select>
 
     <select id="Activity4" resultMap="cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper.BhacActivityMap">
