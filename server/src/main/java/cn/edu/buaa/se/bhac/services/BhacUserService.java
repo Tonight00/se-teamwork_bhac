@@ -1,26 +1,20 @@
 package cn.edu.buaa.se.bhac.services;
 
-import cn.edu.buaa.se.bhac.Dao.entity.*;
+import cn.edu.buaa.se.bhac.Dao.entity.BhacActuserrole;
+import cn.edu.buaa.se.bhac.Dao.entity.BhacRole;
+import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacActuserroleMapper;
-import cn.edu.buaa.se.bhac.Dao.mapper.BhacBelongactivitytagMapper;
 import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
-import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.catalina.User;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class BhacUserService {
@@ -36,7 +30,12 @@ public class BhacUserService {
      * @return 如果是活动管理员则返回true，否则为false
      */
     public static boolean checkAdmin(BhacUser account) {
-        return !account.getRolesAct().isEmpty();
+        for (BhacRole role : account.getRolesAct()) {
+            if (role.getTag().getState()==0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
