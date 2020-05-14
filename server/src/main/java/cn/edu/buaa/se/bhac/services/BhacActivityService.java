@@ -13,6 +13,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class BhacActivityService {
      * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public String getAuthedActivities(BhacUser user, @Param("page") Integer pageNum, Integer limit) {
+    public String getAuthedActivities(BhacUser user, Integer pageNum, Integer limit) {
         BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
         if(roles.isEmpty()) {
@@ -95,7 +97,10 @@ public class BhacActivityService {
             q.like("title",title);
         if(tid != null && tid !=0)
             q.eq("category",tid);
-        
+        q.eq("state",1);
+        Date t = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        q.gt("date(end)",df.format(t));
         Page<BhacActivity> page = new Page<BhacActivity>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);
       
@@ -238,6 +243,7 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         Page<BhacJoinuseractivity> page = new Page<>(pageNum,limit);
         q.eq("aid",aid);
+        q.eq("state",1);
         return DaoUtils.PageSearch(joinuseractivityMapper,page,q);
     }
     
@@ -246,13 +252,16 @@ public class BhacActivityService {
         QueryWrapper q = new QueryWrapper();
         q.eq("aid",aid);
         q.eq("uid",uid);
-        q.eq("state",1);
+        q.eq("state",0);
         if(joinuseractivityMapper.selectCount(q)!=0) {
             return -1;
         }
         BhacJoinuseractivity join = new BhacJoinuseractivity();
-        join.setState(1);
-        joinuseractivityMapper.update(join,q);
+        QueryWrapper qq = new QueryWrapper();
+        qq.eq("aid",aid);
+        qq.eq("uid",uid);
+        join.setState(0);
+        joinuseractivityMapper.update(join,qq);
         return 0;
     }
     

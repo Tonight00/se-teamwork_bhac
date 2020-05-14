@@ -52,12 +52,10 @@ public class BhacActivity extends Model<BhacActivity> {
 
     private String brief;
 
-    @JSONField(serialize = false)
     @TableField("isOpen")
     private Integer isOpen;
     
     
-    @JSONField(serialize = false)
     @TableField("limitPeopleNum")
     private Integer limitPeopleNum;
 

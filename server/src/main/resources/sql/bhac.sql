@@ -39,7 +39,6 @@ CREATE TABLE `bhac_activity` (
 
 /*Data for the table `bhac_activity` */
 
-insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values (1,1,1,'post1','place1',NULL,'2020-04-30 13:59:02','2020-05-10 16:43:53',NULL,0,-1,0,NULL),(2,1,2,'post2','place2',NULL,'2020-04-30 13:00:02',NULL,NULL,0,-1,0,NULL),(3,1,3,'post3','place3',NULL,'2020-04-30 13:59:02',NULL,NULL,0,-1,0,NULL);
 
 /*Table structure for table `bhac_actuserrole` */
 
@@ -54,7 +53,6 @@ CREATE TABLE `bhac_actuserrole` (
 
 /*Data for the table `bhac_actuserrole` */
 
-insert  into `bhac_actuserrole`(`id`,`uid`,`rid`) values (1,1,4),(2,2,4),(3,1,5),(4,3,4);
 
 /*Table structure for table `bhac_belongactivitytag` */
 
@@ -69,7 +67,6 @@ CREATE TABLE `bhac_belongactivitytag` (
 
 /*Data for the table `bhac_belongactivitytag` */
 
-insert  into `bhac_belongactivitytag`(`id`,`aid`,`tid`) values (1,1,1),(2,1,2),(3,2,2),(4,3,3);
 
 /*Table structure for table `bhac_comment` */
 
@@ -88,7 +85,6 @@ CREATE TABLE `bhac_comment` (
 
 /*Data for the table `bhac_comment` */
 
-insert  into `bhac_comment`(`id`,`pid`,`seqNum`,`postedBy`,`parentId`,`content`,`date`) values (1,1,1,1,NULL,'first_comment','2020-04-30 18:06:28'),(2,2,2,1,NULL,'second_comment','2020-04-30 18:06:28'),(3,3,3,1,NULL,'third_comment','2020-04-30 18:06:28'),(4,1,1,1,NULL,NULL,'2020-05-11 11:30:40'),(5,1,1,1,NULL,NULL,'2020-05-11 11:32:14'),(6,1,1,1,NULL,'13213123xxx','2020-05-11 11:33:50'),(7,1,1,1,NULL,'13213123xxx','2020-05-11 12:19:30');
 
 /*Table structure for table `bhac_joinuseractivity` */
 
@@ -104,7 +100,6 @@ CREATE TABLE `bhac_joinuseractivity` (
 
 /*Data for the table `bhac_joinuseractivity` */
 
-insert  into `bhac_joinuseractivity`(`id`,`uid`,`aid`,`state`) values (1,1,1,0),(2,1,2,0),(3,1,3,1),(4,2,2,1),(5,2,3,1),(6,3,3,1);
 
 /*Table structure for table `bhac_manageuseractivity` */
 
@@ -119,7 +114,6 @@ CREATE TABLE `bhac_manageuseractivity` (
 
 /*Data for the table `bhac_manageuseractivity` */
 
-insert  into `bhac_manageuseractivity`(`id`,`uid`,`aid`) values (1,1,2),(2,2,3),(3,3,1);
 
 /*Table structure for table `bhac_post` */
 
@@ -139,7 +133,6 @@ CREATE TABLE `bhac_post` (
 
 /*Data for the table `bhac_post` */
 
-insert  into `bhac_post`(`id`,`aid`,`tid`,`title`,`postedBy`,`numOfComment`,`lastEdited`,`type`) values (1,1,1,'',1,1,'2020-04-30 17:10:28',0),(2,1,2,'',1,2,'2020-04-30 17:10:29',0),(3,NULL,NULL,'12312',1,NULL,'2020-05-10 18:01:39',1);
 
 /*Table structure for table `bhac_role` */
 
@@ -154,7 +147,6 @@ CREATE TABLE `bhac_role` (
 
 /*Data for the table `bhac_role` */
 
-insert  into `bhac_role`(`id`,`tid`,`state`) values (1,1,0),(2,2,0),(3,3,0),(4,4,0),(5,5,0);
 
 /*Table structure for table `bhac_tag` */
 
@@ -171,7 +163,6 @@ CREATE TABLE `bhac_tag` (
 
 /*Data for the table `bhac_tag` */
 
-insert  into `bhac_tag`(`id`,`name`,`state`,`parent_id`) values (1,'测试',0,NULL),(2,'音乐',0,NULL),(3,'学习',0,NULL),(4,'角色1',0,NULL),(5,'角色2',0,NULL);
 
 /*Table structure for table `bhac_user` */
 
@@ -197,7 +188,6 @@ CREATE TABLE `bhac_user` (
 
 /*Data for the table `bhac_user` */
 
-insert  into `bhac_user`(`id`,`username`,`email`,`phoneNum`,`password`,`state`,`firstName`,`lastName`,`studentId`,`avatarUrl`,`gender`) values (1,'r1','xxxxx@xx.com','18100011000','123asbv.',0,NULL,NULL,NULL,NULL,0),(2,'r2','yyyyy@xx.com','18100011001','124asbv.',0,NULL,NULL,NULL,NULL,1),(3,'r3','zzzzz@xx.com','18100011002','125asbv.',0,NULL,NULL,NULL,NULL,1),(5,'r4','aaaaa@xx.com','18100011003','126asbv',0,NULL,NULL,NULL,NULL,2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

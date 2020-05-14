@@ -124,8 +124,7 @@ public class BhacUserController {
     @GetMapping("/users/self")
     public String getCurUsers(HttpServletRequest request) {
         Claims claims = (Claims) request.getAttribute("claims");
-        return JSONObject.toJSONString(userService.getUserById((Integer) claims.get("uid")),
-                ControllerUtils.filterFactory(BhacUser.class));
+        return JSONObject.toJSONString(userService.getUserById((Integer) claims.get("uid")));
     }
     
     /**
@@ -162,7 +161,7 @@ public class BhacUserController {
         if(user == null) {
             user = new BhacUser();
         }
-        return JSONObject.toJSONString(user,ControllerUtils.filterFactory(BhacUser.class));
+        return JSONObject.toJSONString(user);
     }
     
 //    @GetMapping("/sysadmin/usersCount")

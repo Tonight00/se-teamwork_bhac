@@ -36,7 +36,7 @@ public class BhacPostController {
         if(posts == null) {
             posts = new ArrayList<>();
         }
-        return JSONObject.toJSONString(posts, ControllerUtils.filterFactory(BhacPost.class));
+        return JSONObject.toJSONString(posts);
     }
     
     
@@ -80,6 +80,6 @@ public class BhacPostController {
         
         BhacPost post = bhacPostService.getPost(id);
         if(post==null) post = new BhacPost();
-        return JSONObject.toJSONString(post,ControllerUtils.filterFactory(BhacPost.class));
+        return JSONObject.toJSONString(post);
     }
 }

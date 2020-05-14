@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    tools:context="com.shakespace.template.fragment.OneFragment">
+
+
+    <!--<TextView
+        android:id="@+id/thisistwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="与服务器连接失败"/>-->
+
+
+    <com.haibin.calendarview.CalendarLayout
+        android:id="@+id/fg2_calendarLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.haibin.calendarview.CalendarView
+            android:id="@+id/fg2_calendarview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:day_text_size="23dp"
+            app:scheme_text_color="#19E5FF" />
+
+    </com.haibin.calendarview.CalendarLayout>
+
+
+
+
+    <ListView
+        android:id="@+id/fg2_activities_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fg2_calendarLayout"
+        android:layout_marginTop="13dp"></ListView>
+
+
+</RelativeLayout>

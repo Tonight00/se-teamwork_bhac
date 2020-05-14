@@ -3,12 +3,15 @@ package cn.edu.buaa.se.bhac.controller;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacActivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacJoinuseractivity;
 import cn.edu.buaa.se.bhac.Dao.entity.BhacUser;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacActivityMapper;
+import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +30,10 @@ public class BhacActivityController {
     private BhacActivityService activityService;
     @Autowired
     private BhacTagService tagService;
+    @Autowired
+    private BhacUserMapper userMapper;
+    @Autowired
+    private BhacActivityMapper activityMapper;
     
     /**
      * 返回该用户可以管理的活动集
@@ -37,7 +45,6 @@ public class BhacActivityController {
     @GetMapping("/admin/activities/authed")
     public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        System.out.println(activityService.getAuthedActivities(admin,pageNum,limit));
         return activityService.getAuthedActivities(admin,pageNum,limit);
     }
 
@@ -71,8 +78,7 @@ public class BhacActivityController {
     public String getActivities(@Param("title")String title, @Param("tid") Integer tid,
                                     @Param("pageNum")Integer pageNum , @Param("limit") Integer limit) {
         return JSONObject.toJSONString(
-                activityService.getActivities(title,tid,pageNum,limit) ,
-                ControllerUtils.filterFactory(BhacActivity.class));
+                activityService.getActivities(title,tid,pageNum,limit));
     }
     
     /**
@@ -86,8 +92,7 @@ public class BhacActivityController {
         if (activityService.getActivity(id) == null) {
             activity = new BhacActivity();
         }
-        return JSONObject.toJSONString(activity,
-                ControllerUtils.filterFactory(BhacActivity.class));
+        return JSONObject.toJSONString(activity);
     }
     
     /**
@@ -169,7 +174,7 @@ public class BhacActivityController {
     public String getActByDate(HttpServletRequest request, String date) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         List<BhacActivity> activities = activityService.getActByDate((Integer)claims.get("uid"),date);
-        return JSONObject.toJSONString(activities,ControllerUtils.filterFactory(BhacActivity.class));
+        return JSONObject.toJSONString(activities);
     }
     
     @GetMapping("/untoken/activities/belongs")
@@ -227,6 +232,58 @@ public class BhacActivityController {
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_UPD));
     }
+    
+    @GetMapping("/activities/favorite")
+    public String searchActivity(HttpServletRequest request) {
+        /**
+         * 在用户未选择的活动中，选择加入人数最多的三个活动
+         */
+        Claims claims = (Claims) request.getAttribute("claims");
+        Integer id = (Integer) claims.get("uid");
+        BhacUser user =userMapper.selectById(id);
+        List<BhacActivity> joinActivities = user.getActivitiesProcessing();
+        joinActivities.addAll(user.getActivitiesSucceed());
+        QueryWrapper q = new QueryWrapper();
+        List<BhacActivity> notJoinActivities = new ArrayList<>();
+        List<Integer> joinIds = new ArrayList<>();
+        for (BhacActivity activity: joinActivities) {
+            joinIds.add(activity.getId());
+        }
+        q.notIn("id",joinIds);
+        q.eq("state",1);
+        notJoinActivities = activityMapper.selectList(q);
+        int mx1 = 0, mx2 = 0 , mx3 = 0;
+        BhacActivity ma1=null,ma2=null,ma3=null;
+        for(BhacActivity activity: notJoinActivities) {
+            int mx = activity.getUsersProcessing().size();
+             mx += activity.getUsersSucceed().size();
+            BhacActivity ma = activity;
+             if (mx1 <= mx) {
+                mx3 = mx2; mx2 = mx1; mx1 = mx;
+                ma3 = ma2; ma2 = ma1; ma1 = ma;
+            }
+            else if (mx2 <= mx) {
+                mx3 = mx2; mx2 = mx;
+                ma3 = ma2; ma2 = ma;
+            }
+            else if (mx3 < mx) {
+                mx3 = mx;
+                ma3 = ma;
+            }
+        }
+        List<BhacActivity>favorite = new ArrayList<>();
+        if(ma1!=null) {
+            favorite.add(ma1);
+        }
+        if(ma2!=null) {
+            favorite.add(ma2);
+        }
+        if(ma3!=null) {
+            favorite.add(ma3);
+        }
+        return JSONObject.toJSONString(favorite);
+    }
+    
 //
 //    @GetMapping("/admin/activities/authedCount")
 //    public int getAuthedActivitiesCount(HttpSession session, Integer pageNum, Integer limit) {
