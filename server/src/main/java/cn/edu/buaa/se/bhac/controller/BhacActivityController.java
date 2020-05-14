@@ -249,7 +249,8 @@ public class BhacActivityController {
         for (BhacActivity activity: joinActivities) {
             joinIds.add(activity.getId());
         }
-        q.notIn("id",joinIds);
+        if(joinIds!=null)
+         q.notIn("id",joinIds);
         q.eq("state",1);
         notJoinActivities = activityMapper.selectList(q);
         int mx1 = 0, mx2 = 0 , mx3 = 0;

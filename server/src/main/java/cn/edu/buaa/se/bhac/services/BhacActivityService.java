@@ -49,7 +49,11 @@ public class BhacActivityService {
             }
         }
         QueryWrapper q = new QueryWrapper();
-        q.in("category",category);
+        if(category!=null)
+            q.in("category",category);
+        else {
+            q.eq("id",-1);
+        }
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         IPage<BhacActivity> iPage = activityMapper.selectPage(page,q);
         return ControllerUtils.putCountAndData(iPage,BhacActivity.class);
