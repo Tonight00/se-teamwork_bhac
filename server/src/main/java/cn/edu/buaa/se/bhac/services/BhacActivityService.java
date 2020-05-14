@@ -49,7 +49,7 @@ public class BhacActivityService {
             }
         }
         QueryWrapper q = new QueryWrapper();
-        if(category!=null)
+        if(category!=null &&category.size()!=0)
             q.in("category",category);
         else {
             q.eq("id",-1);
