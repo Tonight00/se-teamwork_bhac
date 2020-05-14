@@ -42,17 +42,11 @@ public class BhacActivityService {
     public String getAuthedActivities(BhacUser user, Integer pageNum, Integer limit) {
         BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
-        if(roles.isEmpty()) {
-            return null;
-        }
         List<Integer> category = new ArrayList<>();
         for (BhacRole role : roles) {
             if (role.getState() == 0 && role.getTag().getState() == 0) {
                 category.add(role.getTag().getId());
             }
-        }
-        if(category.isEmpty()) {
-            return null;
         }
         QueryWrapper q = new QueryWrapper();
         q.in("category",category);
