@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -67,5 +69,17 @@ public class ControllerUtils {
         json.put("count",count);
         json.put("data",activities);
         return json.toJSONString();
+    }
+    
+    public static String putCountAndData2 (IPage<BhacActivity> iPage, Class<BhacActivity> bhacActivityClass)
+    {
+        List<BhacActivity> activities =  iPage.getRecords();
+        Collections.sort(activities);
+        JSONObject json = new JSONObject();
+        Long count = iPage.getTotal();
+        json.put("count",count);
+        json.put("data",activities);
+        return json.toJSONString();
+        
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2020-04-30
  */
 @TableName(value = "bhac_activity", resultMap = "BhacActivityMap")
-public class BhacActivity extends Model<BhacActivity> {
+public class BhacActivity extends Model<BhacActivity> implements Comparable<BhacActivity> {
 
     private static final long serialVersionUID = 1L;
 
@@ -264,4 +264,12 @@ public class BhacActivity extends Model<BhacActivity> {
         return this.id;
     }
     
+    @Override
+    public int compareTo (BhacActivity o)
+    {
+        int state2 = o.getState();
+        if(state2 == state) return 0;
+        if(state == 0) return -1;
+        return 1;
+    }
 }

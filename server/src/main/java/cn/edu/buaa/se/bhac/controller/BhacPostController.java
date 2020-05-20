@@ -78,6 +78,7 @@ public class BhacPostController {
             }
         }
 
+        post.setNumOfComment(1);
         bhacPostService.addPost(post);
         Integer pid = bhacPostService.getId((Integer)claims.get("uid"));
 
@@ -89,7 +90,6 @@ public class BhacPostController {
         comment.setSeqNum(1);
         commentService.addComment(comment);
 
-        //更新帖子的numOfComment
 
         if(post.getType()== 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(PostCode.SUCC_POST_ADD_TYPE0));

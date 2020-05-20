@@ -6,6 +6,7 @@ import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.Utils.JWTUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
+import cn.edu.buaa.se.bhac.comparators.ActivityComp;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -27,10 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -242,12 +240,15 @@ public class test
     
     @Test
     public void testy() {
-        Long timestamp = LocalDateTime.now().toInstant(ZoneOffset.of("+0")).toEpochMilli()/1000;
         QueryWrapper q = new QueryWrapper();
-        q.le("unix_timestamp(end)",timestamp);
-        List<BhacActivity> activities =  bhacActivityMapper.selectList(q);
-        for (BhacActivity activity: activities) {
-            System.out.println(activity);
+        q.like("title","");
+        List<BhacActivity> activities = bhacActivityMapper.selectList(q);
+        for(BhacActivity activity : activities) {
+            System.out.println(activity+"-----------------------");
+        }
+        Collections.sort(activities, new ActivityComp());
+        for(BhacActivity activity:activities) {
+            System.out.println(activity+"-------------------");
         }
     }
     

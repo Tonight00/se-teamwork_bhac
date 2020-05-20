@@ -41,7 +41,7 @@ public class BhacActivityService {
      * @return BhacActivity对象集合
      * @implNote 只返回拥有所有权限的活动（state = 0）
      */
-    public String getAuthedActivities(BhacUser user, Integer pageNum, Integer limit) {
+    public String getAuthedActivities(BhacUser user, Integer pageNum, Integer limit,String title) {
         BhacUser admin = bhacUserMapper.selectById(user.getId());
         List<BhacRole> roles = admin.getRolesAct();
         List<Integer> category = new ArrayList<>();
@@ -56,9 +56,10 @@ public class BhacActivityService {
         else {
             q.eq("id",-1);
         }
+        q.like("title",title);
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         IPage<BhacActivity> iPage = activityMapper.selectPage(page,q);
-        return ControllerUtils.putCountAndData(iPage,BhacActivity.class);
+        return ControllerUtils.putCountAndData2(iPage,BhacActivity.class);
     }
 
     /**
@@ -303,5 +304,21 @@ public class BhacActivityService {
     public List<BhacActivity> getNotJoinActivities (QueryWrapper q)
     {
         return activityMapper.selectList(q);
+    }
+    
+    public boolean isActivityFulled (Integer aid)
+    {
+        BhacActivity activity = activityMapper.selectById(aid);
+        if(activity.getLimitPeopleNum()==-1) return false;
+        if( activity.getUsersSucceed().size()>=activity.getLimitPeopleNum()) return true;
+        return false;
+    }
+    
+    public List<BhacActivity> getReleasedActivities (Integer id, Integer pageNum, Integer limit)
+    {
+        QueryWrapper q = new QueryWrapper();
+        q.eq("uid",id);
+        Page<BhacActivity> page = new Page<>(pageNum,limit);
+        return DaoUtils.PageSearch(activityMapper,page,q);
     }
 }

@@ -8,6 +8,7 @@ import cn.edu.buaa.se.bhac.Dao.mapper.BhacUserMapper;
 import cn.edu.buaa.se.bhac.Utils.ControllerUtils;
 import cn.edu.buaa.se.bhac.code.ActivityCode;
 import cn.edu.buaa.se.bhac.code.UserCode;
+import cn.edu.buaa.se.bhac.comparators.ActivityComp;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,9 +44,9 @@ public class BhacActivityController {
      * @return BhacActivities集合
      */
     @GetMapping("/admin/activities/authed")
-    public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit) {
+    public String getAuthedActivities(HttpSession session, Integer pageNum, Integer limit,String title) {
         BhacUser admin = (BhacUser) session.getAttribute("admin");
-        return activityService.getAuthedActivities(admin,pageNum,limit);
+        return activityService.getAuthedActivities(admin,pageNum,limit,title);
     }
 
     /**
@@ -62,6 +64,8 @@ public class BhacActivityController {
         }
         if (activity.getState() != 1) {
             activityService.permitActivity(activity.getId(), 1);
+        } else {
+            JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_ACC_DUP));
         }
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_AUDIT_SUCC));
     }
@@ -106,6 +110,9 @@ public class BhacActivityController {
         Claims claims  =  (Claims) request.getAttribute("claims");
         if(activityService.getActivity(aid) == null ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
+        }
+        if(activityService.isActivityFulled(aid)) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_FULLED));
         }
         Integer state = activityService.enroll(aid,(Integer)claims.get("uid"));
         if(state == -1 ) {
@@ -291,6 +298,15 @@ public class BhacActivityController {
         }
         return JSONObject.toJSONString(favorite);
     }
+    
+    @GetMapping("/activities/released")
+    public String GetReleasedActivites(Integer pageNum, Integer limit,HttpServletRequest request) {
+        Claims claims = (Claims)  request.getAttribute("claims");
+        List<BhacActivity> activities = activityService.getReleasedActivities((Integer)claims.get("id"),pageNum,limit);
+        Collections.sort(activities,new ActivityComp());
+        return  JSONObject.toJSONString(activities);
+    }
+    
     
 //
 //    @GetMapping("/admin/activities/authedCount")
