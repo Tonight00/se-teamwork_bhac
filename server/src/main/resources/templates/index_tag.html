@@ -141,7 +141,7 @@
 
         $('#addBtn').on('click', function(){
             var demoAdd = $('#demoAdd').val();
-            if(demoAdd === ""){
+            if(demoAdd === null || $.trim(demoAdd)===""){
                 layer.msg("添加标签名不能为空");
                 return;
             }
