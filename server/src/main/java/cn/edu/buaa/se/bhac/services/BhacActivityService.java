@@ -106,7 +106,6 @@ public class BhacActivityService {
         q.gt("unix_timestamp(end)",timestamp);
         Page<BhacActivity> page = new Page<BhacActivity>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);
-      
     }
     
     /**
