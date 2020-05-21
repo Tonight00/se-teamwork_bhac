@@ -303,7 +303,7 @@ public class BhacActivityController {
     public String GetReleasedActivites(Integer pageNum, Integer limit,HttpServletRequest request) {
         Claims claims = (Claims)  request.getAttribute("claims");
         List<BhacActivity> activities = activityService.getReleasedActivities((Integer)claims.get("id"),pageNum,limit);
-        Collections.sort(activities,new ActivityComp());
+   //     Collections.sort(activities,new ActivityComp());
         return  JSONObject.toJSONString(activities);
     }
     

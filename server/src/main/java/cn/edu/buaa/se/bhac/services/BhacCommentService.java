@@ -30,6 +30,7 @@ public class BhacCommentService {
     {
         QueryWrapper q = new QueryWrapper();
         q.eq("pid",pid);
+        q.orderByAsc("seqNum");
         Page<BhacComment> p = new Page<>(pageNum,limit);
         return DaoUtils.PageSearch(commentMapper,p,q);
     }
