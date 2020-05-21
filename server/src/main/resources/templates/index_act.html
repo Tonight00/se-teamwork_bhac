@@ -20,6 +20,13 @@
 
     <div class="layui-body">
         <div style="padding: 15px;">
+            <div class="demoTable">
+                搜索活动名：
+                <div class="layui-inline">
+                    <input class="layui-input" name="title" id="titleSearch" autocomplete="off">
+                </div>
+                <button id="searchBtn" class="layui-btn" data-type="reload">搜索</button>
+            </div>
             <table class="layui-hide" id="actTable" lay-filter="actTable"></table>
         </div>
     </div>
@@ -27,10 +34,10 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" >
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a href="javascript:">活动管理</a>
                 </li>
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a th:if="${session.isSysadmin}" href="javascript:;">系统管理</a>
                     <dl class="layui-nav-child">
                         <dd><a th:if="${session.isSysadmin}" th:href="@{/sysadmin/index_sys}">用户管理</a></dd>
@@ -153,6 +160,27 @@
                     "data": newRes.data //解析数据列表
                 };
             }
+        });
+
+        tableIns.reload({
+            where:{
+                title :""
+            }
+            ,page:{
+                curr:1
+            }
+        });
+
+        $('#searchBtn').on('click', function(){
+            var titleSearch = $('#titleSearch');
+            tableIns.reload({
+                where:{
+                    title:titleSearch.val()
+                }
+                ,page:{
+                    curr:1
+                }
+            })
         });
 
         //监听行工具事件

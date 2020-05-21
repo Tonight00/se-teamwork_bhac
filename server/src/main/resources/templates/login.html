@@ -15,10 +15,13 @@
                         <h1 class="layui-field-title" style="text-align: center">ARS管理系统</h1>
                     </div>
                 </div>
+<!--                <div th:if="${message}"  class="layui-layer-content">-->
+<!--                    <div class="layui-col-md12">-->
+<!--                        <div class="layui-field-title" th:text="${message}" style="color: #ff0000;text-align: center"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div th:if="${message}"  class="layui-layer-content">
-                    <div class="layui-col-md12">
-                        <div class="layui-field-title" th:text="${message}" style="color: #ff0000;text-align: center"></div>
-                    </div>
+                        <div id="messageHid" th:text="${message}" style="visibility: hidden"></div>
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md10 layui-col-md-offset1">
@@ -46,7 +49,7 @@
                     <div class="layui-col-md4 layui-col-md-offset1">
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="loginSubmit">登录</button>
+                                <button id="loginBtn" class="layui-btn" lay-submit lay-filter="loginSubmit">登录</button>
                             </div>
                         </div>
                     </div>
@@ -62,7 +65,19 @@
         var form = layui.form
             ,layer = layui.layer
             ,element = layui.element;
+
+        var $ = layui.$;
+
+        $(document).ready(function(){
+            var ms = document.getElementById("messageHid");
+            if(ms!=null){
+                var message =document.getElementById("messageHid").innerHTML;
+                console.log(message);
+                layer.msg(message);
+            }
+        });
     });
+
 </script>
 
 </body>
