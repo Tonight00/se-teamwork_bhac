@@ -246,10 +246,6 @@ public class test
         for(BhacActivity activity : activities) {
             System.out.println(activity+"-----------------------");
         }
-        Collections.sort(activities, new ActivityComp());
-        for(BhacActivity activity:activities) {
-            System.out.println(activity+"-------------------");
-        }
     }
     
     

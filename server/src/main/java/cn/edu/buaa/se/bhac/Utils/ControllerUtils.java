@@ -71,15 +71,4 @@ public class ControllerUtils {
         return json.toJSONString();
     }
     
-    public static String putCountAndData2 (IPage<BhacActivity> iPage, Class<BhacActivity> bhacActivityClass)
-    {
-        List<BhacActivity> activities =  iPage.getRecords();
-        Collections.sort(activities);
-        JSONObject json = new JSONObject();
-        Long count = iPage.getTotal();
-        json.put("count",count);
-        json.put("data",activities);
-        return json.toJSONString();
-        
-    }
 }

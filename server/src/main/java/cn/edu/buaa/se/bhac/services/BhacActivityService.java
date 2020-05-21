@@ -57,9 +57,10 @@ public class BhacActivityService {
             q.eq("id",-1);
         }
         q.like("title",title);
+        q.orderByAsc("state");
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         IPage<BhacActivity> iPage = activityMapper.selectPage(page,q);
-        return ControllerUtils.putCountAndData2(iPage,BhacActivity.class);
+        return ControllerUtils.putCountAndData(iPage,BhacActivity.class);
     }
 
     /**
@@ -314,10 +315,11 @@ public class BhacActivityService {
         return false;
     }
     
-    public List<BhacActivity> getReleasedActivities (Integer id, Integer pageNum, Integer limit)
+    public List<BhacActivity>  getReleasedActivities(Integer id, Integer pageNum, Integer limit)
     {
         QueryWrapper q = new QueryWrapper();
         q.eq("uid",id);
+        q.orderByAsc("begin");
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);
     }

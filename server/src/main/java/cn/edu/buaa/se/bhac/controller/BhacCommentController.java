@@ -42,7 +42,7 @@ public class BhacCommentController {
     @GetMapping("untoken/commentsInPost")
     public String getCommentsInPost(Integer pid, Integer pageNum , Integer limit) {
         List<BhacComment> comments =  commentService.getComments(pid,pageNum,limit);
-        Collections.sort(comments,new CommentsComp());
+      //  Collections.sort(comments,new CommentsComp());
         return JSONObject.toJSONString(comments);
     }
     
