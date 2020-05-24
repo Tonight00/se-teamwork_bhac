@@ -55,7 +55,8 @@ public class BhacCommentController {
     @PostMapping("/comments")
     public String addComment(HttpServletRequest request,BhacComment comment ) {
         Claims claims  =  (Claims) request.getAttribute("claims");
-        BhacPost post = comment.getPost();
+        
+        BhacPost post = postService.getPost(comment.getPid());
         BhacUser user = userService.getUserById((Integer)claims.get("uid"));
         if (post.getType() == 0 || post.getType() == 2) {
             if(!BhacUserService.checkAdmin(user) && ! BhacUserService.checkSysAdmin(user)) {
