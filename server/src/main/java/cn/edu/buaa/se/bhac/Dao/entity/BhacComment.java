@@ -41,6 +41,7 @@ public class BhacComment extends Model<BhacComment> {
     private String content;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField( format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
     
     private Integer pid;
