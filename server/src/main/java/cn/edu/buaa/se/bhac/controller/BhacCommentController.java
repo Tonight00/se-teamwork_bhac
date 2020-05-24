@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public class BhacCommentController {
     }
     
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    @GetMapping("/comments")
+    @PostMapping("/comments")
     public String addComment(HttpServletRequest request,BhacComment comment ) {
         Claims claims  =  (Claims) request.getAttribute("claims");
         BhacPost post = comment.getPost();
