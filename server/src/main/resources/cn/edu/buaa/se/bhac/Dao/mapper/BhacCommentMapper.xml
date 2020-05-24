@@ -4,8 +4,9 @@
     <resultMap id="BhacCommentMap" type="cn.edu.buaa.se.bhac.Dao.entity.BhacComment">
         <id property="id" column="id"/>
         <result property="pid" column="pid"/>
+        <result property="postedBy" column="postedBy"/>
         <result property="content" column="content" jdbcType="BLOB" typeHandler="cn.edu.buaa.se.bhac.config.BlogTypeHandler"/>
-        <association property="post" column="pid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacPost"
+        <association property="post" column="pgid" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacPost"
                     select="Post"/>
         <association property="poster" column="postedBy" javaType="cn.edu.buaa.se.bhac.Dao.entity.BhacUser"
                      select="User"/>

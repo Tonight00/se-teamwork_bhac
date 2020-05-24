@@ -59,7 +59,7 @@ public class BhacCommentController {
         BhacPost post = postService.getPost(comment.getPid());
         BhacUser user = userService.getUserById((Integer)claims.get("uid"));
         if (post.getType() == 0 || post.getType() == 2) {
-            if(!BhacUserService.checkAdmin(user) && ! BhacUserService.checkSysAdmin(user)) {
+            if(!BhacUserService.checkAdmin(user) && ! BhacUserService.checkSysAdmin(user) &&  user.getId() != post.getPostedBy()) {
                 return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(CommentCode.ERR_COMMENT_PERMIT));
             }
         }
@@ -68,6 +68,8 @@ public class BhacCommentController {
         Integer num = post.getNumOfComment()+1;
         comment.setSeqNum(num);
         post.setNumOfComment(num);
+        commentService.addComment(comment);
+        postService.updateById(post);
         return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(CommentCode.SUCC_COMMENT_ADDED));
     }
     
