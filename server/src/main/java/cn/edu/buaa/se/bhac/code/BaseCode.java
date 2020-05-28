@@ -6,4 +6,5 @@ public interface BaseCode {
 
     // 是否是成功编号
     public boolean isSuccessful();
+    
 }

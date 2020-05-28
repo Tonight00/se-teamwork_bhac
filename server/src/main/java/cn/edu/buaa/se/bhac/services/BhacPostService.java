@@ -47,4 +47,9 @@ public class BhacPostService {
         List<Integer> ids = bhacPostMapper.selectObjs(q);
         return ids.get(0);
     }
+    
+    public void updateById (BhacPost post)
+    {
+        bhacPostMapper.updateById(post);
+    }
 }
