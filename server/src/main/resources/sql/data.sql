@@ -12,7 +12,7 @@ MySQL - 8.0.19 : Database - bhac
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE IF NOT EXISTS `bhac` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`bhac` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `bhac`;
 
@@ -182,7 +182,8 @@ insert  into `bhac_role`(`id`,`tid`,`state`) values
 (5,5,0),
 (6,6,0),
 (7,7,0),
-(22,10,0);
+(22,10,0),
+(23,11,0);
 
 /*Data for the table `bhac_tag` */
 
@@ -193,17 +194,16 @@ insert  into `bhac_tag`(`id`,`name`,`state`,`parent_id`) values
 (4,'博雅课程-讲座-科技',0,NULL),
 (5,'博雅课程-讲座-信息',0,NULL),
 (6,'博雅课程-讲座-文艺',0,NULL),
-(7,'博雅课程-学校/院文化素质教育活动',0,NULL),
-(10,'电影',-1,NULL);
+(7,'博雅课程-学校/院文化素质教育活动',0,NULL);
 
 /*Data for the table `bhac_user` */
 
 insert  into `bhac_user`(`id`,`username`,`email`,`phoneNum`,`password`,`state`,`firstName`,`lastName`,`studentId`,`avatarUrl`,`gender`) values 
-(1,'system1','4646466@qq.com','13886454565','123456',1,'郑','熙悦','17890255',NULL,1),
-(2,'manager1','55646456@qq.com','18100011007','123456',0,'许','立国','17896522',NULL,0),
-(3,'user1','54547545@qq.com','13456854595','123456',0,'关','天伟','17895685',NULL,0),
-(4,'user2','3564744545@qq.com','17548575749','123456',0,'褚','岩','17896523',NULL,0),
-(5,'user3','65885455@qq.com','17555421245','123456',0,'李','长水','17892145',NULL,2);
+(1,'system1','4646466@qq.com','13886454565','123456',1,'熙悦','郑','17890255',NULL,2),
+(2,'manager1','55646456@qq.com','18100011007','123456',0,'立国','许','17896522',NULL,0),
+(3,'user1','54547545@qq.com','13456854595','123456',0,'天伟','许','17895685',NULL,0),
+(4,'user2','3564744545@qq.com','17548575749','123456',0,'岩','褚','17896523',NULL,0),
+(5,'user3','65885455@qq.com','17555421245','123456',0,'长水','李','17892145',NULL,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
