@@ -322,4 +322,18 @@ public class BhacActivityService {
         Page<BhacActivity> page = new Page<>(pageNum,limit);
         return DaoUtils.PageSearch(activityMapper,page,q);
     }
+    
+    public boolean isConflicted (Integer aid, Integer uid)
+    {
+        BhacUser user = bhacUserMapper.selectById(uid);
+        BhacActivity theActivity = activityMapper.selectById(aid);
+        List<BhacActivity> activities = user.getActivitiesSucceed();
+        activities.addAll(user.getActivitiesProcessing());
+        for(BhacActivity activity: activities) {
+            if(theActivity.getBegin().compareTo(activity.getEnd())<=0
+                && theActivity.getEnd().compareTo(activity.getBegin())>=0)
+                return true;
+        }
+        return false;
+    }
 }

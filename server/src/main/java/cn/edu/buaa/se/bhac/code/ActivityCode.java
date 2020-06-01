@@ -12,7 +12,9 @@ public enum ActivityCode implements BaseCode
     SUCC_ACTIVITY_UPD,
     SUCC_ACTIVITY_ADD,
     SUCC_ACTIVITY_ACC,
+    ERR_ACTIVITY_CONFLICT,
     SUCC_ACTIVITY_AUDIT_WAIT;
+   
     private static Map<BaseCode, String> message = new HashMap<BaseCode, String>() {
         {
             put(ActivityCode.SUCC_ACTIVITY_AUDIT_SUCC,"活动审核成功");
@@ -23,6 +25,7 @@ public enum ActivityCode implements BaseCode
             put(ActivityCode.ERR_ACTIVITY_ACC_DUP,"不能重复批准");
             put(ActivityCode.SUCC_ACTIVITY_UPD,"活动修改成功");
             put(ActivityCode.ERR_ACTIVITY_FULLED,"活动参与人数已满");
+            put(ActivityCode.ERR_ACTIVITY_CONFLICT,"活动时间发生冲突");
         }
     };
     
