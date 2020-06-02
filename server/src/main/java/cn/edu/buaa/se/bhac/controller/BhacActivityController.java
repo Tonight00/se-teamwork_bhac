@@ -112,9 +112,9 @@ public class BhacActivityController {
         if(activityService.getActivity(aid) == null ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
         }
-        if(activityService.isConflicted(aid,(Integer)claims.get("uid"))) {
-            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_CONFLICT));
-        }
+      //  if(activityService.isConflicted(aid,(Integer)claims.get("uid"))) {
+        //    return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_CONFLICT));
+       // }
         if(activityService.isActivityFulled(aid)) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_FULLED));
         }
