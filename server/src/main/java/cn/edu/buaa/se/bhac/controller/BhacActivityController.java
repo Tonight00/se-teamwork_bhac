@@ -12,6 +12,7 @@ import cn.edu.buaa.se.bhac.comparators.ActivityComp;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
@@ -308,6 +309,11 @@ public class BhacActivityController {
         List<BhacActivity> activities = activityService.getReleasedActivities((Integer)claims.get("uid"),pageNum,limit);
    //     Collections.sort(activities,new ActivityComp());
         return  JSONObject.toJSONString(activities);
+    }
+    
+    @GetMapping("/untoken/activities/joined")
+    public String JoinedPeople(Integer aid) {
+        return JSONObject.toJSONString(activityService.getJoinedPeopleNum(aid));
     }
     
     

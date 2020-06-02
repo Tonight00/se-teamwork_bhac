@@ -336,4 +336,10 @@ public class BhacActivityService {
         }
         return false;
     }
+    
+    public Object getJoinedPeopleNum (Integer aid)
+    {
+        BhacActivity activity = activityMapper.selectById(aid);
+        return activity.getUsersSucceed().size();
+    }
 }
