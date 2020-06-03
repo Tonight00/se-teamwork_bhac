@@ -56,7 +56,11 @@
     <a id="extraBtn" class="layui-btn layui-btn-xs" lay-event="extra">查看</a>
 </script>
 <script type="text/html" id="barCheck">
+    {{#  if(d.state === 1){ }}
+    <a id="permitBtn" class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="permit">已批准</a>
+    {{#  } else if(d.state === 0) { }}
     <a id="permitBtn" class="layui-btn layui-btn-xs" lay-event="permit">批准</a>
+    {{#  } }}
 </script>
 <script type="text/html" id="stateTpl">
     {{#  if(d.state === 1){ }}
