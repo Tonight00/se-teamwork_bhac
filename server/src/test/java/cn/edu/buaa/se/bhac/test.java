@@ -7,6 +7,7 @@ import cn.edu.buaa.se.bhac.Utils.DaoUtils;
 import cn.edu.buaa.se.bhac.Utils.JWTUtils;
 import cn.edu.buaa.se.bhac.code.UserCode;
 import cn.edu.buaa.se.bhac.comparators.ActivityComp;
+import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -46,6 +47,8 @@ public class test
     private BhacPostMapper bhacPostMapper;
     @Autowired
     private BhacCommentMapper bhacCommentMapper;
+    @Autowired
+    private BhacActivityService activityService;
   
     
     public <T>void print(List<T> st ) {
@@ -240,12 +243,7 @@ public class test
     
     @Test
     public void testy() {
-        QueryWrapper q = new QueryWrapper();
-        q.like("title","");
-        List<BhacActivity> activities = bhacActivityMapper.selectList(q);
-        for(BhacActivity activity : activities) {
-            System.out.println(activity+"-----------------------");
-        }
+        System.out.println(activityService.isConflicted(22,1));
     }
     
     

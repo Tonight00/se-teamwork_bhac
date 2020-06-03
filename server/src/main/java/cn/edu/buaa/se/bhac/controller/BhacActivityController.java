@@ -12,6 +12,7 @@ import cn.edu.buaa.se.bhac.comparators.ActivityComp;
 import cn.edu.buaa.se.bhac.services.BhacActivityService;
 import cn.edu.buaa.se.bhac.services.BhacTagService;
 import cn.edu.buaa.se.bhac.services.BhacUserService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.geom.QuadCurve2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
 
 @RestController
 public class BhacActivityController {
@@ -111,6 +112,9 @@ public class BhacActivityController {
         if(activityService.getActivity(aid) == null ) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_NOT_EXISTED));
         }
+      //  if(activityService.isConflicted(aid,(Integer)claims.get("uid"))) {
+        //    return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_CONFLICT));
+       // }
         if(activityService.isActivityFulled(aid)) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_FULLED));
         }
@@ -264,15 +268,19 @@ public class BhacActivityController {
             joinIds.add(activity.getId());
         }
         if(joinIds!=null&&joinIds.size()!=0 )
-         q.notIn("id",joinIds);
+            q.notIn("id",joinIds);
         q.eq("state",1);
+        Date t = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Long timestamp = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli()/1000;
+        q.gt("unix_timestamp(end)",timestamp);
         notJoinActivities  = activityService.getNotJoinActivities(q);
         int mx1 = 0, mx2 = 0 , mx3 = 0;
         BhacActivity ma1=null,ma2=null,ma3=null;
         for(BhacActivity activity: notJoinActivities) {
             int mx = activity.getUsersProcessing().size();
              mx += activity.getUsersSucceed().size();
-            BhacActivity ma = activity;
+             BhacActivity ma = activity;
              if (mx1 <= mx) {
                 mx3 = mx2; mx2 = mx1; mx1 = mx;
                 ma3 = ma2; ma2 = ma1; ma1 = ma;
@@ -305,6 +313,11 @@ public class BhacActivityController {
         List<BhacActivity> activities = activityService.getReleasedActivities((Integer)claims.get("uid"),pageNum,limit);
    //     Collections.sort(activities,new ActivityComp());
         return  JSONObject.toJSONString(activities);
+    }
+    
+    @GetMapping("/untoken/activities/joined")
+    public String JoinedPeople(Integer aid) {
+        return JSONObject.toJSONString(activityService.getJoinedPeopleNum(aid));
     }
     
     
