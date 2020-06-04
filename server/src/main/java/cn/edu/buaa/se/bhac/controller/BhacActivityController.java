@@ -234,6 +234,9 @@ public class BhacActivityController {
     @PutMapping("/activities/accept")
     public String Accept(Integer aid,Integer uid) {
         int state = activityService.accept(aid,uid);
+        if(activityService.isActivityFulled(aid)) {
+            return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.ERR_ACTIVITY_FULLED));
+        }
         if (state == 0) {
             return JSONObject.toJSONString(ControllerUtils.JsonCodeAndMessage(ActivityCode.SUCC_ACTIVITY_ACC));
         }
