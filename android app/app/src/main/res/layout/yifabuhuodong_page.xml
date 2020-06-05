@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    tools:context="com.shakespace.template.fragment.OneFragment">
+
+    <Button
+        android:id="@+id/yifabuhuodong_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/selector2"
+        android:text="返回"
+        android:textColor="#ffffff"
+        android:textSize="20dp"/>
+
+    <ListView
+        android:id="@+id/yifabuhuodong_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/yifabuhuodong_back">
+    </ListView>
+
+
+
+
+
+
+
+</RelativeLayout>

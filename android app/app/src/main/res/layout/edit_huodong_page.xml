@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".in_fragment4.register">
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/reg_number1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="标题:"
+            android:textColor="#000"
+            android:textSize="20dp" />
+        <EditText
+            android:id="@+id/edit_huodong_title"
+            android:layout_alignBottom="@+id/reg_number1"
+            android:layout_toRightOf="@+id/reg_number1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp" />
+        <TextView
+            android:id="@+id/reg_number2"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reg_number1"
+            android:padding="10dp"
+            android:text="请设置报名截止日期、活动开始时间和结束时间:"
+            android:textColor="#000"
+            android:textSize="15dp" />
+
+
+        <LinearLayout
+            android:id="@+id/edit_huodong_ddl"
+            android:layout_below="@+id/reg_number2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="截止日期"
+                android:textColor="#666666"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/edit_huodong_ddl_selected_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:textColor="#57C5E8"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/edit_huodong_begin"
+            android:layout_below="@+id/edit_huodong_ddl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="开始时间"
+                android:textColor="#666666"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/edit_huodong_begin_selected_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:textColor="#57C5E8"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/edit_huodong_end"
+            android:layout_below="@+id/edit_huodong_begin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="结束时间"
+                android:textColor="#666666"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/edit_huodong_end_selected_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:textColor="#57C5E8"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/reg_number5"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_huodong_end"
+            android:padding="10dp"
+            android:text="活动简介:"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+
+        <EditText
+            android:id="@+id/edit_huodong_brief"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reg_number5"
+            android:padding="5dp"
+            android:minLines="5"
+            android:gravity="top"
+            android:textColor="#000000"
+            android:background="@drawable/edit_background"/>
+
+        <TextView
+            android:id="@+id/reg_number6"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_huodong_brief"
+            android:padding="10dp"
+            android:text="人数限制:"
+            android:textColor="#000"
+            android:textSize="20dp" />
+        <EditText
+            android:id="@+id/edit_huodong_limitp"
+            android:layout_alignBottom="@id/reg_number6"
+            android:layout_toRightOf="@+id/reg_number6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColorHint="#BEBEBE"
+            android:inputType="number"
+            android:textSize="20dp"/>
+
+
+        <TextView
+            android:id="@+id/reg_number32214"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_huodong_limitp"
+            android:padding="10dp"
+            android:text="活动地点:"
+            android:textColor="#000"
+            android:textSize="20dp" />
+        <EditText
+            android:id="@+id/edit_huodong_place"
+            android:layout_alignBottom="@id/reg_number32214"
+            android:layout_toRightOf="@+id/reg_number32214"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColorHint="#BEBEBE"
+            android:textSize="20dp"/>
+
+
+
+        <TextView
+            android:id="@+id/reg_number9"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_huodong_place"
+            android:padding="10dp"
+            android:text="类别:"
+            android:textColor="#000"
+            android:textSize="15dp" />
+        <Spinner
+            android:id="@+id/edit_huodong_tag_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/reg_number9"
+            android:layout_toEndOf="@+id/reg_number9">
+        </Spinner>
+
+        <TextView
+            android:id="@+id/reg_number1565"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_huodong_tag_spinner"
+            android:padding="10dp"
+            android:text="参加该活动是否需要审核:"
+            android:textColor="#000"
+            android:textSize="15dp" />
+
+        <Spinner
+            android:id="@+id/edit_huodong_isopen_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/reg_number1565"
+            android:layout_toEndOf="@+id/reg_number1565"
+            android:entries="@array/isopen">
+        </Spinner>
+
+
+        <Button
+            android:id="@+id/edit_huodong_btn_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_huodong_isopen_spinner"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/selector1"
+            android:text="确定修改"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/edit_huodong_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_huodong_btn_sure"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/selector2"
+            android:text="返回"
+            android:textColor="#ffffff"
+            android:textSize="20dp"/>
+
+
+
+    </RelativeLayout>
+
+
+
+
+</ScrollView>
