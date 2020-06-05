@@ -18,7 +18,7 @@ USE `bhac`;
 
 /*Data for the table `bhac_activity` */
 
-insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values 
+insert  into `bhac_activity`(`id`,`category`,`uid`,`title`,`place`,`ddl`,`begin`,`end`,`brief`,`isOpen`,`limitPeopleNum`,`state`,`extra`) values
 (1,1,3,'北航博雅大讲堂——大学生如何成功创业','主M201','2020-05-13 14:00:00','2020-05-14 19:00:00','2020-05-14 21:00:00','这是一堂讲授创业知识的课。',0,50,1,NULL),
 (2,2,3,'用美的声音为您赋能','主M202','2020-05-14 14:00:00','2020-05-15 19:00:00','2020-05-15 21:00:00','讲授声音的技巧，体验声音的魅力。',0,100,1,NULL),
 (3,1,3,'2019年秋季学期第四次电子创新大赛培训','主127','2020-06-01 14:00:00','2020-06-16 19:00:00','2020-06-16 21:00:00','这是第四次电子创新大赛培训。',0,-1,1,NULL),
@@ -97,7 +97,8 @@ insert  into `bhac_joinuseractivity`(`id`,`uid`,`aid`,`state`) values
 (3,1,3,1),
 (4,2,2,1),
 (5,2,3,1),
-(6,3,3,1);
+(6,3,3,1),
+(7,6,1,0);
 
 /*Data for the table `bhac_manageuseractivity` */
 
