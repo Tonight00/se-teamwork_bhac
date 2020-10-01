@@ -1,2 +1,7 @@
-# se-teamwork_bhac
-This is a software project named bhac (short for Beihang Activity Center) which is developed for se team assignment.
+本项目为软件工程课设，实现了app端的用户程序和网页端的后台管理。
+功能:
+  1.活动管理
+  2.活动注册
+  3.讨论区
+  4.活动参加
+  5.用户注册、登录;管理员注册、登录、管理
